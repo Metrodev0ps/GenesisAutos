@@ -13,12 +13,9 @@ const openWhatsApp = (message: string) => {
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 };
 
-function ImagePlaceholder({ label = 'Add business photo', className = '' }: { label?: string; className?: string }) {
+function ImagePlaceholder({ label = 'Image area', className = '' }: { label?: string; className?: string }) {
   return (
-    <div className={`image-placeholder ${className}`} role="img" aria-label={label}>
-      <div className="placeholder-mark"><Search size={22} strokeWidth={1.6} /></div>
-      <span>Image Placeholder</span><small>{label}</small>
-    </div>
+    <div className={`image-placeholder image-ready ${className}`} role="img" aria-label={label} />
   );
 }
 
