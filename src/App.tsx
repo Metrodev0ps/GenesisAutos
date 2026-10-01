@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 // Vercel deployment trigger: homepage product catalogue
+// Deployment refresh: serve latest public product photos
 import {
   ArrowRight, Battery, Car, CheckCircle2, ChevronRight, CircleHelp, Instagram,
   MapPin, Menu, MessageCircle, Navigation, Phone, Search, Settings,
