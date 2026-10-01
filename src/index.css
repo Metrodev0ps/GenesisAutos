@@ -267,3 +267,43 @@ body.intro-active { overflow:hidden; }
 .image-placeholder.image-ready:before { display:none; }
 .real-image { display:block; width:100%; height:100%; min-height:inherit; object-fit:cover; object-position:center; }
 .about-image.real-image { display:block; width:100%; height:435px; min-height:435px; object-fit:cover; border:1px solid #d7dcdf; }
+
+.battery-page { min-height:100vh; background:var(--paper); }
+.battery-nav { display:flex; align-items:center; gap:24px; font-size:11px; font-weight:800; }
+.battery-nav a { color:#c7cccf; }
+.battery-nav a:hover { color:var(--orange); }
+.battery-hero { background:var(--ink); color:#fff; padding:90px 0 55px; }
+.battery-hero h1 { margin-bottom:18px; }
+.battery-hero p { max-width:650px; color:#aeb5b7; font-size:14px; }
+.battery-filters { display:grid; grid-template-columns:1fr 2fr; gap:28px; margin-top:40px; padding:22px; border:1px solid #343a3d; background:#181b1d; }
+.battery-filters label { display:block; color:#fff; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; margin-bottom:10px; }
+.filter-buttons { display:flex; flex-wrap:wrap; gap:7px; }
+.filter-buttons button { padding:8px 13px; border:1px solid #444b4e; background:transparent; color:#aeb5b7; font-size:10px; font-weight:800; border-radius:2px; }
+.filter-buttons button:hover,.filter-buttons button.active { background:var(--orange); border-color:var(--orange); color:#fff; }
+.battery-catalogue { padding:75px 0 110px; }
+.battery-heading { display:flex; align-items:end; justify-content:space-between; margin-bottom:32px; }
+.battery-heading h2 { margin:0; }
+.battery-heading > span { color:var(--muted); font-size:11px; }
+.battery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.battery-card { background:#fff; border:1px solid var(--line); transition:transform .2s,border-color .2s,box-shadow .2s; }
+.battery-card:hover { transform:translateY(-4px); border-color:var(--orange); box-shadow:0 12px 30px rgba(17,19,21,.08); }
+.battery-card > img { display:block; width:100%; height:245px; object-fit:cover; background:#edf1f3; }
+.battery-card-body { padding:20px; }
+.battery-brand { color:var(--orange); text-transform:uppercase; font-size:9px; font-weight:800; letter-spacing:.12em; }
+.battery-card h3 { font-family:'Barlow Condensed',sans-serif; font-size:25px; line-height:1; margin:8px 0 18px; }
+.battery-specs { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:18px; }
+.battery-specs div { padding:12px 0; }
+.battery-specs div + div { border-left:1px solid var(--line); padding-left:15px; }
+.battery-specs small { display:block; color:var(--muted); font-size:8px; text-transform:uppercase; letter-spacing:.08em; margin-bottom:3px; }
+.battery-specs strong { font-size:13px; }
+.battery-enquire { width:100%; }
+@media (max-width:800px) {
+  .battery-nav a { display:none; }
+  .battery-filters { grid-template-columns:1fr; }
+  .battery-grid { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:560px) {
+  .battery-hero { padding:65px 0 40px; }
+  .battery-grid { grid-template-columns:1fr; }
+  .battery-card > img { height:230px; }
+}
