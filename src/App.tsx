@@ -78,6 +78,7 @@ function AccessoriesPage() {
       <img key="/STEERING COVERS.jpg" src="/STEERING%20COVERS.jpg" alt="Genesis Autos accessory" loading="lazy" />
       <img key="/ACCESORIES.jpg" src="/ACCESORIES.jpg" alt="Genesis Autos accessory" loading="lazy" />
       <img key="/LED LIGHTS.jpg" src="/LED LIGHTS.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/SAND PROTECTORS.jpg" src="/SAND%20PROTECTORS.jpg" alt="Genesis Autos sand protectors" loading="lazy" />
     </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -92,7 +93,15 @@ function ToolsPage() {
     <div className="accessory-list">{toolsProducts.map((item) => <span key={item}>{item}</span>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
-    <div className="accessory-random-gallery"></div>
+    <div className="accessory-random-gallery">
+      <img key="/RIMS.jpg" src="/RIMS.jpg" alt="Genesis Autos alloy wheels" loading="lazy" />
+      <img key="/GPS TRACKER.jpg" src="/GPS%20TRACKER.jpg" alt="Genesis Autos GPS tracker" loading="lazy" />
+      <img key="/JACKS.jpg" src="/JACKS.jpg" alt="Genesis Autos jacks" loading="lazy" />
+      <img key="/JACK 5T &10T.jpg" src="/JACK%205T%20%2610T.jpg" alt="Genesis Autos hydraulic jacks" loading="lazy" />
+      <img key="/CAR HORNS.jpg" src="/CAR%20HORNS.jpg" alt="Genesis Autos car horns" loading="lazy" />
+      <img key="/FIRE EXTINGUISHERS.jpg" src="/FIRE%20EXTINGUISHERS.jpg" alt="Genesis Autos fire extinguishers" loading="lazy" />
+      <img key="/BATTERY CHARGERS.jpg" src="/BATTERY%20CHARGERS.jpg" alt="Genesis Autos battery chargers" loading="lazy" />
+    </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
