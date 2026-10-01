@@ -55,6 +55,7 @@ const batteryProducts = [
   { brand: 'Super Diamond', name: 'Super Diamond Battery', voltage: '12V', capacity: '75Ah', image: '/DIAMOND.jpg' },
   { brand: 'Target', name: 'Target Battery', voltage: '12V', capacity: '75Ah', image: '/TARGET.jpg' },
   { brand: 'Cooltiger', name: 'Cooltiger Battery', voltage: '12V', capacity: '75Ah', image: '/COOLTIGER.jpg' },
+{ brand: 'Cooltiger', name: 'Cooltiger Battery', voltage: '75V', capacity: '45Ah', image: '/COOLTIGER.jpg' },
   { brand: 'Rocket', name: 'Rocket Battery', voltage: '12V', capacity: '75Ah', image: '/ROCKET.jpg' },
   { brand: 'Atlas BX', name: 'Atlas BX Battery', voltage: '12V', capacity: '75Ah', image: '/ATLASBX.jpg' },
 ];
