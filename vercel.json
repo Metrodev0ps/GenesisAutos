@@ -5,6 +5,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/accessories",
+      "destination": "/index.html"
+    },
+    {
       "source": "/batteries/(.*)",
       "destination": "/index.html"
     }
