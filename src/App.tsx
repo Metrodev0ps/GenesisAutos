@@ -76,6 +76,8 @@ function AccessoriesPage() {
       <img key="/IMG_4922.jpg" src="/IMG_4922.jpg" alt="Genesis Autos accessory" loading="lazy" />
       <img key="/IMG_4923.jpg" src="/IMG_4923.jpg" alt="Genesis Autos accessory" loading="lazy" />
       <img key="/STEERING COVERS.jpg" src="/STEERING%20COVERS.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/ACCESORIES.jpg" src="/ACCESORIES.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/LED LIGHTS.jpg" src="/LED LIGHTS.jpg" alt="Genesis Autos accessory" loading="lazy" />
     </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
