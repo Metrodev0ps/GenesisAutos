@@ -54,15 +54,15 @@ function AccessoriesPage() {
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
-      <img key="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" src="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/DASHBOARD MAT.jpg" src="/DASHBOARD%20MAT.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/DASHBOARD RUG.jpg" src="/DASHBOARD%20RUG.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4919.jpg" src="/IMG_4919.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4920.jpg" src="/IMG_4920.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4921.jpg" src="/IMG_4921.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4922.jpg" src="/IMG_4922.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4923.jpg" src="/IMG_4923.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/STEERING COVERS.jpg" src="/STEERING%20COVERS.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
+      <img key="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" src="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/DASHBOARD MAT.jpg" src="/DASHBOARD%20MAT.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/DASHBOARD RUG.jpg" src="/DASHBOARD%20RUG.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4919.jpg" src="/IMG_4919.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4920.jpg" src="/IMG_4920.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4921.jpg" src="/IMG_4921.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4922.jpg" src="/IMG_4922.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4923.jpg" src="/IMG_4923.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/STEERING COVERS.jpg" src="/STEERING%20COVERS.jpg" alt="Genesis Autos accessory" loading="lazy" />
     </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
