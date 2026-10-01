@@ -319,7 +319,7 @@ body.intro-active { overflow:hidden; }
 @media (max-width:800px) { .battery-brand-directory { grid-template-columns:repeat(2,1fr); } }
 @media (max-width:560px) { .battery-brand-directory { grid-template-columns:1fr; } }
 
-.accessory-list { display:flex; flex-wrap:wrap; gap:8px 18px; margin-top:32px; padding-top:22px; border-top:1px solid #343a3d; }
-.accessory-list span { color:#fff; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+.accessory-list { display:flex; flex-wrap:wrap; gap:10px 12px; margin-top:32px; padding-top:22px; border-top:1px solid #343a3d; }
+.accessory-list span { color:#fff; font-size:18px; font-weight:900; text-transform:uppercase; letter-spacing:.06em; line-height:1.15; padding:8px 14px; border-left:3px solid var(--orange); background:#202528; }
 .accessory-gallery-section { padding:75px 0 110px; background:var(--paper); }
 .accessory-random-gallery { min-height:420px; border-top:1px solid var(--line); padding-top:30px; }
