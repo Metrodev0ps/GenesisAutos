@@ -127,7 +127,12 @@ function LubricantsPage() {
     </div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Oil, Grease & ATF</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
-    <div className="accessory-random-gallery"></div>
+    <div className="accessory-random-gallery">
+      <img key="/ATF.jpg" src="/ATF.jpg" alt="Genesis Autos ATF" loading="lazy" />
+      <img key="/FUEL INJECTOR CLEANER.jpg" src="/FUEL%20INJECTOR%20CLEANER.jpg" alt="Genesis Autos fuel injector cleaner" loading="lazy" />
+      <img key="/OIL FILTER.jpg" src="/OIL%20FILTER.jpg" alt="Genesis Autos oil filter" loading="lazy" />
+      <img key="/OIL TREATMENT.jpg" src="/OIL%20TREATMENT.jpg" alt="Genesis Autos oil treatment" loading="lazy" />
+    </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
