@@ -25,6 +25,7 @@ const products = [
   { title: 'Car Spare Parts', description: 'Parts for everyday vehicle needs.', icon: Settings, label: 'Add car parts photo' },
   { title: 'SUV Parts & Accessories', description: 'Automotive essentials for SUV applications.', icon: Car, label: 'Add SUV parts photo' },
   { title: 'Batteries', description: 'Automotive batteries available in different brands, voltages and capacities.', icon: Battery, label: 'Add battery photo', battery: true },
+  { title: 'Accessories', description: 'Essential interior, exterior and car care accessories for your vehicle.', icon: Car, label: 'Add accessories photo', accessories: true },
   { title: 'Car Tyres', description: 'Tyre enquiries for passenger vehicles.', icon: CircleHelp, label: 'Add car tyres photo' },
   { title: 'SUV Tyres', description: 'Tyre options for SUV applications.', icon: Car, label: 'Add SUV tyres photo' },
   { title: 'Truck Tyres', description: 'Tyre enquiries for heavier vehicles.', icon: Truck, label: 'Add truck tyres photo' },
@@ -37,6 +38,27 @@ const services = [
   { title: 'Vehicle Support', description: 'Automotive support for vehicle owners and businesses.', icon: Wrench },
   { title: 'Parts Enquiries', description: 'Contact Genesis Autos to ask about availability and pricing.', icon: MessageCircle },
 ];
+
+const accessoryProducts = [
+  { name: 'Dashboard Polish', image: '/IMG_4929.jpg' },
+  { name: 'Tire Polish', image: '/IMG_4929.jpg' },
+  { name: 'Steering Cover', image: '/IMG_4929.jpg' },
+  { name: 'Seat Covers', image: '/IMG_4929.jpg' },
+  { name: 'Dashboard Rug', image: '/IMG_4929.jpg' },
+  { name: 'Dashboard Mat', image: '/IMG_4929.jpg' },
+  { name: 'Floor Mat', image: '/IMG_4929.jpg' },
+  { name: 'Wipers', image: '/IMG_4929.jpg' },
+];
+
+function AccessoriesPage() {
+  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+    <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
+    <nav className="battery-nav"><a href="/">Home</a><a href="/accessories">All Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+  </div></header><main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Browse our available automotive accessories. Contact Genesis Autos to confirm availability and current price.</p></div></section>
+  <section className="battery-catalogue"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories Catalogue</div><h2>Available <span>Accessories</span></h2></div><span>{accessoryProducts.length} products</span></div>
+  <div className="battery-grid">{accessoryProducts.map((p) => <article className="battery-card" key={p.name}><img src={p.image} alt={p.name} loading="lazy"/><div className="battery-card-body"><div className="battery-brand">Genesis Autos</div><h3>{p.name}</h3><button className="button button-orange battery-enquire" onClick={() => openWhatsApp('Hello Genesis Autos, I am interested in the '+p.name+'. Please confirm availability and current price.')}><MessageCircle size={15}/> Enquire on WhatsApp</button></div></article>)}</div>
+  </div></section></main><button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
+}
 
 const batteryProducts = [
   { brand: 'ZenGLOBAL', name: 'ZenGLOBAL Battery', voltage: '12V', capacity: '75Ah', image: '/ZENGLOBAL.jpg' },
@@ -112,6 +134,7 @@ function BatteryPage() {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
+  if (window.location.pathname === '/accessories') return <AccessoriesPage />;
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
@@ -181,7 +204,7 @@ function App() {
 
         <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and tyres to automotive support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>64/65 Alimosho Road<br />Opposite Multigrace School<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" /></div></section>
 
-        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#contact">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, battery }) => <article className="product-card" key={title}><ImagePlaceholder src="/IMG_4929.jpg" label={label} /><div className="product-info"><div className="product-title"><Icon size={19} /><h3>{title}</h3></div><p>{description}</p>{battery ? <button className="text-button" onClick={() => { window.location.href = '/batteries'; }}>Check Available Batteries <ChevronRight size={14} /></button> : <button className="text-button" onClick={() => openWhatsApp(`Hello Genesis Autos, I would like to enquire about ${title}. Please let me know availability and price.`)}>Ask About Availability <ChevronRight size={14} /></button>}</div></article>)}</div></div></section>
+        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#contact">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, battery, accessories }) => <article className="product-card" key={title}><ImagePlaceholder src="/IMG_4929.jpg" label={label} /><div className="product-info"><div className="product-title"><Icon size={19} /><h3>{title}</h3></div><p>{description}</p>{battery ? <button className="text-button" onClick={() => { window.location.href = '/batteries'; }}>Check Available Batteries <ChevronRight size={14} /></button> : <button className="text-button" onClick={() => openWhatsApp(`Hello Genesis Autos, I would like to enquire about ${title}. Please let me know availability and price.`)}>Ask About Availability <ChevronRight size={14} /></button>}</div></article>)}</div></div></section>
 
         <section className="section tyres-section"><div className="container tyres-grid"><div className="tyres-copy"><div className="eyebrow orange-text">Tyres</div><h2>Tyres for Cars,<br /><span>SUVs & Trucks</span></h2><p>Reliable tyre enquiries for everyday vehicles, SUVs and commercial applications.</p><button className="button button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I need tyres. Please help me check availability and price.')}><MessageCircle size={17} /> Ask About Tyres</button><small>Hello Genesis Autos, I need tyres. Please help me check availability and price.</small></div><div className="tyre-cards">{[{ title: 'Cars', text: 'Tyres for everyday passenger vehicles.', label: 'Add car tyres photo', icon: Car }, { title: 'SUVs', text: 'Tyres suitable for SUV applications.', label: 'Add SUV tyres photo', icon: Car }, { title: 'Trucks', text: 'Tyres for commercial and heavier vehicles.', label: 'Add truck tyres photo', icon: Truck }].map(({ title, text, label, icon: Icon }) => <div className="tyre-card" key={title}><ImagePlaceholder label={label} /><div><Icon size={19} /><h3>{title}</h3><p>{text}</p></div></div>)}</div></div></section>
 
