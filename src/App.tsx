@@ -96,7 +96,7 @@ function App() {
       <main>
         <section className="hero" id="home"><div className="hero-accent" /><div className="container hero-grid">
           <div className="hero-copy"><div className="eyebrow"><MapPin size={13} /> Iyana Ipaja, Lagos</div><h1>Quality Auto Parts.<br /><span>Reliable Automotive</span><br />Support.</h1><p>Your trusted destination for automobile spare parts, tyres and automotive support in Iyana Ipaja, Lagos.</p><div className="hero-actions"><button className="button button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp Genesis Autos</button><a className="button button-outline" href="#products">Explore Products <ArrowRight size={16} /></a></div><div className="rating-line"><Star size={16} fill="currentColor" /><strong>4.3</strong> Google Rating <span>·</span> Local Automotive Business</div></div>
-          <img className="hero-image real-image" src="https://raw.githubusercontent.com/Metrodev0ps/GenesisAutos/641812cd1a087ada59dd67ce40f8e07cd78161ef/IMG_4928.jpeg" alt="Genesis Autos automotive parts and services" />
+          <img className="hero-image real-image" src="https://cdn.jsdelivr.net/gh/Metrodev0ps/GenesisAutos@main/IMG_4928.jpeg" alt="Genesis Autos automotive parts and services" />
         </div></section>
 
         <section className="quick-strip"><div className="container quick-grid">{[
