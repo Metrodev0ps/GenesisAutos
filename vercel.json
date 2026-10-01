@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/batteries",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/batteries/",
+      "destination": "/index.html"
+    }
+  ]
+}
