@@ -54,6 +54,7 @@ const toolsProducts = [
   'Car Horn',
   'Car Cover',
   'C-Caution',
+  'Fire Extinguishers',
 ];
 
 function AccessoriesPage() {
