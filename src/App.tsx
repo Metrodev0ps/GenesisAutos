@@ -70,7 +70,7 @@ function App() {
             onEnded={finishIntro}
             onError={finishIntro}
           >
-            <source src="https://raw.githubusercontent.com/Metrodev0ps/GenesisAutos/main/IMG_4927.mp4" type="video/mp4" />
+            <source src="/IMG_4927.mp4" type="video/mp4" />
           </video>
           <div className="site-intro-shade" />
           <div className="site-intro-brand">
