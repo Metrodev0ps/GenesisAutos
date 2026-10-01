@@ -56,34 +56,46 @@ const batteryProducts = [
 ];
 
 function BatteryPage() {
-  const [voltage, setVoltage] = useState('All');
-  const [brand, setBrand] = useState('All');
-  const brands = ['All', ...Array.from(new Set(batteryProducts.map((p) => p.brand)))];
-  const voltages = ['All', '12V'];
-  const filtered = batteryProducts.filter((p) => (voltage === 'All' || p.voltage === voltage) && (brand === 'All' || p.brand === brand));
+  const path = window.location.pathname.replace(/\\/+$/, '');
+  const slug = path.split('/').pop() || '';
+  const brandMap: Record<string, string> = {
+    zenglobal: 'ZenGLOBAL',
+    runall: 'Runall',
+    startall: 'Startall',
+    sebang: 'Sebang',
+    everstart: 'Everstart',
+    kinglion: 'KINGLION',
+    'finbrok-super': 'FINBROK SUPER',
+    'super-diamond': 'Super Diamond',
+    target: 'Target',
+    cooltiger: 'Cooltiger',
+    rocket: 'Rocket',
+    'atlas-bx': 'Atlas BX',
+  };
+  const selectedBrand = brandMap[slug];
+  const visibleProducts = selectedBrand
+    ? batteryProducts.filter((p) => p.brand === selectedBrand)
+    : batteryProducts;
 
   return (
     <div className="battery-page">
       <header className="site-header"><div className="container nav-wrap">
         <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-        <nav className="battery-nav"><a href="/">Home</a><a href="/batteries">Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.') }><MessageCircle size={15} /> WhatsApp Us</button></nav>
+        <nav className="battery-nav"><a href="/">Home</a><a href="/batteries">All Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')}><MessageCircle size={15} /> WhatsApp Us</button></nav>
       </div></header>
       <main>
         <section className="battery-hero"><div className="container">
           <div className="eyebrow orange-text"><Battery size={14} /> Batteries</div>
-          <h1>Automotive <span>Batteries</span></h1>
-          <p>Explore battery options by brand, voltage and capacity. Send us your preferred product and we will confirm availability and current price.</p>
-          <div className="battery-filters">
-            <div><label>Voltage</label><div className="filter-buttons">{voltages.map((v) => <button key={v} className={voltage === v ? 'active' : ''} onClick={() => setVoltage(v)}>{v}</button>)}</div></div>
-            <div><label>Brand</label><div className="filter-buttons">{brands.map((b) => <button key={b} className={brand === b ? 'active' : ''} onClick={() => setBrand(b)}>{b}</button>)}</div></div>
-          </div>
+          <h1>{selectedBrand ? <>{selectedBrand} <span>Batteries</span></> : <>Automotive <span>Batteries</span></>}</h1>
+          <p>{selectedBrand ? `Available ${selectedBrand} battery options. Contact Genesis Autos to confirm availability and current price.` : 'Select a battery brand below to view only that brand’s available batteries.'}</p>
+          {!selectedBrand && <div className="battery-filters"><div><label>Battery Brands</label><div className="filter-buttons">{Object.entries(brandMap).map(([key, name]) => <a className="brand-filter-link" href={`/batteries/${key}`} key={key}>{name}</a>)}</div></div></div>}
         </div></section>
         <section className="battery-catalogue"><div className="container">
-          <div className="battery-heading"><div><div className="eyebrow orange-text">Battery Catalogue</div><h2>Available <span>Options</span></h2></div><span>{filtered.length} products</span></div>
-          <div className="battery-grid">{filtered.map((p) => <article className="battery-card" key={p.brand + p.name}>
+          <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` : '12 brands'}</span></div>
+          {selectedBrand ? <div className="battery-grid">{visibleProducts.map((p) => <article className="battery-card" key={p.brand + p.capacity}>
             <img src={p.image} alt={p.name} loading="lazy" />
             <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div></div><button className="button button-orange battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${p.name} (${p.voltage}, ${p.capacity}). Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
-          </article>)}</div>
+          </article>)}</div> : <div className="battery-brand-directory">{Object.entries(brandMap).map(([key, name]) => <a className="battery-brand-tile" href={`/batteries/${key}`} key={key}><Battery size={22} /><strong>{name}</strong><span>View batteries <ChevronRight size={14} /></span></a>)}</div>}
         </div></section>
       </main>
       <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button>
@@ -93,7 +105,7 @@ function BatteryPage() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  if (window.location.pathname === '/batteries') return <BatteryPage />;
+  if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
