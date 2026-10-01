@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import {
-  ArrowRight, Car, CheckCircle2, ChevronRight, CircleHelp, Instagram,
+  ArrowRight, Battery, Car, CheckCircle2, ChevronRight, CircleHelp, Instagram,
   MapPin, Menu, MessageCircle, Navigation, Phone, Search, Settings,
   ShieldCheck, Star, Truck, Wrench, X,
 } from 'lucide-react';
@@ -37,8 +37,56 @@ const services = [
   { title: 'Parts Enquiries', description: 'Contact Genesis Autos to ask about availability and pricing.', icon: MessageCircle },
 ];
 
+const batteryProducts = [
+  { brand: 'Exide', name: 'Exide Premium Battery', voltage: '12V', capacity: '100Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Rocket', name: 'Rocket Deep Cycle Battery', voltage: '12V', capacity: '150Ah', image: '/IMG_4929.jpg' },
+  { brand: 'AtlasBX', name: 'AtlasBX Heavy Duty Battery', voltage: '12V', capacity: '200Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Delkor', name: 'Delkor Automotive Battery', voltage: '12V', capacity: '220Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Amaron', name: 'Amaron Hi-Life Battery', voltage: '12V', capacity: '100Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Generic', name: 'Heavy Duty Truck Battery', voltage: '24V', capacity: '200Ah', image: '/IMG_4929.jpg' },
+];
+
+function BatteryPage() {
+  const [voltage, setVoltage] = useState('All');
+  const [brand, setBrand] = useState('All');
+  const brands = ['All', ...Array.from(new Set(batteryProducts.map((p) => p.brand)))];
+  const voltages = ['All', '12V', '24V', '48V'];
+  const filtered = batteryProducts.filter((p) => (voltage === 'All' || p.voltage === voltage) && (brand === 'All' || p.brand === brand));
+
+  return (
+    <div className="battery-page">
+      <header className="site-header"><div className="container nav-wrap">
+        <a className="brand" href="#home"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
+        <nav className="battery-nav"><a href="#home">Home</a><a href="#batteries">Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.') }><MessageCircle size={15} /> WhatsApp Us</button></nav>
+      </div></header>
+      <main>
+        <section className="battery-hero"><div className="container">
+          <div className="eyebrow orange-text"><Battery size={14} /> Batteries</div>
+          <h1>Automotive <span>Batteries</span></h1>
+          <p>Explore battery options by brand, voltage and capacity. Send us your preferred product and we will confirm availability and current price.</p>
+          <div className="battery-filters">
+            <div><label>Voltage</label><div className="filter-buttons">{voltages.map((v) => <button key={v} className={voltage === v ? 'active' : ''} onClick={() => setVoltage(v)}>{v}</button>)}</div></div>
+            <div><label>Brand</label><div className="filter-buttons">{brands.map((b) => <button key={b} className={brand === b ? 'active' : ''} onClick={() => setBrand(b)}>{b}</button>)}</div></div>
+          </div>
+        </div></section>
+        <section className="battery-catalogue"><div className="container">
+          <div className="battery-heading"><div><div className="eyebrow orange-text">Battery Catalogue</div><h2>Available <span>Options</span></h2></div><span>{filtered.length} products</span></div>
+          <div className="battery-grid">{filtered.map((p) => <article className="battery-card" key={p.brand + p.name}>
+            <img src={p.image} alt={p.name} loading="lazy" />
+            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div></div><button className="button button-orange battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${p.name} (${p.voltage}, ${p.capacity}). Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
+          </article>)}</div>
+        </div></section>
+      </main>
+      <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button>
+    </div>
+  );
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentHash, setCurrentHash] = useState(window.location.hash);
+  useEffect(() => { const onHash = () => setCurrentHash(window.location.hash); window.addEventListener('hashchange', onHash); return () => window.removeEventListener('hashchange', onHash); }, []);
+  if (currentHash === '#batteries') return <BatteryPage />;
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
@@ -87,7 +135,7 @@ function App() {
         <a className="brand" href="#home" onClick={closeMenu} aria-label="Genesis Autos home"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`}>
-          <a href="#home" onClick={closeMenu}>Home</a><a href="#about" onClick={closeMenu}>About</a><a href="#products" onClick={closeMenu}>Products</a><a href="#services" onClick={closeMenu}>Services</a><a href="#why-genesis" onClick={closeMenu}>Why Genesis</a><a href="#contact" onClick={closeMenu}>Contact</a>
+          <a href="#home" onClick={closeMenu}>Home</a><a href="#about" onClick={closeMenu}>About</a><a href="#batteries" onClick={closeMenu}>Products</a><a href="#services" onClick={closeMenu}>Services</a><a href="#why-genesis" onClick={closeMenu}>Why Genesis</a><a href="#contact" onClick={closeMenu}>Contact</a>
           <button className="button button-small button-orange nav-cta" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')}><MessageCircle size={15} /> WhatsApp Us</button>
         </nav>
       </div></header>
