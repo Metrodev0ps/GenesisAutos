@@ -56,7 +56,7 @@ const batteryProducts = [
 ];
 
 function BatteryPage() {
-  const path = window.location.pathname.replace(/\\/+$/, '');
+  const path = window.location.pathname.replace(/\/+$/, '');
   const slug = path.split('/').pop() || '';
   const brandMap: Record<string, string> = {
     zenglobal: 'ZenGLOBAL',
