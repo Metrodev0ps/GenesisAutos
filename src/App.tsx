@@ -24,6 +24,7 @@ function ImagePlaceholder({ src = '/IMG_4929.jpg', label = 'Image', className = 
 const products = [
   { title: 'Batteries', description: 'Automotive batteries available in different brands, voltages and capacities.', icon: Battery, label: 'Add battery photo', battery: true },
   { title: 'Accessories', description: 'Essential interior, exterior and car care accessories for your vehicle.', icon: Car, label: 'Add accessories photo', accessories: true },
+  { title: 'Tools & Essentials', description: 'Essential automotive tools, safety items and vehicle accessories.', icon: Wrench, label: 'Add tools & essentials photo', tools: true },
 ];
 
 const services = [
@@ -42,6 +43,17 @@ const accessoryProducts = [
   'Dashboard Mat',
   'Floor Mat',
   'Wipers',
+];
+
+const toolsProducts = [
+  'Alloy Wheel',
+  'Trackers',
+  'Jacks',
+  'Hydraulic Jacks',
+  'Injectors',
+  'Car Horn',
+  'Car Cover',
+  'C-Caution',
 ];
 
 function AccessoriesPage() {
@@ -66,6 +78,20 @@ function AccessoriesPage() {
     </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
+}
+
+function ToolsPage() {
+  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+    <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
+    <nav className="battery-nav"><a href="/">Home</a><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+  </div></header>
+  <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
+    <div className="accessory-list">{toolsProducts.map((item) => <span key={item}>{item}</span>)}</div>
+  </div></section>
+  <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
+    <div className="accessory-random-gallery"></div>
+  </div></section></main>
+  <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
 const batteryProducts = [
@@ -143,6 +169,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
   if (window.location.pathname === '/accessories') return <AccessoriesPage />;
+  if (window.location.pathname === '/tools') return <ToolsPage />;
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
@@ -212,7 +239,7 @@ function App() {
 
         <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and tyres to automotive support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>64/65 Alimosho Road<br />Opposite Multigrace School<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" /></div></section>
 
-        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#contact">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, battery, accessories }) => <article className="product-card" key={title}><ImagePlaceholder src="/IMG_4929.jpg" label={label} /><div className="product-info"><div className="product-title"><Icon size={19} /><h3>{title}</h3></div><p>{description}</p>{battery ? <button className="text-button" onClick={() => { window.location.href = '/batteries'; }}>Check Available Batteries <ChevronRight size={14} /></button> : accessories ? <button className="text-button" onClick={() => { window.location.href = '/accessories'; }}>Check Available Accessories <ChevronRight size={14} /></button> : null}</div></article>)}</div></div></section>
+        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#contact">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, battery, accessories, tools }) => <article className="product-card" key={title}><ImagePlaceholder src="/IMG_4929.jpg" label={label} /><div className="product-info"><div className="product-title"><Icon size={19} /><h3>{title}</h3></div><p>{description}</p>{battery ? <button className="text-button" onClick={() => { window.location.href = '/batteries'; }}>Check Available Batteries <ChevronRight size={14} /></button> : accessories ? <button className="text-button" onClick={() => { window.location.href = '/accessories'; }}>Check Available Accessories <ChevronRight size={14} /></button> : tools ? <button className="text-button" onClick={() => { window.location.href = '/tools'; }}>Check Tools & Essentials <ChevronRight size={14} /></button> : null}</div></article>)}</div></div></section>
 
         <section className="section tyres-section"><div className="container tyres-grid"><div className="tyres-copy"><div className="eyebrow orange-text">Tyres</div><h2>Tyres for Cars,<br /><span>SUVs & Trucks</span></h2><p>Reliable tyre enquiries for everyday vehicles, SUVs and commercial applications.</p><button className="button button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I need tyres. Please help me check availability and price.')}><MessageCircle size={17} /> Ask About Tyres</button><small>Hello Genesis Autos, I need tyres. Please help me check availability and price.</small></div><div className="tyre-cards">{[{ title: 'Cars', text: 'Tyres for everyday passenger vehicles.', label: 'Add car tyres photo', icon: Car }, { title: 'SUVs', text: 'Tyres suitable for SUV applications.', label: 'Add SUV tyres photo', icon: Car }, { title: 'Trucks', text: 'Tyres for commercial and heavier vehicles.', label: 'Add truck tyres photo', icon: Truck }].map(({ title, text, label, icon: Icon }) => <div className="tyre-card" key={title}><ImagePlaceholder label={label} /><div><Icon size={19} /><h3>{title}</h3><p>{text}</p></div></div>)}</div></div></section>
 
