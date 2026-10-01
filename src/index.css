@@ -307,3 +307,14 @@ body.intro-active { overflow:hidden; }
   .battery-grid { grid-template-columns:1fr; }
   .battery-card > img { height:230px; }
 }
+
+.brand-filter-link { display:inline-flex; align-items:center; padding:8px 13px; border:1px solid #444b4e; color:#aeb5b7; background:transparent; font-size:10px; font-weight:800; border-radius:2px; text-decoration:none; }
+.brand-filter-link:hover { background:var(--orange); border-color:var(--orange); color:#fff; }
+.battery-brand-directory { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.battery-brand-tile { display:flex; flex-direction:column; gap:10px; min-height:135px; padding:22px; background:#fff; border:1px solid var(--line); text-decoration:none; color:var(--ink); transition:.2s; }
+.battery-brand-tile:hover { border-color:var(--orange); transform:translateY(-3px); }
+.battery-brand-tile svg { color:var(--orange); }
+.battery-brand-tile strong { font-family:'Barlow Condensed',sans-serif; font-size:23px; }
+.battery-brand-tile span { margin-top:auto; color:var(--muted); font-size:10px; font-weight:800; text-transform:uppercase; }
+@media (max-width:800px) { .battery-brand-directory { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px) { .battery-brand-directory { grid-template-columns:1fr; } }
