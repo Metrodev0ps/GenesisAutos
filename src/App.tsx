@@ -53,7 +53,9 @@ function AccessoriesPage() {
     <div className="accessory-list">{accessoryProducts.map((item) => <span key={item}>{item}</span>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
-    <div className="accessory-random-gallery"></div>
+    <div className="accessory-random-gallery">
+      {['/DASHBOARD MAT.jpg','/DASHBOARD RUG.jpg','/STEERING COVERS.jpg'].map((src) => <img key={src} src={src} alt="Genesis Autos car accessory" loading="lazy" />)}
+    </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
