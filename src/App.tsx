@@ -39,19 +39,27 @@ const services = [
 ];
 
 const batteryProducts = [
-  { brand: 'Exide', name: 'Exide Premium Battery', voltage: '12V', capacity: '100Ah', image: '/IMG_4929.jpg' },
-  { brand: 'Rocket', name: 'Rocket Deep Cycle Battery', voltage: '12V', capacity: '150Ah', image: '/IMG_4929.jpg' },
-  { brand: 'AtlasBX', name: 'AtlasBX Heavy Duty Battery', voltage: '12V', capacity: '200Ah', image: '/IMG_4929.jpg' },
-  { brand: 'Delkor', name: 'Delkor Automotive Battery', voltage: '12V', capacity: '220Ah', image: '/IMG_4929.jpg' },
-  { brand: 'Amaron', name: 'Amaron Hi-Life Battery', voltage: '12V', capacity: '100Ah', image: '/IMG_4929.jpg' },
-  { brand: 'Generic', name: 'Heavy Duty Truck Battery', voltage: '24V', capacity: '200Ah', image: '/IMG_4929.jpg' },
+  { brand: 'ZenGLOBAL', name: 'ZenGLOBAL Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '100Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '45Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '62Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Startall', name: 'Startall Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Sebang', name: 'Sebang Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'KINGLION', name: 'KINGLION Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'FINBROK SUPER', name: 'FINBROK SUPER Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Super Diamond', name: 'Super Diamond Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Target', name: 'Target Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Cooltiger', name: 'Cooltiger Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Rocket', name: 'Rocket Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Atlas BX', name: 'Atlas BX Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
 ];
 
 function BatteryPage() {
   const [voltage, setVoltage] = useState('All');
   const [brand, setBrand] = useState('All');
   const brands = ['All', ...Array.from(new Set(batteryProducts.map((p) => p.brand)))];
-  const voltages = ['All', '12V', '24V', '48V'];
+  const voltages = ['All', '12V'];
   const filtered = batteryProducts.filter((p) => (voltage === 'All' || p.voltage === voltage) && (brand === 'All' || p.brand === brand));
 
   return (
