@@ -54,7 +54,15 @@ function AccessoriesPage() {
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
-      {['/DASHBOARD MAT.jpg','/DASHBOARD RUG.jpg','/STEERING COVERS.jpg'].map((src) => <img key={src} src={src} alt="Genesis Autos car accessory" loading="lazy" />)}
+      <img key="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" src="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/DASHBOARD MAT.jpg" src="/DASHBOARD MAT.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/DASHBOARD RUG.jpg" src="/DASHBOARD RUG.jpg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4919.jpeg" src="/IMG_4919.jpeg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4920.jpeg" src="/IMG_4920.jpeg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4921.jpeg" src="/IMG_4921.jpeg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4922.jpeg" src="/IMG_4922.jpeg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/IMG_4923.jpeg" src="/IMG_4923.jpeg" alt="Genesis Autos accessory" loading="lazy" />
+      <img key="/STEERING COVERS.jpg" src="/STEERING COVERS.jpg" alt="Genesis Autos accessory" loading="lazy" />
     </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
