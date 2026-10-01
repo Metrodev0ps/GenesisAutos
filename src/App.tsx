@@ -40,24 +40,28 @@ const services = [
 ];
 
 const accessoryProducts = [
-  { name: 'Dashboard Polish', image: '/IMG_4929.jpg' },
-  { name: 'Tire Polish', image: '/IMG_4929.jpg' },
-  { name: 'Steering Cover', image: '/IMG_4929.jpg' },
-  { name: 'Seat Covers', image: '/IMG_4929.jpg' },
-  { name: 'Dashboard Rug', image: '/IMG_4929.jpg' },
-  { name: 'Dashboard Mat', image: '/IMG_4929.jpg' },
-  { name: 'Floor Mat', image: '/IMG_4929.jpg' },
-  { name: 'Wipers', image: '/IMG_4929.jpg' },
+  'Dashboard Polish',
+  'Tire Polish',
+  'Steering Cover',
+  'Seat Covers',
+  'Dashboard Rug',
+  'Dashboard Mat',
+  'Floor Mat',
+  'Wipers',
 ];
 
 function AccessoriesPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-    <nav className="battery-nav"><a href="/">Home</a><a href="/accessories">All Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
-  </div></header><main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Browse our available automotive accessories. Contact Genesis Autos to confirm availability and current price.</p></div></section>
-  <section className="battery-catalogue"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories Catalogue</div><h2>Available <span>Accessories</span></h2></div><span>{accessoryProducts.length} products</span></div>
-  <div className="battery-grid">{accessoryProducts.map((p) => <article className="battery-card" key={p.name}><img src={p.image} alt={p.name} loading="lazy"/><div className="battery-card-body"><div className="battery-brand">Genesis Autos</div><h3>{p.name}</h3><button className="button button-orange battery-enquire" onClick={() => openWhatsApp('Hello Genesis Autos, I am interested in the '+p.name+'. Please confirm availability and current price.')}><MessageCircle size={15}/> Enquire on WhatsApp</button></div></article>)}</div>
-  </div></section></main><button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
+    <nav className="battery-nav"><a href="/">Home</a><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+  </div></header>
+  <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
+    <div className="accessory-list">{accessoryProducts.map((item) => <span key={item}>{item}</span>)}</div>
+  </div></section>
+  <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
+    <div className="accessory-random-gallery"></div>
+  </div></section></main>
+  <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
 const batteryProducts = [
