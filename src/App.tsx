@@ -57,11 +57,11 @@ function AccessoriesPage() {
       <img key="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" src="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
       <img key="/DASHBOARD MAT.jpg" src="/DASHBOARD%20MAT.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
       <img key="/DASHBOARD RUG.jpg" src="/DASHBOARD%20RUG.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4919.jpeg" src="/IMG_4919.jpeg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4920.jpeg" src="/IMG_4920.jpeg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4921.jpeg" src="/IMG_4921.jpeg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4922.jpeg" src="/IMG_4922.jpeg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
-      <img key="/IMG_4923.jpeg" src="/IMG_4923.jpeg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
+      <img key="/IMG_4919.jpg" src="/IMG_4919.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
+      <img key="/IMG_4920.jpg" src="/IMG_4920.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
+      <img key="/IMG_4921.jpg" src="/IMG_4921.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
+      <img key="/IMG_4922.jpg" src="/IMG_4922.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
+      <img key="/IMG_4923.jpg" src="/IMG_4923.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
       <img key="/STEERING COVERS.jpg" src="/STEERING%20COVERS.jpg" alt="Genesis Autos accessory" loading="eager" decoding="async" />
     </div>
   </div></section></main>
