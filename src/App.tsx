@@ -46,16 +46,16 @@ const batteryProducts = [
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '75Ah', image: '/RUNALL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '90Ah', image: '/RUNALL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '80Ah', image: '/RUNALL.jpg' },
-  { brand: 'Startall', name: 'Startall Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
-  { brand: 'Sebang', name: 'Sebang Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Startall', name: 'Startall Battery', voltage: '12V', capacity: '75Ah', image: '/STARTALL.jpg' },
+  { brand: 'Sebang', name: 'Sebang Battery', voltage: '12V', capacity: '75Ah', image: '/SEBANG.jpg' },
   { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
   { brand: 'KINGLION', name: 'KINGLION Battery', voltage: '12V', capacity: '75Ah', image: '/KINGLION.jpg' },
   { brand: 'FINBROK SUPER', name: 'FINBROK SUPER Battery', voltage: '12V', capacity: '75Ah', image: '/FINBROKSUPER.jpg' },
-  { brand: 'Super Diamond', name: 'Super Diamond Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Super Diamond', name: 'Super Diamond Battery', voltage: '12V', capacity: '75Ah', image: '/DIAMOND.jpg' },
   { brand: 'Target', name: 'Target Battery', voltage: '12V', capacity: '75Ah', image: '/TARGET.jpg' },
-  { brand: 'Cooltiger', name: 'Cooltiger Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Cooltiger', name: 'Cooltiger Battery', voltage: '12V', capacity: '75Ah', image: '/COOLTIGER.jpg' },
   { brand: 'Rocket', name: 'Rocket Battery', voltage: '12V', capacity: '75Ah', image: '/ROCKET.jpg' },
-  { brand: 'Atlas BX', name: 'Atlas BX Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Atlas BX', name: 'Atlas BX Battery', voltage: '12V', capacity: '75Ah', image: '/ATLASBX.jpg' },
 ];
 
 function BatteryPage() {
