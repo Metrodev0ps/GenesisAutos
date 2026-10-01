@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import {
   ArrowRight, Car, CheckCircle2, ChevronRight, CircleHelp, Instagram,
   MapPin, Menu, MessageCircle, Navigation, Phone, Search, Settings,
@@ -40,6 +40,17 @@ const services = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+
+  useEffect(() => {
+    document.body.classList.add('intro-active');
+    return () => document.body.classList.remove('intro-active');
+  }, []);
+
+  const finishIntro = () => {
+    setShowIntro(false);
+    document.body.classList.remove('intro-active');
+  };
   const [formSent, setFormSent] = useState(false);
   const closeMenu = () => setMenuOpen(false);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -50,7 +61,29 @@ function App() {
   };
 
   return (
-    <div className="site-shell">
+    <>
+      {showIntro && (
+        <div className="site-intro" role="dialog" aria-label="Genesis Autos introduction">
+          <video
+            className="site-intro-video"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            onEnded={finishIntro}
+            onError={finishIntro}
+          >
+            <source src="https://raw.githubusercontent.com/Metrodev0ps/GenesisAutos/main/IMG_4927.mp4" type="video/mp4" />
+          </video>
+          <div className="site-intro-shade" />
+          <div className="site-intro-brand">
+            <span>GENESIS <em>AUTOS</em></span>
+            <small>Automobile Parts & Services</small>
+            <div className="intro-loading"><i /></div>
+          </div>
+        </div>
+      )}
+      <div className="site-shell">
       <header className="site-header"><div className="container nav-wrap">
         <a className="brand" href="#home" onClick={closeMenu} aria-label="Genesis Autos home"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
@@ -90,7 +123,8 @@ function App() {
       <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a className="brand" href="#home"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a><p>Automobile Spare Parts & Automotive Services</p><small>© 2026 Genesis Autos. All rights reserved.</small></div><div><h4>Explore</h4><a href="#home">Home</a><a href="#about">About</a><a href="#products">Products</a><a href="#services">Services</a><a href="#contact">Contact</a></div><div><h4>Contact</h4><a href="tel:09129006547">09129006547</a><a href="tel:08066404053">08066404053</a><span>Iyana Ipaja, Lagos</span></div><div><h4>Social</h4><a href={instagramUrl} target="_blank" rel="noreferrer"><Instagram size={15} /> @genesisautosalimosho</a></div></div></footer>
       <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button>
       <div className="mobile-bar"><button onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp</button><a href="tel:09129006547"><Phone size={17} /> Call</a><a href={directionsUrl} target="_blank" rel="noreferrer"><Navigation size={17} /> Directions</a></div>
-    </div>
+      </div>
+    </>
   );
 }
 
