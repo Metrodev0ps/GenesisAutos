@@ -379,3 +379,9 @@ body.intro-active { overflow:hidden; }
   .cart-button span { display:none; }
   .delivery-notice { font-size:10px; }
 }
+
+.checkout-form select { width:100%; border:1px solid #dbe0e2; padding:12px; color:var(--ink); outline:none; font-size:11px; background:#fafbfb; }
+.checkout-form select:focus { border-color:var(--orange); }
+.cart-totals > div { display:flex; justify-content:space-between; gap:20px; padding:8px 0; font-size:11px; }
+.cart-totals > div strong { color:var(--orange); }
+.cart-totals .cart-total { padding-top:14px; margin-top:5px; border-top:2px solid var(--ink); font-size:12px; }
