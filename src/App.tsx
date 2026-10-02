@@ -314,7 +314,7 @@ const batteryProducts = [
   { brand: 'Startall', name: 'Startall Battery', voltage: '12V', capacity: '75Ah', image: '/STARTALL.jpg' },
 { brand: 'Solite', name: 'Solite Battery', voltage: '12V', capacity: '75Ah', image: '/SOLITE.jpg' },
   { brand: 'Sebang', name: 'Sebang Battery', voltage: '12V', capacity: '75Ah', image: '/SEBANG.jpg' },
-  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', image: '/IMG_4929.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', image: '/EVERSTART.jpg' },
   { brand: 'KINGLION', name: 'KINGLION Battery', voltage: '12V', capacity: '75Ah', image: '/KINGLION.jpg' },
   { brand: 'FINBROK SUPER', name: 'FINBROK SUPER Battery', voltage: '12V', capacity: '75Ah', image: '/FINBROKSUPER.jpg' },
   { brand: 'Super Diamond', name: 'Super Diamond Battery', voltage: '12V', capacity: '75Ah', image: '/DIAMOND.jpg' },
