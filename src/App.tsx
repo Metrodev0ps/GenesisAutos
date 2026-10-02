@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 // Vercel deployment trigger: homepage product catalogue
 // Deployment refresh: serve latest public product photos
 import {
-  ArrowRight, Battery, Car, CheckCircle2, ChevronRight, CircleHelp, Instagram,
+  ArrowRight, Battery, Car, CheckCircle2, ChevronRight, CircleHelp, Instagram, ShoppingCart, Minus, Plus, Trash2,
   MapPin, Menu, MessageCircle, Navigation, Phone, Search, Settings,
   ShieldCheck, Star, Truck, Wrench, X,
 } from 'lucide-react';
@@ -21,6 +21,163 @@ function ImagePlaceholder({ src = '/IMG_4929.jpg', label = 'Image', className = 
       <img className="real-image" src={src} alt={label} loading="lazy" />
     </div>
   );
+}
+
+
+
+type CartItem = {
+  id: string;
+  name: string;
+  image?: string;
+  details?: string;
+  quantity: number;
+  price?: number;
+};
+
+const CART_KEY = 'genesis-autos-cart';
+
+const readCart = (): CartItem[] => {
+  try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; }
+};
+
+const saveCart = (items: CartItem[]) => {
+  localStorage.setItem(CART_KEY, JSON.stringify(items));
+  window.dispatchEvent(new Event('genesis-cart-updated'));
+};
+
+const addToCart = (item: Omit<CartItem, 'quantity'>) => {
+  const items = readCart();
+  const existing = items.find((cartItem) => cartItem.id === item.id);
+  if (existing) existing.quantity += 1;
+  else items.push({ ...item, quantity: 1 });
+  saveCart(items);
+};
+
+const updateCartQuantity = (id: string, delta: number) => {
+  const items = readCart().map((item) => item.id === id ? { ...item, quantity: item.quantity + delta } : item).filter((item) => item.quantity > 0);
+  saveCart(items);
+};
+
+const removeFromCart = (id: string) => saveCart(readCart().filter((item) => item.id !== id));
+
+function CartButton() {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const sync = () => setCount(readCart().reduce((sum, item) => sum + item.quantity, 0));
+    sync();
+    window.addEventListener('genesis-cart-updated', sync);
+    return () => window.removeEventListener('genesis-cart-updated', sync);
+  }, []);
+  return <a className="cart-button" href="/cart" aria-label={`Shopping cart with ${count} item`}><ShoppingCart size={17} /><span>Cart</span>{count > 0 && <b>{count}</b>}</a>;
+}
+
+function AddToCartButton({ item }: { item: Omit<CartItem, 'quantity'> }) {
+  const [added, setAdded] = useState(false);
+  return <button className="button button-orange add-cart-button" onClick={() => { addToCart(item); setAdded(true); setTimeout(() => setAdded(false), 1200); }}>
+    <ShoppingCart size={15} /> {added ? 'Added to Cart' : 'Add to Cart'}
+  </button>;
+}
+
+function CartPage() {
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const sync = () => setItems(readCart());
+    sync();
+    window.addEventListener('genesis-cart-updated', sync);
+    return () => window.removeEventListener('genesis-cart-updated', sync);
+  }, []);
+
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const pricedTotal = items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
+  const hasPrices = items.length > 0 && items.every((item) => typeof item.price === 'number');
+
+  const handleCheckout = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!items.length) return;
+    setSending(true);
+    setError('');
+    const data = new FormData(event.currentTarget);
+    const orderLines = items.map((item) => `${item.name} — Qty: ${item.quantity}${item.details ? ` — ${item.details}` : ''}${typeof item.price === 'number' ? ` — ₦${(item.price * item.quantity).toLocaleString()}` : ' — Price to be confirmed'}`).join('\n');
+    const total = hasPrices ? `₦${pricedTotal.toLocaleString()}` : 'Price to be confirmed by Genesis Autos';
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/genesisautos2020@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: 'NEW GENESIS AUTOS ORDER',
+          _template: 'table',
+          _cc: 'odogwutyga@genesis.org',
+          _replyto: data.get('email'),
+          name: data.get('name'),
+          phone: data.get('phone'),
+          email: data.get('email'),
+          address: data.get('address'),
+          city: data.get('city'),
+          state: data.get('state'),
+          delivery: data.get('city')?.toString().trim().toLowerCase() === 'lagos' ? 'Same-day delivery in Lagos' : 'Delivery within 5–10 days',
+          payment: 'Payment on Delivery',
+          items: orderLines,
+          total,
+          notes: data.get('notes') || 'None',
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || result.success === false) throw new Error('Order email could not be sent.');
+      setSubmitted(true);
+      localStorage.removeItem(CART_KEY);
+      window.dispatchEvent(new Event('genesis-cart-updated'));
+      setItems([]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return <div className="battery-page">
+    <header className="site-header"><div className="container nav-wrap">
+      <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
+      <nav className="battery-nav"><a href="/">Home</a><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
+    </div></header>
+    <main>
+      <section className="battery-hero"><div className="container">
+        <div className="eyebrow orange-text"><ShoppingCart size={14} /> Shopping Cart</div>
+        <h1>Your <span>Cart</span></h1>
+        <p>Review your items, enter your delivery details and place your order. Payment is made on delivery.</p>
+        <div className="delivery-notice"><strong>Delivery:</strong> Lagos — same-day delivery. Outside Lagos — delivery within 5–10 days.</div>
+      </div></section>
+      <section className="cart-section"><div className="container cart-layout">
+        <div className="cart-items">
+          <div className="battery-heading"><div><div className="eyebrow orange-text">Order Summary</div><h2>{totalQuantity} <span>Item{totalQuantity === 1 ? '' : 's'}</span></h2></div></div>
+          {!items.length && !submitted && <div className="empty-cart"><ShoppingCart size={38}/><h3>Your cart is empty</h3><p>Add products from the catalogue to start an order.</p><a className="button button-orange" href="/batteries">Browse Products</a></div>}
+          {submitted && <div className="empty-cart"><CheckCircle2 size={42}/><h3>Order Received!</h3><p>Your order has been sent to Genesis Autos. Our team will contact you to confirm your order and delivery.</p><a className="button button-orange" href="/">Back to Genesis Autos</a></div>}
+          {items.map((item) => <article className="cart-item" key={item.id}>
+            <img src={item.image || '/IMG_4929.jpg'} alt={item.name} />
+            <div className="cart-item-info"><strong>{item.name}</strong>{item.details && <small>{item.details}</small>}<span>{typeof item.price === 'number' ? `₦${item.price.toLocaleString()}` : 'Price to be confirmed'}</span></div>
+            <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
+            <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
+          </article>)}
+          {items.length > 0 && <div className="cart-total"><span>Total</span><strong>{hasPrices ? `₦${pricedTotal.toLocaleString()}` : 'Price to be confirmed'}</strong></div>}
+        </div>
+        {items.length > 0 && <form className="checkout-form" onSubmit={handleCheckout}>
+          <div className="eyebrow orange-text">Checkout</div><h2>Delivery <span>Details</span></h2>
+          <p className="checkout-intro">Payment method: <strong>Payment on Delivery</strong></p>
+          <div className="form-row"><label>Full Name<input required name="name" placeholder="Your full name" /></label><label>Phone Number<input required name="phone" type="tel" placeholder="+234..." /></label></div>
+          <label>Email Address<input required name="email" type="email" placeholder="you@example.com" /></label>
+          <label>Delivery Address<textarea required name="address" rows={3} placeholder="House number, street, landmark..."></textarea></label>
+          <div className="form-row"><label>City<input required name="city" placeholder="e.g. Lagos" /></label><label>State<input required name="state" placeholder="e.g. Lagos State" /></label></div>
+          <label>Order Notes<textarea name="notes" rows={2} placeholder="Optional delivery instructions"></textarea></label>
+          <button className="button button-orange form-button" type="submit" disabled={sending}>{sending ? 'Sending Order...' : 'Place Order — Payment on Delivery'} <ArrowRight size={16}/></button>
+          {error && <p className="checkout-error">{error}</p>}
+          <small className="checkout-footnote">Lagos orders are eligible for same-day delivery. Orders outside Lagos are delivered within 5–10 days. Our team will confirm the delivery details before dispatch.</small>
+        </form>}
+      </div></section>
+    </main>
+  </div>;
 }
 
 const products = [
@@ -63,10 +220,10 @@ const toolsProducts = [
 function AccessoriesPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-    <nav className="battery-nav"><a href="/">Home</a><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    <nav className="battery-nav"><a href="/">Home</a><a href="/accessories">Accessories</a><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <span key={item}>{item}</span>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `accessory-${item}`, name: item }} /></span>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
@@ -93,7 +250,7 @@ function ToolsPage() {
     <nav className="battery-nav"><a href="/">Home</a><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{toolsProducts.map((item) => <span key={item}>{item}</span>)}</div>
+    <div className="accessory-list">{toolsProducts.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `tool-${item}`, name: item }} /></span>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
@@ -122,9 +279,9 @@ function LubricantsPage() {
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Automotive oils, transmission fluids, coolants, grease, filters, treatments and brake fluids available from Genesis Autos.</p>
     <div className="lubricant-groups">
-      <div className="lubricant-group"><h2>Engine Oils</h2><div className="accessory-list">{lubricantGroups.engineOils.map((item) => <span key={item}>{item}</span>)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span key={item}>{item}</span>)}</div></div>
-      <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">{lubricantGroups.other.map((item) => <span key={item}>{item}</span>)}</div></div>
+      <div className="lubricant-group"><h2>Engine Oils</h2><div className="accessory-list">{lubricantGroups.engineOils.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `engine-oil-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">{lubricantGroups.other.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `fluid-${item}`, name: item }} /></span>)}</div></div>
     </div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Oil, Grease & ATF</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
@@ -203,7 +360,7 @@ function BatteryPage() {
           <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` : '12 brands'}</span></div>
           {selectedBrand ? <div className="battery-grid">{visibleProducts.map((p) => <article className="battery-card" key={p.brand + p.capacity}>
             <img src={p.image} alt={p.name} loading="lazy" />
-            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div></div><button className="button button-orange battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${p.name} (${p.voltage}, ${p.capacity}). Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
+            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div></div><AddToCartButton item={{ id: `${p.brand}-${p.voltage}-${p.capacity}`, name: p.name, image: p.image, details: `${p.voltage} · ${p.capacity}` }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${p.name} (${p.voltage}, ${p.capacity}). Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
           </article>)}</div> : <div className="battery-brand-directory">{Object.entries(brandMap).map(([key, name]) => <a className="battery-brand-tile" href={`/batteries/${key}`} key={key}><Battery size={22} /><strong>{name}</strong><span>View batteries <ChevronRight size={14} /></span></a>)}</div>}
         </div></section>
       </main>
@@ -214,6 +371,7 @@ function BatteryPage() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  if (window.location.pathname === '/cart') return <CartPage />;
   if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
   if (window.location.pathname === '/accessories') return <AccessoriesPage />;
   if (window.location.pathname === '/tools') return <ToolsPage />;
@@ -267,7 +425,7 @@ if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`}>
           <a href="#home" onClick={closeMenu}>Home</a><a href="#about" onClick={closeMenu}>About</a><a href="#batteries" onClick={closeMenu}>Products</a><a href="#services" onClick={closeMenu}>Services</a><a href="#why-genesis" onClick={closeMenu}>Why Genesis</a><a href="#contact" onClick={closeMenu}>Contact</a>
-          <button className="button button-small button-orange nav-cta" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')}><MessageCircle size={15} /> WhatsApp Us</button>
+          <CartButton /><button className="button button-small button-orange nav-cta" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')}><MessageCircle size={15} /> WhatsApp Us</button>
         </nav>
       </div></header>
 
