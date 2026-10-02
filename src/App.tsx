@@ -76,8 +76,8 @@ function ProductSearch() {
   const [query, setQuery] = useState('');
   const searchItems = [
     ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: '/batteries/' + p.brand.toLowerCase().replace(/\s+/g, '-') })),
-    ...accessoryProducts.map((name) => ({ name, detail: 'Car Accessory', href: '/accessories' })),
-    ...toolsProducts.map((name) => ({ name, detail: 'Tools & Essentials', href: '/tools' })),
+    ...accessoryProducts.map((p) => ({ name: p.name, detail: 'Car Accessory', href: '/accessories' })),
+    ...toolsProducts.map((p) => ({ name: p.name, detail: 'Tools & Essentials', href: '/tools' })),
     ...Object.values(lubricantGroups).flat().filter((name) => name.toLowerCase() !== 'and so much more').map((name) => ({ name, detail: 'Oil, Grease & ATF', href: '/oil-grease-atf' })),
     { name: 'Tyres', detail: 'Cars, SUVs & Trucks', href: '#contact' },
   ];
@@ -216,26 +216,26 @@ const services = [
 ];
 
 const accessoryProducts = [
-  'Dashboard Polish',
-  'Tire Polish',
-  'Steering Cover',
-  'Seat Covers',
-  'Dashboard Rug',
-  'Dashboard Mat',
-  'Floor Mat',
-  'Wipers',
+  { name: 'Dashboard Polish' },
+  { name: 'Tire Polish' },
+  { name: 'Steering Cover', image: '/STEERING COVERS.jpg' },
+  { name: 'Seat Covers' },
+  { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg' },
+  { name: 'Dashboard Mat', image: '/DASHBOARD MAT.jpg' },
+  { name: 'Floor Mat' },
+  { name: 'Wipers' },
 ];
 
 const toolsProducts = [
-  'Alloy Wheel',
-  'Trackers',
-  'Jacks',
-  'Hydraulic Jacks',
-  'Injectors',
-  'Car Horn',
-  'Car Cover',
-  'C-Caution',
-  'Fire Extinguishers',
+  { name: 'Alloy Wheel', image: '/RIMS.jpg' },
+  { name: 'Trackers', image: '/GPS TRACKER.jpg' },
+  { name: 'Jacks', image: '/JACKS.jpg' },
+  { name: 'Hydraulic Jacks', image: '/JACK 5T &10T.jpg' },
+  { name: 'Injectors', image: '/FUEL INJECTOR CLEANER.jpg' },
+  { name: 'Car Horn', image: '/CAR HORNS.jpg' },
+  { name: 'Car Cover' },
+  { name: 'C-Caution' },
+  { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg' },
 ];
 
 function AccessoriesPage() {
@@ -244,7 +244,7 @@ function AccessoriesPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><ProductSearch /><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `accessory-${item}`, name: item }} /></span>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image && <img src={item.image} alt={item.name} loading="lazy" />}<div className="catalogue-product-body"><strong>{item.name}</strong><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
@@ -271,7 +271,7 @@ function ToolsPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{toolsProducts.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `tool-${item}`, name: item }} /></span>)}</div>
+    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image && <img src={item.image} alt={item.name} loading="lazy" />}<div className="catalogue-product-body"><strong>{item.name}</strong><AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
@@ -302,7 +302,14 @@ function LubricantsPage() {
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oils</h2><div className="accessory-list">{lubricantGroups.engineOils.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `engine-oil-${item}`, name: item }} /></span>)}</div></div>
       <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
-      <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">{lubricantGroups.other.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `fluid-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">{lubricantGroups.other.map((item) => {
+        const imageMap: Record<string, string> = {
+          'OIL FILTER': '/OIL FILTER.jpg',
+          'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
+          'OIL TREATMENT': '/OIL TREATMENT.jpg',
+        };
+        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong><AddToCartButton item={{ id: `fluid-${item}`, name: item, image: imageMap[item] }} /></div></article>;
+      })}</div></div>
     </div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Oil, Grease & ATF</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
