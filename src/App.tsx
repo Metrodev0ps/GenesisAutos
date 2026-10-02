@@ -314,7 +314,14 @@ const batteryProducts = [
   { brand: 'Startall', name: 'Startall Battery', voltage: '12V', capacity: '75Ah', image: '/STARTALL.jpg' },
 { brand: 'Solite', name: 'Solite Battery', voltage: '12V', capacity: '75Ah', image: '/SOLITE.jpg' },
   { brand: 'Sebang', name: 'Sebang Battery', voltage: '12V', capacity: '75Ah', image: '/SEBANG.jpg' },
-  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '90Ah', terminal: 'Normal Terminal', price: 120000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '90Ah', terminal: 'Opposite Terminal', price: 120000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', terminal: 'Normal Terminal', price: 100000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '75Ah', terminal: 'Opposite Terminal', price: 100000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '80Ah', terminal: 'Normal Terminal', price: 110000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '80Ah', terminal: 'Opposite Terminal', price: 110000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '100Ah', terminal: 'Normal Terminal', price: 150000, image: '/EVERSTART.jpg' },
+  { brand: 'Everstart', name: 'Everstart Battery', voltage: '12V', capacity: '100Ah', terminal: 'Opposite Terminal', price: 150000, image: '/EVERSTART.jpg' },
   { brand: 'KINGLION', name: 'KINGLION Battery', voltage: '12V', capacity: '75Ah', image: '/KINGLION.jpg' },
   { brand: 'FINBROK SUPER', name: 'FINBROK SUPER Battery', voltage: '12V', capacity: '75Ah', image: '/FINBROKSUPER.jpg' },
   { brand: 'Super Diamond', name: 'Super Diamond Battery', voltage: '12V', capacity: '75Ah', image: '/DIAMOND.jpg' },
@@ -365,7 +372,7 @@ function BatteryPage() {
           <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` : '12 brands'}</span></div>
           {selectedBrand ? <div className="battery-grid">{visibleProducts.map((p) => <article className="battery-card" key={p.brand + p.capacity}>
             <img src={p.image} alt={p.name} loading="lazy" />
-            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div></div><AddToCartButton item={{ id: `${p.brand}-${p.voltage}-${p.capacity}`, name: p.name, image: p.image, details: `${p.voltage} · ${p.capacity}` }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${p.name} (${p.voltage}, ${p.capacity}). Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
+            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div>{p.terminal && <div><small>Terminal</small><strong>{p.terminal.replace(' Terminal', '')}</strong></div>}</div>{typeof p.price === 'number' && <div className="battery-price">₦{p.price.toLocaleString()}</div>}<AddToCartButton item={{ id: `${p.brand}-${p.voltage}-${p.capacity}-${p.terminal || "standard"}`, name: p.name, price: p.price, image: p.image, details: `${p.voltage} · ${p.capacity}${p.terminal ? ` · ${p.terminal}` : ""}` }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${p.name} (${p.voltage}, ${p.capacity}${p.terminal ? `, ${p.terminal}` : ""}). Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
           </article>)}</div> : <div className="battery-brand-directory">{Object.entries(brandMap).map(([key, name]) => <a className="battery-brand-tile" href={`/batteries/${key}`} key={key}><Battery size={22} /><strong>{name}</strong><span>View batteries <ChevronRight size={14} /></span></a>)}</div>}
         </div></section>
       </main>
