@@ -141,7 +141,7 @@ function CartPage() {
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
       <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-      <nav className="battery-nav"><a href="/">Home</a><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
+      <nav className="battery-nav"><a href="/">Home</a><CartButton /><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
     </div></header>
     <main>
       <section className="battery-hero"><div className="container">
@@ -220,7 +220,7 @@ const toolsProducts = [
 function AccessoriesPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-    <nav className="battery-nav"><a href="/">Home</a><a href="/accessories">Accessories</a><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    <nav className="battery-nav"><a href="/">Home</a><CartButton /><a href="/accessories">Accessories</a><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
     <div className="accessory-list">{accessoryProducts.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `accessory-${item}`, name: item }} /></span>)}</div>
@@ -247,7 +247,7 @@ function AccessoriesPage() {
 function ToolsPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-    <nav className="battery-nav"><a href="/">Home</a><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    <nav className="battery-nav"><a href="/">Home</a><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
     <div className="accessory-list">{toolsProducts.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `tool-${item}`, name: item }} /></span>)}</div>
@@ -275,7 +275,7 @@ const lubricantGroups = {
 function LubricantsPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-    <nav className="battery-nav"><a href="/">Home</a><a href="/oil-grease-atf">Oil, Grease & ATF</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    <nav className="battery-nav"><a href="/">Home</a><CartButton /><a href="/oil-grease-atf">Oil, Grease & ATF</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Automotive oils, transmission fluids, coolants, grease, filters, treatments and brake fluids available from Genesis Autos.</p>
     <div className="lubricant-groups">
@@ -347,7 +347,7 @@ function BatteryPage() {
     <div className="battery-page">
       <header className="site-header"><div className="container nav-wrap">
         <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-        <nav className="battery-nav"><a href="/">Home</a><a href="/batteries">All Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')}><MessageCircle size={15} /> WhatsApp Us</button></nav>
+        <nav className="battery-nav"><a href="/">Home</a><CartButton /><a href="/batteries">All Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')}><MessageCircle size={15} /> WhatsApp Us</button></nav>
       </div></header>
       <main>
         <section className="battery-hero"><div className="container">
