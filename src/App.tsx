@@ -75,7 +75,7 @@ function ProductSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const searchItems = [
-    ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: '/batteries/' + p.brand.toLowerCase().replace(/\s+/g, '-')) })),
+    ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: '/batteries/' + p.brand.toLowerCase().replace(/\s+/g, '-') })),
     ...accessoryProducts.map((name) => ({ name, detail: 'Car Accessory', href: '/accessories' })),
     ...toolsProducts.map((name) => ({ name, detail: 'Tools & Essentials', href: '/tools' })),
     ...Object.values(lubricantGroups).flat().filter((name) => name.toLowerCase() !== 'and so much more').map((name) => ({ name, detail: 'Oil, Grease & ATF', href: '/oil-grease-atf' })),
