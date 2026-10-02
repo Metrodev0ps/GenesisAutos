@@ -303,7 +303,9 @@ function LubricantsPage() {
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
-const batteryProducts = [
+type BatteryProduct = { brand: string; name: string; voltage: string; capacity: string; image: string; price?: number; terminal?: string };
+
+const batteryProducts: BatteryProduct[] = [
   { brand: 'ZenGLOBAL', name: 'ZenGLOBAL Battery', voltage: '12V', capacity: '75Ah', image: '/ZENGLOBAL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '100Ah', image: '/RUNALL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '45Ah', image: '/RUNALL.jpg' },
