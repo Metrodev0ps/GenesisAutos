@@ -416,3 +416,13 @@ body.intro-active { overflow:hidden; }
   .search-panel { position:fixed; top:74px; right:16px; left:16px; width:auto; }
   .main-nav.is-open .product-search { order:-1; margin-bottom:10px; }
 }
+
+
+.catalogue-product { display:flex; flex-direction:column; min-width:0; border:1px solid var(--line); background:#fff; overflow:hidden; }
+.catalogue-product > img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+.catalogue-product-body { display:flex; flex-direction:column; gap:10px; padding:12px; }
+.catalogue-product-body strong { font-size:11px; color:var(--ink); min-height:28px; display:flex; align-items:center; }
+.catalogue-product-body .add-cart-button { margin:0; }
+.accessory-list:has(.catalogue-product) { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+@media (max-width:900px) { .accessory-list:has(.catalogue-product) { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media (max-width:650px) { .accessory-list:has(.catalogue-product) { grid-template-columns:repeat(2,minmax(0,1fr)); } }
