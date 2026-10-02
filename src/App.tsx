@@ -233,8 +233,8 @@ const toolsProducts = [
   { name: 'Hydraulic Jacks', image: '/JACK 5T &10T.jpg' },
   { name: 'Injectors', image: '/FUEL INJECTOR CLEANER.jpg' },
   { name: 'Car Horn', image: '/CAR HORNS.jpg' },
-  { name: 'Car Cover' },
-  { name: 'C-Caution' },
+  { name: 'Engine Cover', image: '/CAR COVER.jpg' },
+  { name: 'C-Caution', image: '/C-CAUTION.jpg' },
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg' },
 ];
 
