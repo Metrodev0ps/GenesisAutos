@@ -94,6 +94,9 @@ function CartPage() {
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
   const pricedTotal = items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
   const hasPrices = items.length > 0 && items.every((item) => typeof item.price === 'number');
+  const [deliveryArea, setDeliveryArea] = useState('');
+  const deliveryFee = deliveryArea === 'mainland' ? 5000 : deliveryArea === 'island' ? 10000 : deliveryArea === 'outside-lagos' ? 15000 : 0;
+  const grandTotal = pricedTotal + deliveryFee;
 
   const handleCheckout = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -102,7 +105,7 @@ function CartPage() {
     setError('');
     const data = new FormData(event.currentTarget);
     const orderLines = items.map((item) => `${item.name} — Qty: ${item.quantity}${item.details ? ` — ${item.details}` : ''}${typeof item.price === 'number' ? ` — ₦${(item.price * item.quantity).toLocaleString()}` : ' — Price to be confirmed'}`).join('\n');
-    const total = hasPrices ? `₦${pricedTotal.toLocaleString()}` : 'Price to be confirmed by Genesis Autos';
+    const total = hasPrices ? `₦${grandTotal.toLocaleString()}` : `Product price to be confirmed + ₦${deliveryFee.toLocaleString()} delivery`;
     try {
       const response = await fetch('https://formsubmit.co/ajax/genesisautos2020@gmail.com', {
         method: 'POST',
@@ -118,7 +121,8 @@ function CartPage() {
           address: data.get('address'),
           city: data.get('city'),
           state: data.get('state'),
-          delivery: data.get('city')?.toString().trim().toLowerCase() === 'lagos' ? 'Same-day delivery in Lagos' : 'Delivery within 5–10 days',
+          delivery_area: deliveryArea === 'mainland' ? 'Lagos Mainland — ₦5,000' : deliveryArea === 'island' ? 'Lagos Island — ₦10,000' : 'Outside Lagos — ₦15,000',
+          delivery_fee: `₦${deliveryFee.toLocaleString()}`,
           payment: 'Payment on Delivery',
           items: orderLines,
           total,
@@ -148,7 +152,7 @@ function CartPage() {
         <div className="eyebrow orange-text"><ShoppingCart size={14} /> Shopping Cart</div>
         <h1>Your <span>Cart</span></h1>
         <p>Review your items, enter your delivery details and place your order. Payment is made on delivery.</p>
-        <div className="delivery-notice"><strong>Delivery:</strong> Lagos — same-day delivery. Outside Lagos — delivery within 5–10 days.</div>
+        <div className="delivery-notice"><strong>Delivery fees:</strong> Lagos Mainland — ₦5,000 · Lagos Island — ₦10,000 · Outside Lagos — ₦15,000.</div>
       </div></section>
       <section className="cart-section"><div className="container cart-layout">
         <div className="cart-items">
@@ -161,7 +165,7 @@ function CartPage() {
             <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
             <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
           </article>)}
-          {items.length > 0 && <div className="cart-total"><span>Total</span><strong>{hasPrices ? `₦${pricedTotal.toLocaleString()}` : 'Price to be confirmed'}</strong></div>}
+          {items.length > 0 && <div className="cart-totals"><div><span>Products</span><strong>{hasPrices ? `₦${pricedTotal.toLocaleString()}` : 'Price to be confirmed'}</strong></div><div><span>Delivery</span><strong>{deliveryFee ? `₦${deliveryFee.toLocaleString()}` : 'Select delivery area'}</strong></div><div className="cart-total"><span>Total</span><strong>{hasPrices && deliveryFee ? `₦${grandTotal.toLocaleString()}` : 'Price to be confirmed'}</strong></div></div>}
         </div>
         {items.length > 0 && <form className="checkout-form" onSubmit={handleCheckout}>
           <div className="eyebrow orange-text">Checkout</div><h2>Delivery <span>Details</span></h2>
@@ -170,10 +174,11 @@ function CartPage() {
           <label>Email Address<input required name="email" type="email" placeholder="you@example.com" /></label>
           <label>Delivery Address<textarea required name="address" rows={3} placeholder="House number, street, landmark..."></textarea></label>
           <div className="form-row"><label>City<input required name="city" placeholder="e.g. Lagos" /></label><label>State<input required name="state" placeholder="e.g. Lagos State" /></label></div>
+          <label>Delivery Area<select required name="deliveryArea" value={deliveryArea} onChange={(event) => setDeliveryArea(event.target.value)}><option value="">Select delivery area</option><option value="mainland">Lagos Mainland — ₦5,000</option><option value="island">Lagos Island — ₦10,000</option><option value="outside-lagos">Outside Lagos — ₦15,000</option></select></label>
           <label>Order Notes<textarea name="notes" rows={2} placeholder="Optional delivery instructions"></textarea></label>
           <button className="button button-orange form-button" type="submit" disabled={sending}>{sending ? 'Sending Order...' : 'Place Order — Payment on Delivery'} <ArrowRight size={16}/></button>
           {error && <p className="checkout-error">{error}</p>}
-          <small className="checkout-footnote">Lagos orders are eligible for same-day delivery. Orders outside Lagos are delivered within 5–10 days. Our team will confirm the delivery details before dispatch.</small>
+          <small className="checkout-footnote">Delivery fee is calculated from the selected delivery area: Lagos Mainland ₦5,000, Lagos Island ₦10,000, Outside Lagos ₦15,000. Our team will confirm the order and delivery details before dispatch.</small>
         </form>}
       </div></section>
     </main>
