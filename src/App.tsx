@@ -141,7 +141,7 @@ function CartPage() {
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
       <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
-      <nav className="battery-nav"><a href="/">Home</a><CartButton /><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
+      <nav className="battery-nav"><a href="/">Home</a><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
     </div></header>
     <main>
       <section className="battery-hero"><div className="container">
