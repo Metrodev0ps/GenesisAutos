@@ -246,22 +246,7 @@ function AccessoriesPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
     <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image && <img src={item.image} alt={item.name} loading="lazy" />}<div className="catalogue-product-body"><strong>{item.name}</strong><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
-  <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Accessories</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
-    <div className="accessory-random-gallery">
-      <img key="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" src="/0890F569-CBAB-4591-9F05-C6AF9735CA7D.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/DASHBOARD MAT.jpg" src="/DASHBOARD%20MAT.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/DASHBOARD RUG.jpg" src="/DASHBOARD%20RUG.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/IMG_4919.jpg" src="/IMG_4919.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/IMG_4920.jpg" src="/IMG_4920.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/IMG_4921.jpg" src="/IMG_4921.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/IMG_4922.jpg" src="/IMG_4922.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/IMG_4923.jpg" src="/IMG_4923.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/STEERING COVERS.jpg" src="/STEERING%20COVERS.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/ACCESORIES.jpg" src="/ACCESORIES.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/LED LIGHTS.jpg" src="/LED LIGHTS.jpg" alt="Genesis Autos accessory" loading="lazy" />
-      <img key="/SAND PROTECTORS.jpg" src="/SAND%20PROTECTORS.jpg" alt="Genesis Autos sand protectors" loading="lazy" />
-    </div>
-  </div></section></main>
+</main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
