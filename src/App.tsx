@@ -342,8 +342,13 @@ const engineOilGrades = [
 
 const lubricantGroups = {
   atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'and so much more'],
-  other: ['COOLANTS', 'HOLTS', 'GREASE INFINITY', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
+  other: ['HOLTS', 'GREASE INFINITY', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
 };
+
+const coolantOptions = [
+  { size: '4 Litre', price: 6000 },
+  { size: '1 Litre', price: 2500 },
+];
 
 function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<string, { size: string; price: number }[]> }) {
   const brandNames = Object.keys(brands);
@@ -398,7 +403,21 @@ function LubricantsPage() {
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
       <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
-      <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">{lubricantGroups.other.map((item) => {
+      <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
+        <article className="catalogue-product lubricant-grade-card">
+          <div className="catalogue-product-body">
+            <div className="eyebrow orange-text">Coolant</div>
+            <h3>COOLANG</h3>
+            <label className="oil-select-label">Size
+              <select defaultValue={coolantOptions[0].size}>
+                {coolantOptions.map((item) => <option value={item.size} key={item.size}>{item.size} — ₦{item.price.toLocaleString()}</option>)}
+              </select>
+            </label>
+            <div className="battery-price">₦{coolantOptions[0].price.toLocaleString()}</div>
+            <AddToCartButton item={{ id: 'coolang-4-litre', name: 'COOLANG', price: 6000, details: '4 Litre' }} />
+          </div>
+        </article>
+        {lubricantGroups.other.map((item) => {
         const imageMap: Record<string, string> = {
           'OIL FILTER': '/OIL FILTER.jpg',
           'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
