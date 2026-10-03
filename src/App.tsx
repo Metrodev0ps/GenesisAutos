@@ -57,7 +57,7 @@ function setMeta(name: string, content: string, attribute = 'name') {
 
 function useSeo() {
   useEffect(() => {
-    const rawPath = window.location.pathname.replace(/\\/+$/, '') || '/';
+    const rawPath = window.location.pathname.replace(/\/+$/, '') || '/';
     const route = seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
       title: `${rawPath.split('/').pop()?.replace(/-/g, ' ')} Batteries | Genesis Autos Lagos`,
       description: 'Browse battery options from Genesis Autos in Iyana Ipaja, Lagos. Check available specifications and contact Genesis Autos for current price and availability.',
