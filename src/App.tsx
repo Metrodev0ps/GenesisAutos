@@ -304,6 +304,11 @@ const engineOilGrades = [
       'SEA GOLD SUPER D': [
         { size: '5 Litre', price: 30000 },
       ],
+      'MOBIL 2000': [
+        { size: '1 Litre', price: 8000 },
+        { size: '4 Litre', price: 27000 },
+        { size: '5 Litre', price: 35000 },
+      ],
     },
   },
   {
