@@ -330,6 +330,7 @@ const engineOilGrades = [
     brands: {
       'OLEUM SUPER': [
         { size: '1 Litre', price: 4500 },
+        { size: '4 Litre', price: 18000 },
       ],
       'CONOIL GOLDEN SUPER': [
         { size: '4 Litre', price: 18000 },
