@@ -364,7 +364,7 @@ function CoolantProduct() {
         </select>
       </label>
       <div className="battery-price">₦{selected.price.toLocaleString()}</div>
-      <AddToCartButton item={{ id: `coolang-${selected.size}`, name: 'COOLANG', price: selected.price, details: selected.size }} />
+      <AddToCartButton item={{ id: `coolant-${selected.size}`, name: 'COOLANT', price: selected.price, details: selected.size }} />
     </div>
   </article>;
 }
@@ -430,7 +430,7 @@ function LubricantsPage() {
           'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
           'OIL TREATMENT': '/OIL TREATMENT.jpg',
         };
-        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong><AddToCartButton item={{ id: `fluid-${item}`, name: item, image: imageMap[item] }} /></div></article>;
+        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong><AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
       })}</div></div>
     </div>
   </div></section></main>
