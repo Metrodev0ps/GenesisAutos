@@ -430,7 +430,7 @@ function LubricantsPage() {
           'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
           'OIL TREATMENT': '/OIL TREATMENT.jpg',
         };
-        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong><AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
+        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong><AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : item === 'OIL TREATMENT' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
       })}</div></div>
     </div>
   </div></section></main>
