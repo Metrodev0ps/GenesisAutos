@@ -409,12 +409,35 @@ function App() {
   if (window.location.pathname === '/accessories') return <AccessoriesPage />;
   if (window.location.pathname === '/tools') return <ToolsPage />;
 if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(() => {
+    const internalNavigation = sessionStorage.getItem('genesis-internal-navigation') === 'true';
+    if (internalNavigation) sessionStorage.removeItem('genesis-internal-navigation');
+    return !internalNavigation;
+  });
 
   useEffect(() => {
+    const markInternalNavigation = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const link = target?.closest('a[href]') as HTMLAnchorElement | null;
+      if (!link || event.defaultPrevented || event.button !== 0) return;
+      if (link.target === '_blank' || link.hasAttribute('download')) return;
+
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin) return;
+      if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+
+      sessionStorage.setItem('genesis-internal-navigation', 'true');
+    };
+
+    document.addEventListener('click', markInternalNavigation, true);
+    return () => document.removeEventListener('click', markInternalNavigation, true);
+  }, []);
+
+  useEffect(() => {
+    if (!showIntro) return;
     document.body.classList.add('intro-active');
     return () => document.body.classList.remove('intro-active');
-  }, []);
+  }, [showIntro]);
 
   const finishIntro = () => {
     setShowIntro(false);
