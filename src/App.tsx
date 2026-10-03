@@ -288,6 +288,7 @@ const engineOilGrades = [
         { size: '1 Litre', price: 8000 },
       ],
       'AP VISCO 2000': [
+        { size: '1 Litre', price: 6500 },
         { size: '4 Litre', price: 25000 },
       ],
       'SEA HORSE': [
