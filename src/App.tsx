@@ -282,6 +282,9 @@ const engineOilGrades = [
         { size: '5 Litre', price: 30000 },
         { size: '1 Litre', price: 7500 },
       ],
+      'TOTAL': [
+        { size: '5 Litre', price: 30000 },
+      ],
     },
   },
   { grade: '10W-40', brands: {} },
@@ -291,6 +294,9 @@ const engineOilGrades = [
       'HARDEX': [
         { size: '5 Litre', price: 40000 },
         { size: '1 Litre', price: 10000 },
+      ],
+      'SEA GOLD SUPER D': [
+        { size: '5 Litre', price: 30000 },
       ],
     },
   },
