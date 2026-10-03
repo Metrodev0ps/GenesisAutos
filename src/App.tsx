@@ -345,15 +345,20 @@ const lubricantGroups = {
 
 function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<string, { size: string; price: number }[]> }) {
   const brandNames = Object.keys(brands);
-  const [selectedBrand, setSelectedBrand] = useState(brandNames[0] || '');
-  const [selectedSize, setSelectedSize] = useState(brands[brandNames[0] || '']?.[0]?.size || '');
+  const firstBrand = brandNames[0] || '';
+  const [selectedBrand, setSelectedBrand] = useState(firstBrand);
+  const [selectedSize, setSelectedSize] = useState(brands[firstBrand]?.[0]?.size || '');
 
   useEffect(() => {
-    const sizes = brands[selectedBrand] || [];
-    setSelectedSize(sizes[0]?.size || '');
-  }, [selectedBrand, brands]);
+    const validBrand = brandNames.includes(selectedBrand) ? selectedBrand : firstBrand;
+    const sizes = brands[validBrand] || [];
+    const validSize = sizes.some((item) => item.size === selectedSize) ? selectedSize : (sizes[0]?.size || '');
+    if (validBrand !== selectedBrand) setSelectedBrand(validBrand);
+    if (validSize !== selectedSize) setSelectedSize(validSize);
+  }, [brandNames.join('|'), firstBrand, selectedBrand, selectedSize, brands]);
 
-  const selected = (brands[selectedBrand] || []).find((item) => item.size === selectedSize);
+  const brandItems = brands[selectedBrand] || [];
+  const selected = brandItems.find((item) => item.size === selectedSize) || brandItems[0];
   const itemName = selectedBrand ? `${selectedBrand} ${grade}` : grade;
 
   return <article className="catalogue-product lubricant-grade-card">
@@ -362,17 +367,21 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
       <h3>{grade}</h3>
       {brandNames.length ? <>
         <label className="oil-select-label">Brand
-          <select value={selectedBrand} onChange={(event) => setSelectedBrand(event.target.value)}>
+          <select value={selectedBrand} onChange={(event) => {
+            const nextBrand = event.target.value;
+            setSelectedBrand(nextBrand);
+            setSelectedSize(brands[nextBrand]?.[0]?.size || '');
+          }}>
             {brandNames.map((brand) => <option value={brand} key={brand}>{brand}</option>)}
           </select>
         </label>
         <label className="oil-select-label">Size
-          <select value={selectedSize} onChange={(event) => setSelectedSize(event.target.value)}>
-            {(brands[selectedBrand] || []).map((item) => <option value={item.size} key={item.size}>{item.size} — ₦{item.price.toLocaleString()}</option>)}
+          <select value={selected?.size || ''} onChange={(event) => setSelectedSize(event.target.value)}>
+            {brandItems.map((item) => <option value={item.size} key={item.size}>{item.size} — ₦{item.price.toLocaleString()}</option>)}
           </select>
         </label>
         {selected && <div className="battery-price">₦{selected.price.toLocaleString()}</div>}
-        <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected?.price, details: `${grade} · ${selected.size}` }} />
+        {selected && <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected.price, details: `${grade} · ${selected.size}` }} />}
       </> : <p>Brands and sizes will be added here.</p>}
     </div>
   </article>;
