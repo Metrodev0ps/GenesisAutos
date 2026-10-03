@@ -313,6 +313,13 @@ const engineOilGrades = [
         { size: '4 Litre', price: 27000 },
         { size: '5 Litre', price: 35000 },
       ],
+      'MOBIL 1 [SPECIAL]': [
+        { size: '5 Litre', price: 80000 },
+      ],
+      'MOBIL 1': [
+        { size: '1 Litre', price: 8000 },
+        { size: '5 Litre', price: 30000 },
+      ],
     },
   },
   {
