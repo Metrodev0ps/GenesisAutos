@@ -78,6 +78,7 @@ function ProductSearch() {
     ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: '/batteries/' + p.brand.toLowerCase().replace(/\s+/g, '-') })),
     ...accessoryProducts.map((p) => ({ name: p.name, detail: 'Car Accessory', href: '/accessories' })),
     ...toolsProducts.map((p) => ({ name: p.name, detail: 'Tools & Essentials', href: '/tools' })),
+    ...engineOilGrades.flatMap((group) => Object.entries(group.brands).flatMap(([brand, sizes]) => sizes.map((item) => ({ name: `${brand} ${group.grade} ${item.size}`, detail: `Engine Oil · ${group.grade}`, href: '/oil-grease-atf' })))),
     ...Object.values(lubricantGroups).flat().filter((name) => name.toLowerCase() !== 'and so much more').map((name) => ({ name, detail: 'Oil, Grease & ATF', href: '/oil-grease-atf' })),
     { name: 'Tyres', detail: 'Cars, SUVs & Trucks', href: '#contact' },
   ];
@@ -272,20 +273,71 @@ function ToolsPage() {
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
+const engineOilGrades = [
+  {
+    grade: '20W-50',
+    brands: {
+      'MOBIL HHP': [
+        { size: '4 Litre', price: 24000 },
+        { size: '5 Litre', price: 30000 },
+        { size: '1 Litre', price: 7500 },
+      ],
+    },
+  },
+  { grade: '10W-40', brands: {} },
+  { grade: '5W-30', brands: {} },
+  { grade: '5W-20', brands: {} },
+  { grade: '0W-20', brands: {} },
+];
+
 const lubricantGroups = {
-  engineOils: ['MOBIL 1', 'MOBIL 1000', 'MOBIL 2000', 'MOBIL', 'SPECIAL', 'VISCO 2000', 'OLEUM SUPER', 'HARDEX GOLD', 'SEA HORSE', 'MERCEDES BENZ OIL', 'and so much more'],
   atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'and so much more'],
   other: ['COOLANTS', 'HOLTS', 'GREASE INFINITY', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
 };
+
+function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<string, { size: string; price: number }[]> }) {
+  const brandNames = Object.keys(brands);
+  const [selectedBrand, setSelectedBrand] = useState(brandNames[0] || '');
+  const [selectedSize, setSelectedSize] = useState(brands[brandNames[0] || '']?.[0]?.size || '');
+
+  useEffect(() => {
+    const sizes = brands[selectedBrand] || [];
+    setSelectedSize(sizes[0]?.size || '');
+  }, [selectedBrand, brands]);
+
+  const selected = (brands[selectedBrand] || []).find((item) => item.size === selectedSize);
+  const itemName = selectedBrand ? `${selectedBrand} ${grade}` : grade;
+
+  return <article className="catalogue-product lubricant-grade-card">
+    <div className="catalogue-product-body">
+      <div className="eyebrow orange-text">Engine Oil</div>
+      <h3>{grade}</h3>
+      {brandNames.length ? <>
+        <label className="oil-select-label">Brand
+          <select value={selectedBrand} onChange={(event) => setSelectedBrand(event.target.value)}>
+            {brandNames.map((brand) => <option value={brand} key={brand}>{brand}</option>)}
+          </select>
+        </label>
+        <label className="oil-select-label">Size
+          <select value={selectedSize} onChange={(event) => setSelectedSize(event.target.value)}>
+            {(brands[selectedBrand] || []).map((item) => <option value={item.size} key={item.size}>{item.size} — ₦{item.price.toLocaleString()}</option>)}
+          </select>
+        </label>
+        {selected && <div className="battery-price">₦{selected.price.toLocaleString()}</div>}
+        <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected?.price, details: `${grade} · ${selected.size}` }} />
+      </> : <p>Brands and sizes will be added here.</p>}
+    </div>
+  </article>;
+}
 
 function LubricantsPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><span>GENESIS <em>AUTOS</em></span><small>AUTOMOBILE PARTS & SERVICES</small></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/oil-grease-atf">Oil, Grease & ATF</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
-  <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Automotive oils, transmission fluids, coolants, grease, filters, treatments and brake fluids available from Genesis Autos.</p>
+  <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
-      <div className="lubricant-group"><h2>Engine Oils</h2><div className="accessory-list">{lubricantGroups.engineOils.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `engine-oil-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
       <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">{lubricantGroups.other.map((item) => {
         const imageMap: Record<string, string> = {
@@ -295,17 +347,6 @@ function LubricantsPage() {
         };
         return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong><AddToCartButton item={{ id: `fluid-${item}`, name: item, image: imageMap[item] }} /></div></article>;
       })}</div></div>
-    </div>
-  </div></section>
-  <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Oil, Grease & ATF</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
-    <div className="accessory-random-gallery">
-      <img key="/ATF.jpg" src="/ATF.jpg" alt="Genesis Autos ATF" loading="lazy" />
-      <img key="/FUEL INJECTOR CLEANER.jpg" src="/FUEL%20INJECTOR%20CLEANER.jpg" alt="Genesis Autos fuel injector cleaner" loading="lazy" />
-      <img key="/OIL FILTER.jpg" src="/OIL%20FILTER.jpg" alt="Genesis Autos oil filter" loading="lazy" />
-      <img key="/OIL TREATMENT.jpg" src="/OIL%20TREATMENT.jpg" alt="Genesis Autos oil treatment" loading="lazy" />
-      <img key="/IMG_4913.jpg" src="/IMG_4913.jpg" alt="Genesis Autos automotive product" loading="lazy" />
-      <img key="/IMG_4924.jpg" src="/IMG_4924.jpg" alt="Genesis Autos automotive product" loading="lazy" />
-      <img key="/IMG_4928.jpg" src="/IMG_4928.jpg" alt="Genesis Autos automotive product" loading="lazy" />
     </div>
   </div></section></main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
