@@ -15,7 +15,7 @@ const openWhatsApp = (message: string) => {
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 };
 
-const SITE_URL = 'https://genesisautos.vercel.app';
+const SITE_URL = 'https://genesisautos.org';
 
 const seoRoutes: Record<string, { title: string; description: string; type?: string }> = {
   '/': {
