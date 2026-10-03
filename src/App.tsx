@@ -285,8 +285,25 @@ const engineOilGrades = [
     },
   },
   { grade: '10W-40', brands: {} },
-  { grade: '5W-30', brands: {} },
-  { grade: '5W-20', brands: {} },
+  {
+    grade: '5W-30',
+    brands: {
+      'HARDEX': [
+        { size: '5 Litre', price: 40000 },
+        { size: '1 Litre', price: 10000 },
+      ],
+    },
+  },
+  {
+    grade: '5W-20',
+    brands: {
+      'HARDEX': [
+        { size: '5 Litre', price: 40000 },
+        { size: '1 Litre', price: 10000 },
+        { size: '7 Litre', price: 60000 },
+      ],
+    },
+  },
   { grade: '0W-20', brands: {} },
 ];
 
