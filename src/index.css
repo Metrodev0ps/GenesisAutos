@@ -426,3 +426,10 @@ body.intro-active { overflow:hidden; }
 .accessory-list:has(.catalogue-product) { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
 @media (max-width:900px) { .accessory-list:has(.catalogue-product) { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 @media (max-width:650px) { .accessory-list:has(.catalogue-product) { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+.lubricant-grade-card { min-height:100%; }
+.lubricant-grade-card .catalogue-product-body { gap:12px; }
+.lubricant-grade-card h3 { margin:0; font-size:24px; color:var(--ink); }
+.oil-select-label { display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:10px; font-weight:800; }
+.oil-select-label select { width:100%; min-height:40px; padding:9px 11px; border:1px solid var(--line); background:#fff; color:var(--ink); font:inherit; outline:0; }
+.oil-select-label select:focus { border-color:var(--orange); }
