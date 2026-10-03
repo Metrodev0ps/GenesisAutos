@@ -292,6 +292,7 @@ const engineOilGrades = [
         { size: '4 Litre', price: 25000 },
       ],
       'SEA HORSE': [
+        { size: '1 Litre', price: 4500 },
         { size: '4 Litre', price: 18000 },
       ],
     },
