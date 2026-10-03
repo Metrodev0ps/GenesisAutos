@@ -304,6 +304,17 @@ const engineOilGrades = [
       ],
     },
   },
+  {
+    grade: 'SAE 40',
+    brands: {
+      'OLEUM SUPER': [
+        { size: '1 Litre', price: 4500 },
+      ],
+      'TOTAL': [
+        { size: '20W-50 · 1 Litre', price: 8000 },
+      ],
+    },
+  },
   { grade: '0W-20', brands: {} },
 ];
 
