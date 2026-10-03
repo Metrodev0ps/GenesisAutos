@@ -15,6 +15,138 @@ const openWhatsApp = (message: string) => {
   window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
 };
 
+const SITE_URL = 'https://genesisautos.vercel.app';
+
+const seoRoutes: Record<string, { title: string; description: string; type?: string }> = {
+  '/': {
+    title: 'Genesis Autos | Auto Spare Parts & Automotive Products in Iyana Ipaja, Lagos',
+    description: 'Genesis Autos in Iyana Ipaja, Lagos supplies automobile spare parts, batteries, car accessories, tools, engine oil, ATF, coolant and automotive products, with tyre enquiries for cars, SUVs and trucks.',
+  },
+  '/batteries': {
+    title: 'Car Batteries in Lagos | Genesis Autos Iyana Ipaja',
+    description: 'Browse automotive batteries from Genesis Autos in Iyana Ipaja, Lagos. Explore battery brands, voltages, capacities and terminal options and enquire about current availability.',
+  },
+  '/accessories': {
+    title: 'Car Accessories in Lagos | Genesis Autos',
+    description: 'Explore car accessories from Genesis Autos in Iyana Ipaja, Lagos, including steering covers, dashboard mats, dashboard rugs and other automotive accessories.',
+  },
+  '/tools': {
+    title: 'Automotive Tools & Essentials in Lagos | Genesis Autos',
+    description: 'Browse automotive tools and essentials from Genesis Autos in Iyana Ipaja, Lagos, including jacks, trackers, alloy wheels, car horns, safety equipment and more.',
+  },
+  '/oil-grease-atf': {
+    title: 'Engine Oil, ATF, Coolant & Automotive Fluids in Lagos | Genesis Autos',
+    description: 'Browse engine oils by grade, ATF, coolant, grease, oil filters, injector cleaner, oil treatments and other automotive fluids from Genesis Autos in Iyana Ipaja, Lagos.',
+  },
+  '/cart': {
+    title: 'Shopping Cart | Genesis Autos',
+    description: 'Review your Genesis Autos product order and enter delivery details for payment on delivery.',
+    type: 'noindex',
+  },
+};
+
+function setMeta(name: string, content: string, attribute = 'name') {
+  let element = document.head.querySelector(`meta[${attribute}="${name}"]`) as HTMLMetaElement | null;
+  if (!element) {
+    element = document.createElement('meta');
+    element.setAttribute(attribute, name);
+    document.head.appendChild(element);
+  }
+  element.setAttribute('content', content);
+}
+
+function useSeo() {
+  useEffect(() => {
+    const rawPath = window.location.pathname.replace(/\\/+$/, '') || '/';
+    const route = seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
+      title: `${rawPath.split('/').pop()?.replace(/-/g, ' ')} Batteries | Genesis Autos Lagos`,
+      description: 'Browse battery options from Genesis Autos in Iyana Ipaja, Lagos. Check available specifications and contact Genesis Autos for current price and availability.',
+    } : seoRoutes['/']);
+    const canonical = `${SITE_URL}${rawPath === '/' ? '/' : rawPath}`;
+    document.title = route.title;
+    setMeta('description', route.description);
+    setMeta('robots', route.type === 'noindex' ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    setMeta('googlebot', route.type === 'noindex' ? 'noindex, nofollow, noarchive' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    setMeta('og:title', route.title, 'property');
+    setMeta('og:description', route.description, 'property');
+    setMeta('og:url', canonical, 'property');
+    setMeta('og:type', 'website', 'property');
+    setMeta('og:image', `${SITE_URL}/IMG_4929.jpg`, 'property');
+    setMeta('og:image:alt', 'Genesis Autos automotive parts and services', 'property');
+    setMeta('twitter:title', route.title);
+    setMeta('twitter:description', route.description);
+    setMeta('twitter:image', `${SITE_URL}/IMG_4929.jpg`);
+    let canonicalLink = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = 'canonical';
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = canonical;
+
+    const oldSchema = document.getElementById('genesis-seo-schema');
+    oldSchema?.remove();
+    const schema = document.createElement('script');
+    schema.id = 'genesis-seo-schema';
+    schema.type = 'application/ld+json';
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'LocalBusiness',
+          '@id': `${SITE_URL}/#business`,
+          name: 'Genesis Autos',
+          description: 'Automobile spare parts and automotive products business in Iyana Ipaja, Lagos.',
+          url: SITE_URL,
+          telephone: '+2347065379450',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: '62 Alimosho Rd., Opp. Multigrace Sch. Alagutan B/Stop',
+            addressLocality: 'Iyana Ipaja',
+            addressRegion: 'Lagos',
+            addressCountry: 'NG',
+          },
+          areaServed: ['Iyana Ipaja', 'Alimosho', 'Lagos'],
+          sameAs: [
+            'https://www.instagram.com/genesisautosalimosho/',
+            'https://www.tiktok.com/@genesisautosalimosho',
+          ],
+        },
+        {
+          '@type': 'WebSite',
+          '@id': `${SITE_URL}/#website`,
+          name: 'Genesis Autos',
+          url: SITE_URL,
+          publisher: { '@id': `${SITE_URL}/#business` },
+          inLanguage: 'en-NG',
+        },
+        {
+          '@type': 'WebPage',
+          '@id': `${canonical}#webpage`,
+          url: canonical,
+          name: route.title,
+          description: route.description,
+          isPartOf: { '@id': `${SITE_URL}/#website` },
+          about: { '@id': `${SITE_URL}/#business` },
+          inLanguage: 'en-NG',
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' },
+            ...(rawPath !== '/' ? [{ '@type': 'ListItem', position: 2, name: route.title.split('|')[0].trim(), item: canonical }] : []),
+          ],
+        },
+      ],
+    });
+    document.head.appendChild(schema);
+
+    return () => {
+      schema.remove();
+    };
+  }, []);
+}
+
 function ImagePlaceholder({ src = '/IMG_4929.jpg', label = 'Image', className = '' }: { src?: string; label?: string; className?: string }) {
   return (
     <div className={`image-placeholder image-ready ${className}`}>
@@ -536,6 +668,7 @@ function BatteryPage() {
 }
 
 function App() {
+  useSeo();
   const [menuOpen, setMenuOpen] = useState(false);
   if (window.location.pathname === '/cart') return <CartPage />;
   if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
