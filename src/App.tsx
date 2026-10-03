@@ -284,6 +284,7 @@ const engineOilGrades = [
       ],
       'TOTAL': [
         { size: '5 Litre', price: 30000 },
+        { size: '1 Litre', price: 8000 },
       ],
       'AP VISCO 2000': [
         { size: '4 Litre', price: 25000 },
@@ -326,9 +327,6 @@ const engineOilGrades = [
     brands: {
       'OLEUM SUPER': [
         { size: '1 Litre', price: 4500 },
-      ],
-      'TOTAL': [
-        { size: '20W-50 · 1 Litre', price: 8000 },
       ],
       'CONOIL GOLDEN SUPER': [
         { size: '4 Litre', price: 18000 },
