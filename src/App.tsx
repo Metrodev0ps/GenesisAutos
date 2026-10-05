@@ -375,10 +375,10 @@ const toolsProducts = [
 function AccessoriesPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
-    <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><ProductSearch /><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={grade} /><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -390,7 +390,7 @@ function ToolsPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image && <img src={item.image} alt={item.name} loading="lazy" />}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
@@ -497,7 +497,7 @@ function CoolantProduct() {
   return <article className="catalogue-product lubricant-grade-card">
     <div className="catalogue-product-body">
       <div className="eyebrow orange-text">Coolant</div>
-      <h3>COOLANG</h3>
+      <h3>COOLANT</h3>
       <label className="oil-select-label">Size
         <select value={selected.size} onChange={(event) => setSelectedSize(event.target.value)}>
           {coolantOptions.map((item) => <option value={item.size} key={item.size}>{item.size} — ₦{item.price.toLocaleString()}</option>)}
@@ -548,7 +548,7 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
         </label>
         {selected && <div className="battery-price">₦{selected.price.toLocaleString()}</div>}
         {selected && <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected.price, details: `${grade} · ${selected.size}` }} />}
-      </> : <ContactPriceButton productName={item} />}
+      </> : <ContactPriceButton productName={itemName} />}
     </div>
   </article>;
 }
@@ -648,7 +648,7 @@ function BatteryPage() {
           {!selectedBrand && <div className="battery-filters"><div><label>Battery Brands</label><div className="filter-buttons">{Object.entries(brandMap).map(([key, name]) => <a className="brand-filter-link" href={`/batteries/${key}`} key={key}>{name}</a>)}</div></div></div>}
         </div></section>
         <section className="battery-catalogue"><div className="container">
-          <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` : '12 brands'}</span></div>
+          <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` `: ${Object.keys(brandMap).length} brands`}</span></div>
           {selectedBrand ? selectedBrand === 'Everstart' ? <div className="battery-terminal-groups">
             {['Normal Terminal', 'Opposite Terminal'].map((terminal) => {
               const terminalProducts = visibleProducts.filter((p) => p.terminal === terminal);
@@ -662,7 +662,7 @@ function BatteryPage() {
             })}
           </div> : <div className="battery-grid">{visibleProducts.map((p) => <article className="battery-card" key={p.brand + p.capacity}>
             {p.image ? <img src={p.image} alt={p.name} loading="lazy" /> : <div className="battery-image-placeholder" aria-hidden="true"><Battery size={30} /></div>}
-            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div>{p.terminal && <div><small>Terminal</small><strong>{p.terminal.replace(' Terminal', '')}</strong></div>}</div>{typeof p.price === 'number' && <div className="battery-price">₦{p.price.toLocaleString()}</div>}<AddToCartButton item={{ id: p.brand + '-' + p.voltage + '-' + p.capacity + '-' + (p.terminal || 'standard'), name: p.name, price: p.price, image: p.image, details: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : '') }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp('Hello Genesis Autos, I am interested in the ' + p.name + ' (' + p.voltage + ', ' + p.capacity + (p.terminal ? ', ' + p.terminal : '') + '). Please confirm availability and current price.')}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
+            <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div>{p.terminal && <div><small>Terminal</small><strong>{p.terminal.replace(' Terminal', '')}</strong></div>}</div>{typeof p.price === 'number' ? <div className="battery-price">₦{p.price.toLocaleString()}</div> : <ContactPriceButton productName={p.name} />}<AddToCartButton item={{ id: p.brand + '-' + p.voltage + '-' + p.capacity + '-' + (p.terminal || 'standard'), name: p.name, price: p.price, image: p.image, details: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : '') }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp('Hello Genesis Autos, I am interested in the ' + p.name + ' (' + p.voltage + ', ' + p.capacity + (p.terminal ? ', ' + p.terminal : '') + '). Please confirm availability and current price.')}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
           </article>)}</div> : <div className="battery-brand-directory">{Object.entries(brandMap).map(([key, name]) => <a className="battery-brand-tile" href={`/batteries/${key}`} key={key}><Battery size={22} /><strong>{name}</strong><span>View batteries <ChevronRight size={14} /></span></a>)}</div>}
         </div></section>
       </main>
@@ -674,11 +674,6 @@ function BatteryPage() {
 function App() {
   useSeo();
   const [menuOpen, setMenuOpen] = useState(false);
-  if (window.location.pathname === '/cart') return <CartPage />;
-  if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
-  if (window.location.pathname === '/accessories') return <AccessoriesPage />;
-  if (window.location.pathname === '/tools') return <ToolsPage />;
-if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
   const [showIntro, setShowIntro] = useState(() => {
     return localStorage.getItem('genesis-intro-played') !== 'true';
   });
@@ -705,6 +700,12 @@ if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
     const message = `Hello Genesis Autos, I would like to make an enquiry.\n\nName: ${data.get('name')}\nPhone: ${data.get('phone')}\nWhat I need: ${data.get('need')}\nVehicle: ${data.get('vehicle')}\nMessage: ${data.get('message')}`;
     setFormSent(true); openWhatsApp(message);
   };
+
+  if (window.location.pathname === '/cart') return <CartPage />;
+  if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
+  if (window.location.pathname === '/accessories') return <AccessoriesPage />;
+  if (window.location.pathname === '/tools') return <ToolsPage />;
+  if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
 
   return (
     <>
@@ -762,7 +763,7 @@ if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
     <div className="product-info">
       <div className="product-title"><Icon size={19} /><h3>{title}</h3></div>
       <p>{description}</p>
-      {href !== '#contact' && <span className="text-button">View ${title} <ChevronRight size={14} /></span>}
+      {href !== '#contact' && <span className="text-button">View {title} <ChevronRight size={14} /></span>}
     </div>
   </a>;
 })}</div></div></section>
