@@ -649,7 +649,7 @@ function BatteryPage() {
           {!selectedBrand && <div className="battery-filters"><div><label>Battery Brands</label><div className="filter-buttons">{Object.entries(brandMap).map(([key, name]) => <a className="brand-filter-link" href={`/batteries/${key}`} key={key}>{name}</a>)}</div></div></div>}
         </div></section>
         <section className="battery-catalogue"><div className="container">
-          <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` `: ${Object.keys(brandMap).length} brands`}</span></div>
+          <div className="battery-heading"><div><div className="eyebrow orange-text">{selectedBrand || 'Battery Catalogue'}</div><h2>{selectedBrand ? 'Available Options' : <>Choose a <span>Brand</span></>}</h2></div><span>{selectedBrand ? `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'}` : `${Object.keys(brandMap).length} brands`}</span></div>
           {selectedBrand ? selectedBrand === 'Everstart' ? <div className="battery-terminal-groups">
             {['Normal Terminal', 'Opposite Terminal'].map((terminal) => {
               const terminalProducts = visibleProducts.filter((p) => p.terminal === terminal);
