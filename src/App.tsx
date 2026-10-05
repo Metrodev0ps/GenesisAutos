@@ -363,7 +363,20 @@ const accessoryProducts = [
 ];
 
 const toolsProducts = [
-  { name: 'Alloy Wheel', image: '/RIMS.jpg' },
+  { name: 'Alloy Rim 15" — New', image: '/RIMS.jpg', price: 250000 },
+  { name: 'Alloy Rim 15" — Tokunbo', image: '/RIMS.jpg', price: 200000 },
+  { name: 'Alloy Rim 16" — New', image: '/RIMS.jpg', price: 400000 },
+  { name: 'Alloy Rim 16" — Tokunbo', image: '/RIMS.jpg', price: 350000 },
+  { name: 'Alloy Rim 17" — New', image: '/RIMS.jpg', price: 500000 },
+  { name: 'Alloy Rim 17" — Tokunbo', image: '/RIMS.jpg', price: 450000 },
+  { name: 'Alloy Rim 18" — New', image: '/RIMS.jpg', price: 600000 },
+  { name: 'Alloy Rim 18" — Tokunbo', image: '/RIMS.jpg', price: 550000 },
+  { name: 'Alloy Rim 19" — New', image: '/RIMS.jpg', price: 700000 },
+  { name: 'Alloy Rim 19" — Tokunbo', image: '/RIMS.jpg', price: 650000 },
+  { name: 'Alloy Rim 20" — New', image: '/RIMS.jpg', price: 800000 },
+  { name: 'Alloy Rim 20" — Tokunbo', image: '/RIMS.jpg', price: 750000 },
+  { name: 'Alloy Rim 21" — New', image: '/RIMS.jpg', price: 900000 },
+  { name: 'Alloy Rim 21" — Tokunbo', image: '/RIMS.jpg', price: 850000 },
   { name: 'Trackers', image: '/GPS TRACKER.jpg' },
   { name: 'Jacks', image: '/JACKS.jpg' },
   { name: 'Hydraulic Jacks', image: '/JACK 5T &10T.jpg' },
@@ -392,7 +405,7 @@ function ToolsPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="battery-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
