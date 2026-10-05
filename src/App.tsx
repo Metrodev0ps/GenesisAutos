@@ -614,6 +614,7 @@ function BatteryPage() {
   const path = window.location.pathname.replace(/\/+$/, '');
   const slug = path.split('/').pop() || '';
   const brandMap: Record<string, string> = {
+    gales: 'Gales',
     zenglobal: 'ZenGLOBAL',
     runall: 'Runall',
     startall: 'Startall',
