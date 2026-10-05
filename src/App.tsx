@@ -544,7 +544,7 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
         </label>
         {selected && <div className="battery-price">₦{selected.price.toLocaleString()}</div>}
         {selected && <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected.price, details: `${grade} · ${selected.size}` }} />}
-      </> : <p>Brands and sizes will be added here.</p>}
+      </> : <span className="contact-price">Contact for price</span>}
     </div>
   </article>;
 }
