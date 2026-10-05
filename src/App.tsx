@@ -246,6 +246,7 @@ function CartPage() {
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
   const pricedTotal = items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
   const hasPrices = items.length > 0 && items.every((item) => typeof item.price === 'number');
+  const hasUnpricedItems = items.some((item) => typeof item.price !== 'number');
   const [deliveryArea, setDeliveryArea] = useState('');
   const deliveryFee = deliveryArea === 'mainland' ? 5000 : deliveryArea === 'island' ? 10000 : deliveryArea === 'outside-lagos' ? 15000 : 0;
   const grandTotal = pricedTotal + deliveryFee;
@@ -257,7 +258,7 @@ function CartPage() {
     setError('');
     const data = new FormData(event.currentTarget);
     const orderLines = items.map((item) => `${item.name} — Qty: ${item.quantity}${item.details ? ` — ${item.details}` : ''}${typeof item.price === 'number' ? ` — ₦${(item.price * item.quantity).toLocaleString()}` : ' — Price to be confirmed'}`).join('\n');
-    const total = hasPrices ? `₦${grandTotal.toLocaleString()}` : `Product price to be confirmed + ₦${deliveryFee.toLocaleString()} delivery`;
+    const total = hasPrices ? `₦${grandTotal.toLocaleString()}` : `₦${pricedTotal.toLocaleString()} confirmed product value + additional product prices to be confirmed + ₦${deliveryFee.toLocaleString()} delivery`;
     try {
       const response = await fetch('https://formsubmit.co/ajax/genesisautos2020@gmail.com', {
         method: 'POST',
@@ -317,7 +318,7 @@ function CartPage() {
             <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
             <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
           </article>)}
-          {items.length > 0 && <div className="cart-totals"><div><span>Products</span><strong>{hasPrices ? `₦${pricedTotal.toLocaleString()}` : 'Price to be confirmed'}</strong></div><div><span>Delivery</span><strong>{deliveryFee ? `₦${deliveryFee.toLocaleString()}` : 'Select delivery area'}</strong></div><div className="cart-total"><span>Total</span><strong>{hasPrices && deliveryFee ? `₦${grandTotal.toLocaleString()}` : 'Price to be confirmed'}</strong></div></div>}
+          {items.length > 0 && <div className="cart-totals"><div><span>Products</span><strong>{hasUnpricedItems ? `₦${pricedTotal.toLocaleString()} + price to be confirmed` : `₦${pricedTotal.toLocaleString()}`}</strong></div><div><span>Delivery</span><strong>{deliveryFee ? `₦${deliveryFee.toLocaleString()}` : 'Select delivery area'}</strong></div><div className="cart-total"><span>Total</span><strong>{hasPrices && deliveryFee ? `₦${grandTotal.toLocaleString()}` : hasUnpricedItems ? (deliveryFee ? `₦${(pricedTotal + deliveryFee).toLocaleString()} + price to be confirmed` : 'Price to be confirmed') : 'Select delivery area'}</strong></div></div>}
         </div>
         {items.length > 0 && <form className="checkout-form" onSubmit={handleCheckout}>
           <div className="eyebrow orange-text">Checkout</div><h2>Delivery <span>Details</span></h2>
