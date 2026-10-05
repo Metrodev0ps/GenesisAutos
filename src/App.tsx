@@ -384,8 +384,8 @@ const toolsProducts = [
   { name: 'Fuel Injector Cleaner', image: '/FUEL INJECTOR CLEANER.jpg', price: 3000 },
   { name: 'Car Horn', image: '/CAR HORNS.jpg', price: 10000 },
   { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
-  { name: 'C-Caution', image: '/C-Caution.jpg' },
-  { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg' },
+  { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
+  { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
 ];
 
 function AccessoriesPage() {
@@ -501,7 +501,7 @@ const engineOilGrades: EngineOilGradeData[] = [
 
 const lubricantGroups = {
   atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'and so much more'],
-  other: ['HOLTS', 'GREASE INFINITY', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
+  other: ['HOLTS', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
 };
 
 const coolantOptions = [
