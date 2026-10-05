@@ -219,6 +219,10 @@ function ProductSearch() {
   const close = () => { setOpen(false); setQuery(''); };
   return createElement('div', { className: 'product-search' }, createElement('button', { className: 'search-trigger', onClick: () => setOpen(!open), 'aria-label': 'Search products', 'aria-expanded': open }, createElement(Search, { size: 18 })), open ? createElement('div', { className: 'search-panel' }, createElement('div', { className: 'search-input-wrap' }, createElement(Search, { size: 16 }), createElement('input', { autoFocus: true, value: query, onChange: (event) => setQuery(event.target.value), placeholder: 'Search products...', 'aria-label': 'Search products' }), createElement('button', { className: 'search-close', onClick: close, 'aria-label': 'Close search' }, createElement(X, { size: 15 }))), normalized && results.length > 0 ? createElement('div', { className: 'search-results' }, results.map((item) => createElement('a', { href: item.href, key: item.name }, createElement('span', null, createElement('strong', null, item.name), createElement('small', null, item.detail)), createElement(ChevronRight, { size: 15 })))) : null, normalized && results.length === 0 ? createElement('div', { className: 'search-empty' }, createElement('strong', null, 'We do not currently have ' + query.trim() + ' listed.'), createElement('span', null, 'Ask Genesis Autos and we will check availability for you.'), createElement('button', { className: 'button button-orange', onClick: askOnWhatsApp }, createElement(MessageCircle, { size: 15 }), ' Ask on WhatsApp')) : null) : null);
 }
+function ContactPriceButton({ productName }: { productName: string }) {
+  return <button type="button" className="contact-price" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in the ${productName}. Please confirm availability and current price.`)}><MessageCircle size={11} /> Contact for price</button>;
+}
+
 function AddToCartButton({ item }: { item: Omit<CartItem, 'quantity'> }) {
   const [added, setAdded] = useState(false);
   return <button className="button button-orange add-cart-button" onClick={() => { addToCart(item); setAdded(true); setTimeout(() => setAdded(false), 1200); }}>
@@ -374,7 +378,7 @@ function AccessoriesPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><ProductSearch /><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><span className="contact-price">Contact for price</span><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -386,7 +390,7 @@ function ToolsPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image && <img src={item.image} alt={item.name} loading="lazy" />}<div className="catalogue-product-body"><strong>{item.name}</strong><span className="contact-price">Contact for price</span><AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image && <img src={item.image} alt={item.name} loading="lazy" />}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
@@ -544,7 +548,7 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
         </label>
         {selected && <div className="battery-price">₦{selected.price.toLocaleString()}</div>}
         {selected && <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected.price, details: `${grade} · ${selected.size}` }} />}
-      </> : <span className="contact-price">Contact for price</span>}
+      </> : <ContactPriceButton productName={item.name} />}
     </div>
   </article>;
 }
@@ -557,7 +561,7 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><span className="contact-price">Contact for price</span><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
@@ -566,7 +570,7 @@ function LubricantsPage() {
           'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
           'OIL TREATMENT': '/OIL TREATMENT.jpg',
         };
-        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong>{item === 'INJECTOR CLEANER' || item === 'OIL TREATMENT' ? null : <span className="contact-price">Contact for price</span>}<AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : item === 'OIL TREATMENT' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
+        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong>{item === 'INJECTOR CLEANER' || item === 'OIL TREATMENT' ? null : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : item === 'OIL TREATMENT' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
       })}</div></div>
     </div>
   </div></section></main>
