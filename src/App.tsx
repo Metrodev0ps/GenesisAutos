@@ -677,28 +677,12 @@ function App() {
   if (window.location.pathname === '/tools') return <ToolsPage />;
 if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
   const [showIntro, setShowIntro] = useState(() => {
-    const internalNavigation = sessionStorage.getItem('genesis-internal-navigation') === 'true';
-    if (internalNavigation) sessionStorage.removeItem('genesis-internal-navigation');
-    return !internalNavigation;
+    return localStorage.getItem('genesis-intro-played') !== 'true';
   });
 
   useEffect(() => {
-    const markInternalNavigation = (event: MouseEvent) => {
-      const target = event.target as HTMLElement | null;
-      const link = target?.closest('a[href]') as HTMLAnchorElement | null;
-      if (!link || event.defaultPrevented || event.button !== 0) return;
-      if (link.target === '_blank' || link.hasAttribute('download')) return;
-
-      const url = new URL(link.href, window.location.href);
-      if (url.origin !== window.location.origin) return;
-      if (url.pathname === window.location.pathname && url.search === window.location.search) return;
-
-      sessionStorage.setItem('genesis-internal-navigation', 'true');
-    };
-
-    document.addEventListener('click', markInternalNavigation, true);
-    return () => document.removeEventListener('click', markInternalNavigation, true);
-  }, []);
+    if (showIntro) localStorage.setItem('genesis-intro-played', 'true');
+  }, [showIntro]);
 
   useEffect(() => {
     if (!showIntro) return;
