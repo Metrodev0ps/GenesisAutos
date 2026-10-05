@@ -1,28 +1,5 @@
 {
   "rewrites": [
-    {
-      "source": "/batteries",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/accessories",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/tools",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/batteries/(.*)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/oil-grease-atf",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/cart",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
