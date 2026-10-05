@@ -14,8 +14,10 @@ button { border:0; cursor:pointer; }
 .container { width:min(1120px, calc(100% - 64px)); margin:0 auto; }
 .site-header { position:sticky; top:0; z-index:20; background:rgba(17,19,21,.97); color:#fff; border-bottom:1px solid #2c3032; }
 .nav-wrap { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:32px; }
-.brand { display:flex; flex-direction:column; line-height:1; letter-spacing:-.04em; font-weight:800; }
-.brand span { font-size:22px; }
+.brand { display:flex; align-items:center; gap:10px; line-height:1; letter-spacing:-.04em; font-weight:800; }
+.brand-logo { width:42px; height:42px; object-fit:contain; border-radius:4px; display:block; }
+.brand-text { display:flex; flex-direction:column; line-height:1; }
+.brand-text strong { font-size:22px; }
 .brand em { color:var(--orange); font-style:normal; }
 .brand small { color:#9da3a6; font-size:7px; letter-spacing:.15em; margin-top:5px; font-weight:700; }
 .main-nav { display:flex; align-items:center; gap:25px; font-size:11px; font-weight:700; }
