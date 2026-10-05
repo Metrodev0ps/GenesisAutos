@@ -352,13 +352,14 @@ const services = [
 ];
 
 const accessoryProducts = [
-  { name: 'Dashboard Polish' },
+  { name: 'Dashboard Polish', price: 5000 },
   { name: 'Steering Cover', image: '/STEERING COVERS.jpg' },
   { name: 'Seat Covers' },
-  { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg' },
-  { name: 'Dashboard Mat', image: '/DASHBOARD MAT.jpg' },
+  { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg', price: 10000 },
+  { name: 'Dashboard Mat' },
   { name: 'Floor Mat' },
-  { name: 'Wipers' },
+  { name: 'New Wiper', price: 3000 },
+  { name: 'Tokunbo Wiper', price: 5000 },
 ];
 
 const toolsProducts = [
@@ -379,7 +380,7 @@ function AccessoriesPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="battery-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
