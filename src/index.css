@@ -331,7 +331,8 @@ body.intro-active { overflow:hidden; }
 .cart-items .battery-heading { margin-bottom:20px; }
 .cart-items .battery-heading h2 { font-size:42px; }
 .cart-item { display:grid; grid-template-columns:75px 1fr auto auto; align-items:center; gap:15px; padding:14px 0; border-top:1px solid var(--line); }
-.cart-item img { width:75px; height:75px; object-fit:cover; background:#edf1f3; }
+.cart-item img,.cart-item-image-placeholder { width:75px; height:75px; object-fit:cover; background:#edf1f3; }
+.cart-item-image-placeholder { display:flex; align-items:center; justify-content:center; color:#9aa1a5; border:1px solid var(--line); }
 .cart-item-info { display:flex; flex-direction:column; gap:3px; }
 .cart-item-info strong { font-size:12px; }
 .cart-item-info small { color:var(--muted); font-size:9px; }
