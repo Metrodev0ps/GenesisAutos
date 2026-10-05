@@ -580,7 +580,7 @@ function LubricantsPage() {
 type BatteryProduct = { brand: string; name: string; voltage: string; capacity: string; image: string; price?: number; terminal?: string };
 
 const batteryProducts: BatteryProduct[] = [
-  { brand: 'ZenGLOBAL', name: 'ZenGLOBAL Battery', voltage: '12V', capacity: '75Ah', image: '/ZENGLOBAL.jpg' },
+  { brand: 'ZenGLOBAL', name: 'ZenGLOBAL Battery', voltage: '12V', capacity: '75Ah', price: 60000, image: '/ZENGLOBAL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '100Ah', image: '/RUNALL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '45Ah', image: '/RUNALL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '62Ah', image: '/RUNALL.jpg' },
