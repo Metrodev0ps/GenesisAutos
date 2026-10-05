@@ -378,7 +378,7 @@ function AccessoriesPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><ProductSearch /><CartButton /><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong><ContactPriceButton productName={grade} /><AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -548,7 +548,7 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
         </label>
         {selected && <div className="battery-price">₦{selected.price.toLocaleString()}</div>}
         {selected && <AddToCartButton item={{ id: `engine-oil-${grade}-${selectedBrand}-${selected.size}`, name: itemName, price: selected.price, details: `${grade} · ${selected.size}` }} />}
-      </> : <ContactPriceButton productName={item.name} />}
+      </> : <ContactPriceButton productName={item} />}
     </div>
   </article>;
 }
@@ -561,7 +561,7 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><ContactPriceButton productName={item.name} /><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><ContactPriceButton productName={item} /><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
