@@ -580,7 +580,7 @@ function LubricantsPage() {
 type BatteryProduct = { brand: string; name: string; voltage: string; capacity: string; image: string; price?: number; terminal?: string };
 
 const batteryProducts: BatteryProduct[] = [
-  { brand: 'Gales', name: 'Gales Battery', voltage: '12V', capacity: '75Ah', price: 75000, image: '/ZENGLOBAL.jpg' },
+  { brand: 'Gales', name: 'Gales Battery', voltage: '12V', capacity: '75Ah', price: 75000, image: '' },
 
   { brand: 'ZenGLOBAL', name: 'ZenGLOBAL Battery', voltage: '12V', capacity: '75Ah', price: 60000, image: '/ZENGLOBAL.jpg' },
   { brand: 'Runall', name: 'Runall Battery', voltage: '12V', capacity: '100Ah', price: 80000, image: '/RUNALL.jpg' },
