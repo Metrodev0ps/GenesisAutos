@@ -312,7 +312,7 @@ function CartPage() {
           {!items.length && !submitted && <div className="empty-cart"><ShoppingCart size={38}/><h3>Your cart is empty</h3><p>Add products from the catalogue to start an order.</p><a className="button button-orange" href="/batteries">Browse Products</a></div>}
           {submitted && <div className="empty-cart"><CheckCircle2 size={42}/><h3>Order Received!</h3><p>Your order has been sent to Genesis Autos. Our team will contact you to confirm your order and delivery.</p><a className="button button-orange" href="/">Back to Genesis Autos</a></div>}
           {items.map((item) => <article className="cart-item" key={item.id}>
-            <img src={item.image || '/IMG_4929.jpg'} alt={item.name} />
+            {item.image ? <img src={item.image} alt={item.name} /> : <div className="cart-item-image-placeholder" aria-hidden="true"><ShoppingCart size={24} /></div>}
             <div className="cart-item-info"><strong>{item.name}</strong>{item.details && <small>{item.details}</small>}<span>{typeof item.price === 'number' ? `₦${item.price.toLocaleString()}` : 'Price to be confirmed'}</span></div>
             <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
             <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
