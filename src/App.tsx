@@ -55,9 +55,9 @@ function setMeta(name: string, content: string, attribute = 'name') {
   element.setAttribute('content', content);
 }
 
-function useSeo() {
+function useSeo(currentPath: string) {
   useEffect(() => {
-    const rawPath = window.location.pathname.replace(/\/+$/, '') || '/';
+    const rawPath = currentPath.replace(/\/+$/, '') || '/';
     const route = seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
       title: `${rawPath.split('/').pop()?.replace(/-/g, ' ')} Batteries | Genesis Autos Lagos`,
       description: 'Browse battery options from Genesis Autos in Iyana Ipaja, Lagos. Check available specifications and contact Genesis Autos for current price and availability.',
@@ -144,7 +144,7 @@ function useSeo() {
     return () => {
       schema.remove();
     };
-  }, []);
+  }, [currentPath]);
 }
 
 function ImagePlaceholder({ src = '/IMG_4929.jpg', label = 'Image', className = '' }: { src?: string; label?: string; className?: string }) {
@@ -765,8 +765,8 @@ function BatteryPage() {
 }
 
 function App() {
-  useSeo();
   const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
+  useSeo(currentPath);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
