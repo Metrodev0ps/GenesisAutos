@@ -353,13 +353,15 @@ const services = [
 
 const accessoryProducts = [
   { name: 'Dashboard Polish', price: 5000 },
-  { name: 'Steering Cover', image: '/STEERING COVERS.jpg' },
+  { name: 'Steering Cover' },
   { name: 'Seat Covers' },
   { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg', price: 10000 },
-  { name: 'Dashboard Mat' },
+  { name: 'Dashboard Mat', image: '/DASHBOARD MAT.jpg' },
   { name: 'Floor Mat' },
   { name: 'New Wiper', price: 3000 },
   { name: 'Tokunbo Wiper', price: 5000 },
+  { name: 'LED Lights', image: '/LED LIGHTS.jpg' },
+  { name: 'Sand Protectors', image: '/SAND PROTECTORS.jpg' },
 ];
 
 const toolsProducts = [
@@ -384,6 +386,7 @@ const toolsProducts = [
   { name: 'Fuel Injector Cleaner', image: '/FUEL INJECTOR CLEANER.jpg', price: 3000 },
   { name: 'ABRO Fuel Injector Cleaner', image: '/IJNCETOR CLEANER 2.jpg', price: 4000 },
   { name: 'Car Horn', image: '/CAR HORNS.jpg', price: 10000 },
+  { name: 'Battery Charger', image: '/BATTERY CHARGER.jpg' },
   { name: 'Single Inner Fender', image: '/ENGINE COVER.jpg', price: 6000 },
   { name: 'Full Engine Cover', image: '/ENGINE COVER.jpg', price: 16000 },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
@@ -392,7 +395,8 @@ const toolsProducts = [
 
 function SteeringCoverProduct() {
   const designs = [
-    { name: 'Standard Design', image: '/STEERING COVERS.jpg' },
+    { name: 'Design 1', image: '/DESIGN 1 STEERING.jpg' },
+    { name: 'Design 2', image: '/DESIGN 2 STEERING.jpg' },
   ];
   const [selectedDesign, setSelectedDesign] = useState('');
   const selected = designs.find((design) => design.name === selectedDesign);
@@ -418,8 +422,8 @@ function SeatCoverProduct() {
     { name: 'Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
     { name: 'Design 2', image: '/DESIGN 2 SEAT COVER.jpg' },
     { name: 'Design 3', image: '/DESIGN 3 SEAT COVER.jpg' },
-    { name: 'Design 4', image: '/DESIGN 4SEAT COVER.jpeg' },
-    { name: 'Design 5', image: '/DESGIN 5 SEAT COVER.jpeg' },
+    { name: 'Design 4', image: '/DESIGN SEAT COVER 4.jpg' },
+    { name: 'Design 5', image: '/DESIGN 5SEAT CIVER.jpg' },
   ];
   const [selectedDesign, setSelectedDesign] = useState('');
   const selected = designs.find((design) => design.name === selectedDesign);
@@ -562,20 +566,27 @@ const coolantOptions = [
 ];
 
 function ATFProduct() {
+  const atfOptions = [
+    { name: 'TOYOTA ATF', image: '/TOYOTA ATF.jpg' },
+    { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' },
+    { name: 'ABRO MASTERS', image: '/ATF.jpg' },
+    { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' },
+  ];
   const [selectedATF, setSelectedATF] = useState('');
-  const selected = selectedATF ? selectedATF : '';
+  const selected = atfOptions.find((item) => item.name === selectedATF);
+
   return <article className="catalogue-product">
-    {selected ? <img src="/ATF.jpg" alt={selected} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Settings size={28} /></div>}
+    {selected ? <img src={selected.image} alt={selected.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Settings size={28} /></div>}
     <div className="catalogue-product-body">
       <strong>ATF</strong>
       <label className="oil-select-label">Choose ATF
         <select value={selectedATF} onChange={(event) => setSelectedATF(event.target.value)}>
           <option value="">Pick an ATF</option>
-          {lubricantGroups.atf.map((item) => <option value={item} key={item}>{item}</option>)}
+          {atfOptions.map((item) => <option value={item.name} key={item.name}>{item.name}</option>)}
         </select>
       </label>
-      <ContactPriceButton productName={selected || 'ATF'} />
-      <AddToCartButton item={{ id: `atf-${selectedATF || 'unselected'}`, name: selected || 'ATF', image: selected ? '/ATF.jpg' : undefined }} />
+      <ContactPriceButton productName={selected?.name || 'ATF'} />
+      <AddToCartButton item={{ id: `atf-${selectedATF || 'unselected'}`, name: selected?.name || 'ATF', image: selected?.image }} />
     </div>
   </article>;
 }
