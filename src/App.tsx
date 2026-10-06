@@ -32,7 +32,11 @@ const seoRoutes: Record<string, { title: string; description: string; type?: str
   },
   '/tools': {
     title: 'Automotive Tools & Essentials in Lagos | Genesis Autos',
-    description: 'Browse automotive tools and essentials from Genesis Autos in Iyana Ipaja, Lagos, including jacks, trackers, alloy wheels, car horns, safety equipment and more.',
+    description: 'Browse automotive tools and essentials from Genesis Autos in Iyana Ipaja, Lagos, including jacks, alloy wheels, car horns, safety equipment and more.',
+  },
+  '/security': {
+    title: 'Vehicle Security Products in Lagos | Genesis Autos',
+    description: 'Browse vehicle security products from Genesis Autos in Iyana Ipaja, Lagos, including GPS trackers and steering and car locks.',
   },
   '/oil-grease-atf': {
     title: 'Engine Oil, ATF, Coolant & Automotive Fluids in Lagos | Genesis Autos',
@@ -110,6 +114,15 @@ function getSeoProducts(): SeoProduct[] {
     price: option.price,
     details: `${rim.size} · ${option.name}`,
   })));
+
+  securityProducts.forEach((p) => products.push({
+    slug: `security-${slugify(p.name)}`,
+    name: p.name,
+    category: 'Vehicle Security',
+    description: `${p.name} available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current availability and price.`,
+    image: p.image,
+    price: p.price,
+  }));
 
   toolsProducts.forEach((p) => products.push({
     slug: `tool-${slugify(p.name)}`,
@@ -496,6 +509,7 @@ const products = [
   { title: 'Batteries', description: 'Automotive batteries available in different brands, voltages and capacities.', icon: Battery, label: 'Batteries', image: '/ZENGLOBAL.jpg', battery: true },
   { title: 'Accessories', description: 'Essential interior, exterior and car care accessories for your vehicle.', icon: Car, label: 'Accessories', image: '/ACCESORIES.jpg', accessories: true },
   { title: 'Tools & Essentials', description: 'Essential automotive tools, safety items and vehicle accessories.', icon: Wrench, label: 'Tools & Essentials', image: '/RIMS.jpg', tools: true },
+  { title: 'Security', description: 'Vehicle security products including trackers and steering and car locks.', icon: ShieldCheck, label: 'Security', image: '/GPS TRACKER.jpg', security: true },
   { title: 'Oil, Grease & ATF', description: 'Engine oils, automatic transmission fluids, coolants, grease, filters, treatments and automotive fluids.', icon: Settings, label: 'Oil, Grease & ATF', image: '/ATF.jpg', lubricants: true },
 ];
 
@@ -529,7 +543,6 @@ const alloyRimProducts = [
 ];
 
 const toolsProducts = [
-  { name: 'Trackers', image: '/GPS TRACKER.jpg', price: 50000 },
   { name: 'Jacks', image: '/JACKS.jpg' },
   { name: 'Hydraulic Jack 5T', image: '/JACK 5T &10T.jpg', price: 13000 },
   { name: 'Hydraulic Jack 10T', image: '/JACK 5T &10T.jpg', price: 16000 },
@@ -546,6 +559,11 @@ const toolsProducts = [
   { name: 'Full Engine Cover', image: '/ENGINE COVER.jpg', price: 16000 },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
+];
+
+const securityProducts = [
+  { name: 'Trackers', image: '/GPS TRACKER.jpg', price: 50000 },
+  { name: 'Steering and Car Lock', price: 20000 },
 ];
 
 function SteeringCoverProduct() {
@@ -629,6 +647,17 @@ function RimProduct({ rim }: { rim: { size: string; options: { name: string; pri
       <AddToCartButton item={{ id: `rim-${rim.size}-${selectedOption || 'unselected'}`, name: selected ? `Alloy Rim ${rim.size} — ${selected.name}` : `Alloy Rim ${rim.size}`, price: selected?.price, image: '/RIMS.jpg' }} />
     </div>
   </article>;
+}
+
+function SecurityPage() {
+  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+    <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+    <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/security">Security</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about vehicle security products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+  </div></header>
+  <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><ShieldCheck size={14}/> Security</div><h1>Vehicle <span>Security</span></h1><p>Vehicle security products from Genesis Autos. Contact us to confirm availability and current price.</p>
+    <div className="accessory-list">{securityProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><ShieldCheck size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `security-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+  </div></section></main>
+  <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about vehicle security products.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
 function ToolsPage() {
@@ -930,7 +959,7 @@ function BatteryPage() {
 
 
 function ProductDetailPage({ product }: { product: SeoProduct }) {
-  const categoryHref = product.category === 'Car Batteries' ? '/batteries' : product.category === 'Car Accessories' ? '/accessories' : product.category === 'Automotive Tools & Essentials' || product.category === 'Alloy Rims' ? '/tools' : '/oil-grease-atf';
+  const categoryHref = product.category === 'Car Batteries' ? '/batteries' : product.category === 'Car Accessories' ? '/accessories' : product.category === 'Automotive Tools & Essentials' || product.category === 'Alloy Rims' ? '/tools' : product.category === 'Vehicle Security' ? '/security' : '/oil-grease-atf';
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
       <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
@@ -980,7 +1009,7 @@ function App() {
       const url = new URL(link.href, window.location.origin);
       if (url.origin !== window.location.origin || url.hash) return;
       const path = url.pathname;
-      if (!['/', '/cart', '/batteries', '/accessories', '/tools', '/oil-grease-atf'].some((route) => path === route || (route === '/batteries' && path.startsWith('/batteries/')) || path.startsWith('/products/'))) return;
+      if (!['/', '/cart', '/batteries', '/accessories', '/tools', '/security', '/oil-grease-atf'].some((route) => path === route || (route === '/batteries' && path.startsWith('/batteries/')) || path.startsWith('/products/'))) return;
       event.preventDefault();
       if (path === window.location.pathname) return;
       window.history.pushState({}, '', path);
@@ -1025,6 +1054,7 @@ function App() {
   if (currentPath === '/batteries' || currentPath.startsWith('/batteries/')) return <BatteryPage />;
   if (currentPath === '/accessories') return <AccessoriesPage />;
   if (currentPath === '/tools') return <ToolsPage />;
+  if (currentPath === '/security') return <SecurityPage />;
   if (currentPath === '/oil-grease-atf') return <LubricantsPage />;
 
   return (
@@ -1078,8 +1108,8 @@ function App() {
 
         <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and automotive products to support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>62 Alimosho Rd.<br />Opp. Multigrace Sch. Alagutan B/Stop<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" decoding="async" /></div></section>
 
-        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#products">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, image, battery, accessories, tools, lubricants }) => {
-  const href = battery ? '/batteries' : accessories ? '/accessories' : tools ? '/tools' : lubricants ? '/oil-grease-atf' : '#contact';
+        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#products">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, image, battery, accessories, tools, security, lubricants }) => {
+  const href = battery ? '/batteries' : accessories ? '/accessories' : tools ? '/tools' : security ? '/security' : lubricants ? '/oil-grease-atf' : '#contact';
   return <a className="product-card product-card-link" key={title} href={href} aria-label={`View ${title}`}>
     <ImagePlaceholder src={image} label={label} />
     <div className="product-info">
