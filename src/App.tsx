@@ -136,7 +136,8 @@ function getSeoProducts(): SeoProduct[] {
     { name: 'SEAMAX ATF 1L', image: '/SEAMAX ATF.jpg', price: 4500 },
     { name: 'SEAMAX ATF 4L', image: '/SEAMAX ATF.jpg', price: 17000 },
     { name: 'ABRO MASTERS', image: '/ATF.jpg' },
-    { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' },
+    { name: 'HARDEX T4 1L', image: '/HARDEX ATF.jpg', price: 10000 },
+    { name: 'HARDEX T4 4L', image: '/HARDEX ATF.jpg', price: 42000 },
     { name: 'HOLTS ATF', image: '/ATF.jpg', price: 5000 },
   ].forEach((p) => products.push({
     slug: `atf-${slugify(p.name)}`,
