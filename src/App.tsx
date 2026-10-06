@@ -362,13 +362,13 @@ function ProductSearch() {
     ...alloyRimProducts.flatMap((rim) => rim.options.map((option) => ({
       name: `Alloy Rim ${rim.size} — ${option.name}`,
       detail: `Alloy Rim · ${rim.size} · ${option.name}`,
-      href: '/tools',
+      href: `/products/alloy-rim-${slugify(rim.size)}-${slugify(option.name)}`,
     }))),
-    ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: '/batteries/' + p.brand.toLowerCase().replace(/\s+/g, '-') })),
-    ...accessoryProducts.map((p) => ({ name: p.name, detail: 'Car Accessory', href: '/accessories' })),
-    ...toolsProducts.map((p) => ({ name: p.name, detail: 'Tools & Essentials', href: '/tools' })),
-    ...engineOilGrades.flatMap((group) => Object.entries(group.brands).flatMap(([brand, sizes]) => sizes.map((item) => ({ name: `${brand} ${group.grade} ${item.size}`, detail: `Engine Oil · ${group.grade}`, href: '/oil-grease-atf' })))),
-    ...Object.values(lubricantGroups).flat().filter((name) => name.toLowerCase() !== 'and so much more').map((name) => ({ name, detail: 'Oil, Grease & ATF', href: '/oil-grease-atf' })),
+    ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: `/products/battery-${slugify(p.brand)}-${slugify(p.capacity)}${p.terminal ? `-${slugify(p.terminal)}` : ''}` })),
+    ...accessoryProducts.map((p) => ({ name: p.name, detail: 'Car Accessory', href: `/products/accessory-${slugify(p.name)}` })),
+    ...toolsProducts.map((p) => ({ name: p.name, detail: 'Tools & Essentials', href: `/products/tool-${slugify(p.name)}` })),
+    ...engineOilGrades.flatMap((group) => Object.entries(group.brands).flatMap(([brand, sizes]) => sizes.map((item) => ({ name: `${brand} ${group.grade} ${item.size}`, detail: `Engine Oil · ${group.grade}`, href: `/products/engine-oil-${slugify(brand)}-${slugify(group.grade)}-${slugify(item.size)}` })))),
+    ...Object.values(lubricantGroups).flat().filter((name) => name.toLowerCase() !== 'and so much more').map((name) => ({ name, detail: 'Oil, Grease & ATF', href: `/products/${name.toLowerCase().includes('atf') ? 'atf-' : 'fluid-'}${slugify(name)}` })),
   ];
   const normalized = query.trim().toLowerCase();
   const results = normalized ? searchItems.filter((item, index, list) => item.name.toLowerCase().includes(normalized) && list.findIndex((candidate) => candidate.name.toLowerCase() === item.name.toLowerCase()) === index).slice(0, 8) : [];
