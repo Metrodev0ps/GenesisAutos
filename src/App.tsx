@@ -302,7 +302,7 @@ function CartPage() {
 
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
-      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" decoding="async" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
     </div></header>
     <main>
@@ -318,7 +318,7 @@ function CartPage() {
           {!items.length && !submitted && <div className="empty-cart"><ShoppingCart size={38}/><h3>Your cart is empty</h3><p>Add products from the catalogue to start an order.</p><a className="button button-orange" href="/batteries">Browse Products</a></div>}
           {submitted && <div className="empty-cart"><CheckCircle2 size={42}/><h3>Order Received!</h3><p>Your order has been sent to Genesis Autos. Our team will contact you to confirm your order and delivery.</p><a className="button button-orange" href="/">Back to Genesis Autos</a></div>}
           {items.map((item) => <article className="cart-item" key={item.id}>
-            {item.image ? <img src={item.image} alt={item.name} /> : <div className="cart-item-image-placeholder" aria-hidden="true"><ShoppingCart size={24} /></div>}
+            {item.image ? <img src={item.image} alt={item.name} loading="lazy" decoding="async" /> : <div className="cart-item-image-placeholder" aria-hidden="true"><ShoppingCart size={24} /></div>}
             <div className="cart-item-info"><strong>{item.name}</strong>{item.details && <small>{item.details}</small>}<span>{typeof item.price === 'number' ? `₦${item.price.toLocaleString()}` : 'Price to be confirmed'}</span></div>
             <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
             <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
@@ -403,7 +403,7 @@ function SteeringCoverProduct() {
   const selected = designs.find((design) => design.name === selectedDesign);
 
   return <article className="catalogue-product">
-    {selected ? <img src={selected.image} alt={`Steering Cover ${selected.name}`} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
+    {selected ? <img src={selected.image} alt={`Steering Cover ${selected.name}`} loading="lazy" decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
     <div className="catalogue-product-body">
       <strong>Steering Cover</strong>
       <label className="oil-select-label">Choose Design
@@ -430,7 +430,7 @@ function SeatCoverProduct() {
   const selected = designs.find((design) => design.name === selectedDesign);
 
   return <article className="catalogue-product">
-    {selected ? <img src={selected.image} alt={`Seat Cover ${selected.name}`} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
+    {selected ? <img src={selected.image} alt={`Seat Cover ${selected.name}`} loading="lazy" decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
     <div className="catalogue-product-body">
       <strong>Seat Covers</strong>
       <label className="oil-select-label">Choose Design
@@ -451,7 +451,7 @@ function AccessoriesPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : item.name === 'Steering Cover' ? <SteeringCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : item.name === 'Steering Cover' ? <SteeringCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -461,7 +461,7 @@ function RimProduct({ rim }: { rim: { size: string; options: { name: string; pri
   const [selectedOption, setSelectedOption] = useState('');
   const selected = rim.options.find((option) => option.name === selectedOption);
   return <article className="catalogue-product">
-    <img src="/RIMS.jpg" alt={`Alloy Rim ${rim.size}`} loading="lazy" />
+    <img src="/RIMS.jpg" alt={`Alloy Rim ${rim.size}`} loading="lazy" decoding="async" />
     <div className="catalogue-product-body">
       <strong>Alloy Rim {rim.size}</strong>
       <label className="oil-select-label">Choose Condition
@@ -581,7 +581,7 @@ const coolantOptions = [
 
 function ATFProduct({ name, image, price }: { name: string; image: string; price?: number }) {
   return <article className="catalogue-product">
-    <img src={image} alt={name} loading="lazy" />
+    <img src={image} alt={name} loading="lazy" decoding="async" />
     <div className="catalogue-product-body">
       <strong>{name}</strong>
       {typeof price === 'number' ? <div className="product-price">₦{price.toLocaleString()}</div> : <ContactPriceButton productName={name} />}
@@ -669,7 +669,7 @@ function LubricantsPage() {
           'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
           'OIL TREATMENT': '/OIL TREATMENT.jpg',
         };
-        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" />}<div className="catalogue-product-body"><strong>{item}</strong>{item === 'INJECTOR CLEANER' || item === 'OIL TREATMENT' ? null : <ContactPriceButton productName={item} />}<AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : item === 'OIL TREATMENT' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
+        return <article className="catalogue-product" key={item}>{imageMap[item] && <img src={imageMap[item]} alt={item} loading="lazy" decoding="async" />}<div className="catalogue-product-body"><strong>{item}</strong>{item === 'INJECTOR CLEANER' || item === 'OIL TREATMENT' ? null : <ContactPriceButton productName={item} />}<AddToCartButton item={{ id: `fluid-${item}`, name: item, price: item === 'INJECTOR CLEANER' ? 3500 : item === 'OIL TREATMENT' ? 3500 : undefined, image: imageMap[item] }} /></div></article>;
       })}</div></div>
     </div>
   </div></section></main>
@@ -753,13 +753,13 @@ function BatteryPage() {
               return <section className="battery-terminal-group" key={terminal}>
                 <div className="battery-terminal-heading"><div><div className="eyebrow orange-text">Everstart</div><h3>{terminal}</h3></div><span>{terminalProducts.length} options</span></div>
                 <div className="battery-grid">{terminalProducts.map((p) => <article className="battery-card" key={p.brand + p.capacity + p.terminal}>
-                  {p.image ? <img src={p.image} alt={p.name + ' ' + p.capacity + ' ' + p.terminal} loading="lazy" /> : <div className="battery-image-placeholder" aria-hidden="true"><Battery size={30} /></div>}
+                  {p.image ? <img src={p.image} alt={p.name + ' ' + p.capacity + ' ' + p.terminal} loading="lazy" decoding="async" /> : <div className="battery-image-placeholder" aria-hidden="true"><Battery size={30} /></div>}
                   <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div><div><small>Terminal</small><strong>{p.terminal?.replace(' Terminal', '')}</strong></div></div>{typeof p.price === 'number' ? <div className="product-price">₦{p.price.toLocaleString()}</div> : <ContactPriceButton productName={p.name} />}<AddToCartButton item={{ id: p.brand + '-' + p.voltage + '-' + p.capacity + '-' + p.terminal, name: p.name, price: p.price, image: p.image, details: p.voltage + ' · ' + p.capacity + ' · ' + p.terminal }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp('Hello Genesis Autos, I am interested in the ' + p.name + ' (' + p.voltage + ', ' + p.capacity + ', ' + p.terminal + '). Please confirm availability and current price.')}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
                 </article>)}</div>
               </section>;
             })}
           </div> : <div className="battery-grid">{visibleProducts.map((p) => <article className="battery-card" key={p.brand + p.capacity}>
-            {p.image ? <img src={p.image} alt={p.name} loading="lazy" /> : <div className="battery-image-placeholder" aria-hidden="true"><Battery size={30} /></div>}
+            {p.image ? <img src={p.image} alt={p.name} loading="lazy" decoding="async" /> : <div className="battery-image-placeholder" aria-hidden="true"><Battery size={30} /></div>}
             <div className="battery-card-body"><div className="battery-brand">{p.brand}</div><h3>{p.name}</h3><div className="battery-specs"><div><small>Voltage</small><strong>{p.voltage}</strong></div><div><small>Capacity</small><strong>{p.capacity}</strong></div>{p.terminal && <div><small>Terminal</small><strong>{p.terminal.replace(' Terminal', '')}</strong></div>}</div>{typeof p.price === 'number' ? <div className="product-price">₦{p.price.toLocaleString()}</div> : <ContactPriceButton productName={p.name} />}<AddToCartButton item={{ id: p.brand + '-' + p.voltage + '-' + p.capacity + '-' + (p.terminal || 'standard'), name: p.name, price: p.price, image: p.image, details: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : '') }} /><button className="button button-outline battery-enquire" onClick={() => openWhatsApp('Hello Genesis Autos, I am interested in the ' + p.name + ' (' + p.voltage + ', ' + p.capacity + (p.terminal ? ', ' + p.terminal : '') + '). Please confirm availability and current price.')}><MessageCircle size={15} /> Enquire on WhatsApp</button></div>
           </article>)}</div> : <div className="battery-brand-directory">{Object.entries(brandMap).map(([key, name]) => <a className="battery-brand-tile" href={`/batteries/${key}`} key={key}><Battery size={22} /><strong>{name}</strong><span>View batteries <ChevronRight size={14} /></span></a>)}</div>}
         </div></section>
@@ -871,6 +871,8 @@ function App() {
   className="hero-image real-image"
   src="/IMG_4929.jpg"
   alt="Genesis Autos automotive parts and services"
+  fetchPriority="high"
+  decoding="async"
 />
         </div></section>
 
@@ -878,7 +880,7 @@ function App() {
           { icon: Settings, title: 'Spare Parts', text: 'Quality automotive parts for different vehicle needs.' }, { icon: Wrench, title: 'Auto Support', text: 'Automotive support for vehicle owners and businesses.' }, { icon: MessageCircle, title: 'Easy Enquiries', text: 'Contact Genesis Autos directly through WhatsApp or phone.' },
         ].map(({ icon: Icon, title, text }) => <div className="quick-card" key={title}><Icon size={24} /><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></section>
 
-        <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and automotive products to support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>62 Alimosho Rd.<br />Opp. Multigrace Sch. Alagutan B/Stop<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" /></div></section>
+        <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and automotive products to support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>62 Alimosho Rd.<br />Opp. Multigrace Sch. Alagutan B/Stop<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" loading="lazy" decoding="async" /></div></section>
 
         <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#products">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, image, battery, accessories, tools, lubricants }) => {
   const href = battery ? '/batteries' : accessories ? '/accessories' : tools ? '/tools' : lubricants ? '/oil-grease-atf' : '#contact';
