@@ -90,7 +90,7 @@ function getSeoProducts(): SeoProduct[] {
     ['Steering Cover — Design 2', '/DESIGN 2 STEERING.jpg'],
     ['Seat Covers — Design 1', '/DESIGN 1 SEATCOVER.jpg'],
     ['Seat Covers — R-POWER', '/DESIGN 2 SEAT COVER.jpg'],
-    ['Seat Covers — Design 3', '/DESIGN 3 SEAT COVER.jpg'],
+    ['Seat Covers — CROWN', '/DESIGN 3 SEAT COVER.jpg'],
     ['Seat Covers — Design 4', '/DESIGN SEAT COVER 4.jpg'],
     ['Seat Covers — Design 5', '/DESIGN 5SEAT CIVER.jpg'],
   ].forEach(([name, image]) => products.push({
@@ -568,7 +568,7 @@ function SeatCoverProduct() {
   const designs = [
     { name: 'Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
     { name: 'R-POWER', image: '/DESIGN 2 SEAT COVER.jpg', price: 100000 },
-    { name: 'Design 3', image: '/DESIGN 3 SEAT COVER.jpg' },
+    { name: 'CROWN', image: '/DESIGN 3 SEAT COVER.jpg', price: 60000 },
     { name: 'Design 4', image: '/DESIGN SEAT COVER 4.jpg' },
     { name: 'Design 5', image: '/DESIGN 5SEAT CIVER.jpg' },
   ];
