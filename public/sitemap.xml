@@ -19,14 +19,35 @@
   <url><loc>https://genesisautos.org/batteries/rocket</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://genesisautos.org/batteries/atlas-bx</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://genesisautos.org/batteries/gales</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-gales-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-zenglobal-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-runall-100ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-runall-45ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-runall-62ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-runall-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-runall-90ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-runall-80ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-startall-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-solite-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-sebang-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-90ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-90ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-75ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-75ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-80ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-80ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-100ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-everstart-100ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-kinglion-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-finbrok-super-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-super-diamond-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-target-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-cooltiger-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-rocket-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/battery-atlas-bx-75ah</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-dashboard-polish</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-steering-cover-design-1</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-steering-cover-design-2</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-1</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-2</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-3</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-4</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-5</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-steering-cover</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-seat-covers</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-dashboard-rug</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-dashboard-mat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-floor-mat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -34,20 +55,27 @@
   <url><loc>https://genesisautos.org/products/accessory-tokunbo-wiper</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-led-lights</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-engine-cover</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://genesisautos.org/products/alloy-rim-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-steering-cover-design-1</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-steering-cover-design-2</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-1</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-2</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-3</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-4</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/accessory-seat-covers-design-5</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-15-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-15-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-16-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-16-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-17-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-17-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-18-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-18-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-19-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-19-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-20-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-20-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-21-new</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://genesisautos.org/products/alloy-rim-21-tokunbo</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/tool-trackers</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/tool-jacks</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/tool-hydraulic-jack-5t</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
