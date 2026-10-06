@@ -88,7 +88,7 @@ function getSeoProducts(): SeoProduct[] {
   [
     ['Steering Cover — Design 1', '/DESIGN 1 STEERING.jpg'],
     ['Steering Cover — Design 2', '/DESIGN 2 STEERING.jpg'],
-    ['Seat Covers — Design 1', '/DESIGN 1 SEATCOVER.jpg'],
+    ['Seat Covers — OC CLASSIC', '/DESIGN 1 SEATCOVER.jpg'],
     ['Seat Covers — R-POWER', '/DESIGN 2 SEAT COVER.jpg'],
     ['Seat Covers — CROWN', '/DESIGN 3 SEAT COVER.jpg'],
     ['Seat Covers — SMILEY', '/DESIGN SEAT COVER 4.jpg'],
@@ -566,7 +566,7 @@ function SteeringCoverProduct() {
 
 function SeatCoverProduct() {
   const designs = [
-    { name: 'Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
+    { name: 'OC CLASSIC', image: '/DESIGN 1 SEATCOVER.jpg', price: 30000 },
     { name: 'R-POWER', image: '/DESIGN 2 SEAT COVER.jpg', price: 100000 },
     { name: 'CROWN', image: '/DESIGN 3 SEAT COVER.jpg', price: 60000 },
     { name: 'SMILEY', image: '/DESIGN SEAT COVER 4.jpg', price: 100000 },
