@@ -121,6 +121,7 @@ function getSeoProducts(): SeoProduct[] {
     category: 'Automotive Tools & Essentials',
     description: `${brand.name} brake fluid available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current price.`,
     image: brand.image,
+    price: brand.price,
     brand: brand.name,
   })));
 
@@ -578,7 +579,7 @@ const toolsProducts = [
 ];
 
 const brakeFluidProducts = [
-  { name: 'Brake Fluid', brands: [{ name: 'ALLIED', image: '/ALLIED BRAKE FLUID.jpg' }, { name: 'BLAUE ORIGINAL', image: '/BLAUE ORIGINAL BRAKE FLUID.jpg' }] },
+  { name: 'Brake Fluid', brands: [{ name: 'ALLIED', image: '/ALLIED BRAKE FLUID.jpg', price: 5000 }, { name: 'BLAUE ORIGINAL', image: '/BLAUE ORIGINAL BRAKE FLUID.jpg', price: 5000 }] },
 ];
 
 const matProducts = [
@@ -601,8 +602,8 @@ function BrakeFluidProduct() {
       <select value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)} aria-label="Select brake fluid brand">
         <option value="">Select Brand</option>{brakeFluidProducts[0].brands.map((brand) => <option key={brand.name} value={brand.name}>{brand.name}</option>)}
       </select>
-      <ContactPriceButton productName={selected ? `Brake Fluid — ${selected.name}` : 'Brake Fluid'} />
-      <AddToCartButton item={{ id: `brake-fluid-${selectedBrand || 'select'}`, name: selected ? `Brake Fluid — ${selected.name}` : 'Brake Fluid', image: selected?.image }} />
+      {typeof selected?.price === 'number' ? <div className="product-price">₦{selected.price.toLocaleString()}</div> : <ContactPriceButton productName={selected ? `Brake Fluid — ${selected.name}` : 'Brake Fluid'} />}
+      <AddToCartButton item={{ id: `brake-fluid-${selectedBrand || 'select'}`, name: selected ? `Brake Fluid — ${selected.name}` : 'Brake Fluid', image: selected?.image, price: selected?.price }} />
     </div>
   </article>;
 }
