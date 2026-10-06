@@ -354,11 +354,7 @@ const services = [
 const accessoryProducts = [
   { name: 'Dashboard Polish', price: 5000 },
   { name: 'Steering Cover', image: '/STEERING COVERS.jpg' },
-  { name: 'Seat Cover — Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
-  { name: 'Seat Cover — Design 2', image: '/DESIGN 2 SEAT COVER.jpg' },
-  { name: 'Seat Cover — Design 3', image: '/DESIGN 3 SEAT COVER.jpg' },
-  { name: 'Seat Cover — Design 4', image: '/DESIGN 4SEAT COVER.jpeg' },
-  { name: 'Seat Cover — Design 5', image: '/DESGIN 5 SEAT COVER.jpeg' },
+  { name: 'Seat Covers' },
   { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg', price: 10000 },
   { name: 'Dashboard Mat' },
   { name: 'Floor Mat' },
@@ -394,13 +390,40 @@ const toolsProducts = [
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
 ];
 
+function SeatCoverProduct() {
+  const designs = [
+    { name: 'Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
+    { name: 'Design 2', image: '/DESIGN 2 SEAT COVER.jpg' },
+    { name: 'Design 3', image: '/DESIGN 3 SEAT COVER.jpg' },
+    { name: 'Design 4', image: '/DESIGN 4SEAT COVER.jpeg' },
+    { name: 'Design 5', image: '/DESGIN 5 SEAT COVER.jpeg' },
+  ];
+  const [selectedDesign, setSelectedDesign] = useState('');
+  const selected = designs.find((design) => design.name === selectedDesign);
+
+  return <article className="catalogue-product">
+    {selected ? <img src={selected.image} alt={`Seat Cover ${selected.name}`} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
+    <div className="catalogue-product-body">
+      <strong>Seat Covers</strong>
+      <label className="oil-select-label">Choose Design
+        <select value={selectedDesign} onChange={(event) => setSelectedDesign(event.target.value)}>
+          <option value="">Pick a Design</option>
+          {designs.map((design) => <option value={design.name} key={design.name}>{design.name}</option>)}
+        </select>
+      </label>
+      <ContactPriceButton productName={selected ? `Seat Covers — ${selected.name}` : 'Seat Covers'} />
+      <AddToCartButton item={{ id: `accessory-seat-cover-${selectedDesign || 'unselected'}`, name: selected ? `Seat Covers — ${selected.name}` : 'Seat Covers', image: selected?.image }} />
+    </div>
+  </article>;
+}
+
 function AccessoriesPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="battery-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="battery-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
