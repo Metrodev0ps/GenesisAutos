@@ -574,32 +574,16 @@ const coolantOptions = [
   { size: '1 Litre', price: 2500 },
 ];
 
-function ATFProduct() {
-  const atfOptions = [
-    { name: 'TOYOTA ATF', image: '/TOYOTA ATF.jpg' },
-    { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' },
-    { name: 'ABRO MASTERS', image: '/ATF.jpg' },
-    { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' },
-  ];
-  const [selectedATF, setSelectedATF] = useState('');
-  const selected = atfOptions.find((item) => item.name === selectedATF);
-
+function ATFProduct({ name, image }: { name: string; image: string }) {
   return <article className="catalogue-product">
-    {selected ? <img src={selected.image} alt={selected.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Settings size={28} /></div>}
+    <img src={image} alt={name} loading="lazy" />
     <div className="catalogue-product-body">
-      <strong>ATF</strong>
-      <label className="oil-select-label">Choose ATF
-        <select value={selectedATF} onChange={(event) => setSelectedATF(event.target.value)}>
-          <option value="">Pick an ATF</option>
-          {atfOptions.map((item) => <option value={item.name} key={item.name}>{item.name}</option>)}
-        </select>
-      </label>
-      <ContactPriceButton productName={selected?.name || 'ATF'} />
-      <AddToCartButton item={{ id: `atf-${selectedATF || 'unselected'}`, name: selected?.name || 'ATF', image: selected?.image }} />
+      <strong>{name}</strong>
+      <ContactPriceButton productName={name} />
+      <AddToCartButton item={{ id: `atf-${name.toLowerCase().replace(/\\s+/g, '-')}`, name, image }} />
     </div>
   </article>;
 }
-
 function CoolantProduct() {
   const [selectedSize, setSelectedSize] = useState(coolantOptions[0].size);
   const selected = coolantOptions.find((item) => item.size === selectedSize) || coolantOptions[0];
@@ -671,7 +655,7 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list"><ATFProduct /></div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{[{ name: 'TOYOTA ATF', image: '/TOYOTA ATF.jpg' }, { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' }, { name: 'ABRO MASTERS', image: '/ATF.jpg' }, { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' }].map((item) => <ATFProduct key={item.name} {...item} />)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
