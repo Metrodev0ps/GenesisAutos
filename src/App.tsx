@@ -715,7 +715,12 @@ const engineOilGrades: EngineOilGradeData[] = [
       ],
     },
   },
-  { grade: '0W-20', brands: {} },
+  {
+    grade: '0W-20',
+    brands: {
+      'MOBIL 1': [{ size: '5 Litre', price: 50000 }],
+    },
+  },
 ];
 
 const lubricantGroups = {
