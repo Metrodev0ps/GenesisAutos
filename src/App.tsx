@@ -483,17 +483,7 @@ function ToolsPage() {
       {toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}
     </div>
   </div></section>
-  <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
-    <div className="accessory-random-gallery">
-      <img key="/RIMS.jpg" src="/RIMS.jpg" alt="Genesis Autos alloy wheels" loading="lazy" />
-      <img key="/GPS TRACKER.jpg" src="/GPS%20TRACKER.jpg" alt="Genesis Autos GPS tracker" loading="lazy" />
-      <img key="/JACKS.jpg" src="/JACKS.jpg" alt="Genesis Autos jacks" loading="lazy" />
-      <img key="/JACK 5T &10T.jpg" src="/JACK%205T%20%2610T.jpg" alt="Genesis Autos hydraulic jacks" loading="lazy" />
-      <img key="/CAR HORNS.jpg" src="/CAR%20HORNS.jpg" alt="Genesis Autos car horns" loading="lazy" />
-      <img key="/FIRE EXTINGUISHERS.jpg" src="/FIRE%20EXTINGUISHERS.jpg" alt="Genesis Autos fire extinguishers" loading="lazy" />
-      <img key="/BATTERY CHARGERS.jpg" src="/BATTERY%20CHARGERS.jpg" alt="Genesis Autos battery chargers" loading="lazy" />
-    </div>
-  </div></section></main>
+</main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
