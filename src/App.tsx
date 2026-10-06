@@ -514,7 +514,7 @@ const accessoryProducts = [
   { name: 'Floor Mat' },
   { name: 'New Wiper', price: 3000 },
   { name: 'Tokunbo Wiper', price: 5000 },
-  { name: 'LED Lights', image: '/LED LIGHTS.jpg' },
+  { name: 'LED Lights', image: '/LED LIGHTS.jpg', price: 40000 },
   { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
 ];
 
@@ -537,6 +537,12 @@ const toolsProducts = [
   { name: 'ABRO Fuel Injector Cleaner', image: '/IJNCETOR CLEANER 2.jpg', price: 4000 },
   { name: 'Car Horn', image: '/CAR HORNS.jpg', price: 10000 },
   { name: 'Battery Charger', image: '/BATTERY CHARGER.jpg' },
+  { name: 'Heavy Duty Battery Charger 1000A', image: '/BATTERY CHARGER.jpg', price: 32000 },
+  { name: 'Jumpstart Cable — Small', price: 60000 },
+  { name: 'Jumpstart Cable — Big + Tire Gauge', price: 80000 },
+  { name: 'Air Freshener — Strawberry', price: 5000 },
+  { name: 'Air Freshener — Coconut', price: 5000 },
+  { name: 'Air Freshener — Cherry', price: 5000 },
   { name: 'Single Inner Fender', image: '/ENGINE COVER.jpg', price: 6000 },
   { name: 'Full Engine Cover', image: '/ENGINE COVER.jpg', price: 16000 },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
