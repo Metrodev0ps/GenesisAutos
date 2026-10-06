@@ -135,7 +135,7 @@ function getSeoProducts(): SeoProduct[] {
     { name: 'TOYOTA ATF 4L', image: '/TOYOTA ATF.jpg', price: 25000 },
     { name: 'SEAMAX ATF 1L', image: '/SEAMAX ATF.jpg', price: 4500 },
     { name: 'SEAMAX ATF 4L', image: '/SEAMAX ATF.jpg', price: 17000 },
-    { name: 'ABRO MASTERS', image: '/ATF.jpg' },
+    { name: 'ABRO MASTERS 1L', image: '/ATF.jpg', price: 4500 },
     { name: 'HARDEX T4 1L', image: '/HARDEX ATF.jpg', price: 10000 },
     { name: 'HARDEX T4 4L', image: '/HARDEX ATF.jpg', price: 42000 },
     { name: 'HOLTS ATF', image: '/ATF.jpg', price: 5000 },
