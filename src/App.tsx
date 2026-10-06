@@ -206,11 +206,12 @@ function useSeo(currentPath: string) {
     setMeta('og:description', route.description, 'property');
     setMeta('og:url', canonical, 'property');
     setMeta('og:type', 'website', 'property');
-    setMeta('og:image', `${SITE_URL}/IMG_4929.jpg`, 'property');
-    setMeta('og:image:alt', 'Genesis Autos automotive parts and services', 'property');
+    const socialImage = product?.image ? `${SITE_URL}${product.image}` : `${SITE_URL}/IMG_4929.jpg`;
+    setMeta('og:image', socialImage, 'property');
+    setMeta('og:image:alt', product ? product.name : 'Genesis Autos automotive parts and services', 'property');
     setMeta('twitter:title', route.title);
     setMeta('twitter:description', route.description);
-    setMeta('twitter:image', `${SITE_URL}/IMG_4929.jpg`);
+    setMeta('twitter:image', socialImage);
     let canonicalLink = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
