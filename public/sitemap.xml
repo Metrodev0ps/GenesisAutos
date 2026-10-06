@@ -5,32 +5,20 @@
   <url><loc>https://genesisautos.org/accessories</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://genesisautos.org/tools</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://genesisautos.org/oil-grease-atf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://genesisautos.org/batteries/zenglobal-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/runall-100ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/runall-45ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/runall-62ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/runall-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/runall-90ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/runall-80ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/startall-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/solite-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/sebang-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-90ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-90ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-75ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-75ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-80ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-80ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-100ah-normal-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/everstart-100ah-opposite-terminal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/kinglion-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/finbrok-super-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/super-diamond-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/target-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/cooltiger-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/rocket-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/atlas-bx-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://genesisautos.org/batteries/gales-75ah</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/zenglobal</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/runall</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/startall</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/solite</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/sebang</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/everstart</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/kinglion</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/finbrok-super</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/super-diamond</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/target</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/cooltiger</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/rocket</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/atlas-bx</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://genesisautos.org/batteries/gales</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-dashboard-polish</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-steering-cover-design-1</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://genesisautos.org/products/accessory-steering-cover-design-2</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
