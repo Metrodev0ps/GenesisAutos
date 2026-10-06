@@ -207,6 +207,11 @@ function ProductSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const searchItems = [
+    ...alloyRimProducts.flatMap((rim) => rim.options.map((option) => ({
+      name: `Alloy Rim ${rim.size} — ${option.name}`,
+      detail: `Alloy Rim · ${rim.size} · ${option.name}`,
+      href: '/tools',
+    }))),
     ...batteryProducts.map((p) => ({ name: p.brand + ' ' + p.capacity + ' Battery', detail: p.voltage + ' · ' + p.capacity + (p.terminal ? ' · ' + p.terminal : ''), href: '/batteries/' + p.brand.toLowerCase().replace(/\s+/g, '-') })),
     ...accessoryProducts.map((p) => ({ name: p.name, detail: 'Car Accessory', href: '/accessories' })),
     ...toolsProducts.map((p) => ({ name: p.name, detail: 'Tools & Essentials', href: '/tools' })),
