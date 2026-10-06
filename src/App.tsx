@@ -45,6 +45,136 @@ const seoRoutes: Record<string, { title: string; description: string; type?: str
   },
 };
 
+
+const slugify = (value: string) => value.toLowerCase().trim().replace(/['"\\[\\]]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+type SeoProduct = {
+  slug: string;
+  name: string;
+  category: string;
+  description: string;
+  image?: string;
+  price?: number;
+  details?: string;
+  brand?: string;
+};
+
+function getSeoProducts(): SeoProduct[] {
+  const products: SeoProduct[] = [];
+
+  batteryProducts.forEach((p) => {
+    const terminal = p.terminal ? `-${slugify(p.terminal)}` : '';
+    products.push({
+      slug: `battery-${slugify(p.brand)}-${slugify(p.capacity)}${terminal}`,
+      name: `${p.name} ${p.capacity} Battery`,
+      category: 'Car Batteries',
+      description: `Shop ${p.brand} ${p.capacity} car batteries from Genesis Autos in Iyana Ipaja, Lagos. ${p.voltage} automotive battery${p.terminal ? ` with ${p.terminal.toLowerCase()}` : ''}.`,
+      image: p.image || undefined,
+      price: p.price,
+      details: [p.voltage, p.capacity, p.terminal].filter(Boolean).join(' · '),
+      brand: p.brand,
+    });
+  });
+
+  accessoryProducts.forEach((p) => products.push({
+    slug: `accessory-${slugify(p.name)}`,
+    name: p.name,
+    category: 'Car Accessories',
+    description: `${p.name} available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current availability and pricing.`,
+    image: p.image,
+    price: p.price,
+  }));
+
+  [
+    ['Steering Cover — Design 1', '/DESIGN 1 STEERING.jpg'],
+    ['Steering Cover — Design 2', '/DESIGN 2 STEERING.jpg'],
+    ['Seat Covers — Design 1', '/DESIGN 1 SEATCOVER.jpg'],
+    ['Seat Covers — Design 2', '/DESIGN 2 SEAT COVER.jpg'],
+    ['Seat Covers — Design 3', '/DESIGN 3 SEAT COVER.jpg'],
+    ['Seat Covers — Design 4', '/DESIGN SEAT COVER 4.jpg'],
+    ['Seat Covers — Design 5', '/DESIGN 5SEAT CIVER.jpg'],
+  ].forEach(([name, image]) => products.push({
+    slug: `accessory-${slugify(String(name))}`,
+    name: String(name),
+    category: 'Car Accessories',
+    description: `${name} available from Genesis Autos in Iyana Ipaja, Lagos. Ask about current availability and price.`,
+    image: String(image),
+  }));
+
+  alloyRimProducts.forEach((rim) => rim.options.forEach((option) => products.push({
+    slug: `alloy-rim-${slugify(rim.size)}-${slugify(option.name)}`,
+    name: `Alloy Rim ${rim.size} — ${option.name}`,
+    category: 'Alloy Rims',
+    description: `${option.name} ${rim.size} alloy rims available from Genesis Autos in Iyana Ipaja, Lagos. Contact us to confirm availability.`,
+    image: '/RIMS.jpg',
+    price: option.price,
+    details: `${rim.size} · ${option.name}`,
+  })));
+
+  toolsProducts.forEach((p) => products.push({
+    slug: `tool-${slugify(p.name)}`,
+    name: p.name,
+    category: 'Automotive Tools & Essentials',
+    description: `${p.name} available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current availability and price.`,
+    image: p.image,
+    price: p.price,
+  }));
+
+  engineOilGrades.forEach((group) => Object.entries(group.brands).forEach(([brand, sizes]) => sizes.forEach((item) => products.push({
+    slug: `engine-oil-${slugify(brand)}-${slugify(group.grade)}-${slugify(item.size)}`,
+    name: `${brand} ${group.grade} Engine Oil — ${item.size}`,
+    category: 'Engine Oil',
+    description: `${brand} ${group.grade} engine oil in ${item.size}, available from Genesis Autos in Iyana Ipaja, Lagos. Contact us to confirm current stock.`,
+    price: item.price,
+    details: `${group.grade} · ${item.size}`,
+    brand,
+  }))));
+
+  [
+    { name: 'TOYOTA ATF 1L', image: '/TOYOTA ATF.jpg', price: 7000 },
+    { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' },
+    { name: 'ABRO MASTERS', image: '/ATF.jpg' },
+    { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' },
+    { name: 'HOLTS ATF', image: '/ATF.jpg', price: 5000 },
+  ].forEach((p) => products.push({
+    slug: `atf-${slugify(p.name)}`,
+    name: p.name,
+    category: 'ATF',
+    description: `${p.name} automatic transmission fluid available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current availability and price.`,
+    image: p.image,
+    price: p.price,
+  }));
+
+  coolantOptions.forEach((item) => products.push({
+    slug: `coolant-${slugify(item.size)}`,
+    name: `Coolant — ${item.size}`,
+    category: 'Coolant',
+    description: `Automotive coolant in ${item.size} available from Genesis Autos in Iyana Ipaja, Lagos.`,
+    price: item.price,
+    details: item.size,
+  }));
+
+  const otherImages: Record<string, string> = {
+    'OIL FILTER': '/OIL FILTER.jpg',
+    'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
+    'OIL TREATMENT': '/OIL TREATMENT.jpg',
+  };
+  lubricantGroups.other.forEach((name) => products.push({
+    slug: `fluid-${slugify(name)}`,
+    name,
+    category: 'Automotive Fluids',
+    description: `${name} available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current availability and price.`,
+    image: otherImages[name],
+    price: name === 'INJECTOR CLEANER' || name === 'OIL TREATMENT' ? 3500 : undefined,
+  }));
+
+  return products;
+}
+
+function getSeoProductBySlug(slug: string) {
+  return getSeoProducts().find((product) => product.slug === slug);
+}
+
 function setMeta(name: string, content: string, attribute = 'name') {
   let element = document.head.querySelector(`meta[${attribute}="${name}"]`) as HTMLMetaElement | null;
   if (!element) {
@@ -58,9 +188,14 @@ function setMeta(name: string, content: string, attribute = 'name') {
 function useSeo(currentPath: string) {
   useEffect(() => {
     const rawPath = currentPath.replace(/\/+$/, '') || '/';
-    const route = seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
+    const productSlug = rawPath.startsWith('/products/') ? rawPath.replace('/products/', '') : '';
+    const product = productSlug ? getSeoProductBySlug(productSlug) : undefined;
+    const route = product ? {
+      title: `${product.name} | Genesis Autos Iyana Ipaja Lagos`,
+      description: product.description,
+    } : seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
       title: `${rawPath.split('/').pop()?.replace(/-/g, ' ')} Batteries | Genesis Autos Lagos`,
-      description: 'Browse battery options from Genesis Autos in Iyana Ipaja, Lagos. Check available specifications and contact Genesis Autos for current price and availability.',
+      description: 'Browse battery options from Genesis Autos in Iyana Ipaja, Lagos. Explore battery specifications, capacities and terminal options and contact Genesis Autos for current availability.',
     } : seoRoutes['/']);
     const canonical = `${SITE_URL}${rawPath === '/' ? '/' : rawPath}`;
     document.title = route.title;
@@ -130,6 +265,23 @@ function useSeo(currentPath: string) {
           about: { '@id': `${SITE_URL}/#business` },
           inLanguage: 'en-NG',
         },
+        ...(product ? [{
+          '@type': 'Product',
+          '@id': `${canonical}#product`,
+          name: product.name,
+          description: product.description,
+          image: product.image ? [`${SITE_URL}${product.image}`] : undefined,
+          sku: product.slug,
+          brand: product.brand ? { '@type': 'Brand', name: product.brand } : { '@type': 'Brand', name: 'Genesis Autos' },
+          offers: typeof product.price === 'number' ? {
+            '@type': 'Offer',
+            url: canonical,
+            priceCurrency: 'NGN',
+            price: product.price,
+            availability: 'https://schema.org/InStock',
+            itemCondition: 'https://schema.org/NewCondition',
+          } : undefined,
+        }] : []),
         {
           '@type': 'BreadcrumbList',
           itemListElement: [
@@ -769,6 +921,39 @@ function BatteryPage() {
   );
 }
 
+
+function ProductDetailPage({ product }: { product: SeoProduct }) {
+  const categoryHref = product.category === 'Car Batteries' ? '/batteries' : product.category === 'Car Accessories' ? '/accessories' : product.category === 'Automotive Tools & Essentials' || product.category === 'Alloy Rims' ? '/tools' : '/oil-grease-atf';
+  return <div className="battery-page">
+    <header className="site-header"><div className="container nav-wrap">
+      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+      <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href={categoryHref}>{product.category}</a><button className="button button-small button-orange" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in ${product.name}. Please confirm availability and current price.`)}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    </div></header>
+    <main>
+      <section className="battery-hero"><div className="container">
+        <div className="eyebrow orange-text">{product.category}</div>
+        <h1>{product.name}</h1>
+        <p>{product.description}</p>
+      </div></section>
+      <section className="battery-catalogue"><div className="container">
+        <div className="catalogue-product product-detail-card">
+          {product.image ? <img src={product.image} alt={`${product.name} available from Genesis Autos in Iyana Ipaja Lagos`} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={40} /></div>}
+          <div className="catalogue-product-body">
+            <div className="eyebrow orange-text">{product.category}</div>
+            <h2>{product.name}</h2>
+            {product.details && <p>{product.details}</p>}
+            {typeof product.price === 'number' ? <div className="product-price">₦{product.price.toLocaleString()}</div> : <ContactPriceButton productName={product.name} />}
+            <AddToCartButton item={{ id: product.slug, name: product.name, price: product.price, image: product.image, details: product.details }} />
+            <button className="button button-outline battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in ${product.name}. Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button>
+            <a className="text-button" href={categoryHref}>Browse more {product.category} <ChevronRight size={14} /></a>
+          </div>
+        </div>
+      </div></section>
+    </main>
+    <button className="floating-whatsapp" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in ${product.name}.`)} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button>
+  </div>;
+}
+
 function App() {
   const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
   useSeo(currentPath);
@@ -788,7 +973,7 @@ function App() {
       const url = new URL(link.href, window.location.origin);
       if (url.origin !== window.location.origin || url.hash) return;
       const path = url.pathname;
-      if (!['/', '/cart', '/batteries', '/accessories', '/tools', '/oil-grease-atf'].some((route) => path === route || (route === '/batteries' && path.startsWith('/batteries/')))) return;
+      if (!['/', '/cart', '/batteries', '/accessories', '/tools', '/oil-grease-atf'].some((route) => path === route || (route === '/batteries' && path.startsWith('/batteries/')) || path.startsWith('/products/'))) return;
       event.preventDefault();
       if (path === window.location.pathname) return;
       window.history.pushState({}, '', path);
@@ -826,6 +1011,10 @@ function App() {
   };
 
   if (currentPath === '/cart') return <CartPage />;
+  if (currentPath.startsWith('/products/')) {
+    const product = getSeoProductBySlug(currentPath.replace('/products/', ''));
+    if (product) return <ProductDetailPage product={product} />;
+  }
   if (currentPath === '/batteries' || currentPath.startsWith('/batteries/')) return <BatteryPage />;
   if (currentPath === '/accessories') return <AccessoriesPage />;
   if (currentPath === '/tools') return <ToolsPage />;
