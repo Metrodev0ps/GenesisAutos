@@ -792,7 +792,33 @@ function BatteryPage() {
 
 function App() {
   useSeo();
+  const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handlePopState = () => setCurrentPath(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
+    const handleInternalNavigation = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const link = target?.closest('a[href]') as HTMLAnchorElement | null;
+      if (!link || link.target || link.hasAttribute('download')) return;
+      const url = new URL(link.href, window.location.origin);
+      if (url.origin !== window.location.origin || url.hash) return;
+      const path = url.pathname;
+      if (!['/', '/cart', '/batteries', '/accessories', '/tools', '/oil-grease-atf'].some((route) => path === route || (route === '/batteries' && path.startsWith('/batteries/')))) return;
+      event.preventDefault();
+      if (path === window.location.pathname) return;
+      window.history.pushState({}, '', path);
+      setCurrentPath(path);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    document.addEventListener('click', handleInternalNavigation);
+    return () => document.removeEventListener('click', handleInternalNavigation);
+  }, []);
   const [showIntro, setShowIntro] = useState(() => {
     return localStorage.getItem('genesis-intro-played') !== 'true';
   });
@@ -820,11 +846,11 @@ function App() {
     setFormSent(true); openWhatsApp(message);
   };
 
-  if (window.location.pathname === '/cart') return <CartPage />;
-  if (window.location.pathname === '/batteries' || window.location.pathname.startsWith('/batteries/')) return <BatteryPage />;
-  if (window.location.pathname === '/accessories') return <AccessoriesPage />;
-  if (window.location.pathname === '/tools') return <ToolsPage />;
-  if (window.location.pathname === '/oil-grease-atf') return <LubricantsPage />;
+  if (currentPath === '/cart') return <CartPage />;
+  if (currentPath === '/batteries' || currentPath.startsWith('/batteries/')) return <BatteryPage />;
+  if (currentPath === '/accessories') return <AccessoriesPage />;
+  if (currentPath === '/tools') return <ToolsPage />;
+  if (currentPath === '/oil-grease-atf') return <LubricantsPage />;
 
   return (
     <>
