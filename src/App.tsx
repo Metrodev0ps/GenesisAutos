@@ -364,21 +364,17 @@ const accessoryProducts = [
   { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
 ];
 
+const alloyRimProducts = [
+  { size: '15"', options: [{ name: 'New', price: 250000 }, { name: 'Tokunbo', price: 200000 }] },
+  { size: '16"', options: [{ name: 'New', price: 400000 }, { name: 'Tokunbo', price: 350000 }] },
+  { size: '17"', options: [{ name: 'New', price: 500000 }, { name: 'Tokunbo', price: 450000 }] },
+  { size: '18"', options: [{ name: 'New', price: 600000 }, { name: 'Tokunbo', price: 550000 }] },
+  { size: '19"', options: [{ name: 'New', price: 700000 }, { name: 'Tokunbo', price: 650000 }] },
+  { size: '20"', options: [{ name: 'New', price: 800000 }, { name: 'Tokunbo', price: 750000 }] },
+  { size: '21"', options: [{ name: 'New', price: 900000 }, { name: 'Tokunbo', price: 850000 }] },
+];
+
 const toolsProducts = [
-  { name: 'Alloy Rim 15" — New', image: '/RIMS.jpg', price: 250000 },
-  { name: 'Alloy Rim 15" — Tokunbo', image: '/RIMS.jpg', price: 200000 },
-  { name: 'Alloy Rim 16" — New', image: '/RIMS.jpg', price: 400000 },
-  { name: 'Alloy Rim 16" — Tokunbo', image: '/RIMS.jpg', price: 350000 },
-  { name: 'Alloy Rim 17" — New', image: '/RIMS.jpg', price: 500000 },
-  { name: 'Alloy Rim 17" — Tokunbo', image: '/RIMS.jpg', price: 450000 },
-  { name: 'Alloy Rim 18" — New', image: '/RIMS.jpg', price: 600000 },
-  { name: 'Alloy Rim 18" — Tokunbo', image: '/RIMS.jpg', price: 550000 },
-  { name: 'Alloy Rim 19" — New', image: '/RIMS.jpg', price: 700000 },
-  { name: 'Alloy Rim 19" — Tokunbo', image: '/RIMS.jpg', price: 650000 },
-  { name: 'Alloy Rim 20" — New', image: '/RIMS.jpg', price: 800000 },
-  { name: 'Alloy Rim 20" — Tokunbo', image: '/RIMS.jpg', price: 750000 },
-  { name: 'Alloy Rim 21" — New', image: '/RIMS.jpg', price: 900000 },
-  { name: 'Alloy Rim 21" — Tokunbo', image: '/RIMS.jpg', price: 850000 },
   { name: 'Trackers', image: '/GPS TRACKER.jpg', price: 50000 },
   { name: 'Jacks', image: '/JACKS.jpg' },
   { name: 'Hydraulic Jack 5T', image: '/JACK 5T &10T.jpg', price: 13000 },
@@ -456,13 +452,36 @@ function AccessoriesPage() {
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
 }
 
+function RimProduct({ rim }: { rim: { size: string; options: { name: string; price: number }[] } }) {
+  const [selectedOption, setSelectedOption] = useState('');
+  const selected = rim.options.find((option) => option.name === selectedOption);
+  return <article className="catalogue-product">
+    <img src="/RIMS.jpg" alt={`Alloy Rim ${rim.size}`} loading="lazy" />
+    <div className="catalogue-product-body">
+      <strong>Alloy Rim {rim.size}</strong>
+      <label className="oil-select-label">Choose Condition
+        <select value={selectedOption} onChange={(event) => setSelectedOption(event.target.value)}>
+          <option value="">Pick New or Tokunbo</option>
+          {rim.options.map((option) => <option value={option.name} key={option.name}>{option.name}</option>)}
+        </select>
+      </label>
+      {selected ? <div className="product-price">₦{selected.price.toLocaleString()}</div> : <span className="price-prompt">Select an option to see price</span>}
+      <ContactPriceButton productName={selected ? `Alloy Rim ${rim.size} — ${selected.name}` : `Alloy Rim ${rim.size}`} />
+      <AddToCartButton item={{ id: `rim-${rim.size}-${selectedOption || 'unselected'}`, name: selected ? `Alloy Rim ${rim.size} — ${selected.name}` : `Alloy Rim ${rim.size}`, price: selected?.price, image: '/RIMS.jpg' }} />
+    </div>
+  </article>;
+}
+
 function ToolsPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">
+      {alloyRimProducts.map((rim) => <RimProduct key={rim.size} rim={rim} />)}
+      {toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}
+    </div>
   </div></section>
   <section className="accessory-gallery-section"><div className="container"><div className="battery-heading"><div><div className="eyebrow orange-text">Tools & Essentials</div><h2>Available <span>Items</span></h2></div><span>Photos coming below</span></div>
     <div className="accessory-random-gallery">
