@@ -384,7 +384,8 @@ const toolsProducts = [
   { name: 'Fuel Injector Cleaner', image: '/FUEL INJECTOR CLEANER.jpg', price: 3000 },
   { name: 'ABRO Fuel Injector Cleaner', image: '/IJNCETOR CLEANER 2.jpg', price: 4000 },
   { name: 'Car Horn', image: '/CAR HORNS.jpg', price: 10000 },
-  { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
+  { name: 'Single Inner Fender', image: '/ENGINE COVER.jpg', price: 6000 },
+  { name: 'Full Engine Cover', image: '/ENGINE COVER.jpg', price: 16000 },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
 ];
