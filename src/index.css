@@ -437,4 +437,4 @@ body.intro-active { overflow:hidden; }
 .oil-select-label select:focus { border-color:var(--orange); }
 
 
-.product-price { display:block; width:max-content; margin:2px 0 4px; padding:6px 9px; background:var(--ink); color:#fff; font-size:13px; font-weight:900; line-height:1; letter-spacing:.01em; border-radius:3px; }
+.product-price { display:inline-flex; align-items:center; width:max-content; margin:1px 0 3px; padding:7px 10px; background:var(--ink); color:#fff; font-size:14px; font-weight:900; line-height:1; letter-spacing:.01em; border-radius:5px; }
