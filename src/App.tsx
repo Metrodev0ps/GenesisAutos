@@ -615,7 +615,9 @@ function MatProducts() {
   return <>{matProducts.map((product) => {
     const selectedOption = product.options.find((option) => option.name === selected[product.name]);
     return <article className="catalogue-product" key={product.name}>
-      <img src={product.image} alt={product.name} decoding="async" />
+      <div className="catalogue-product-image">
+        <img src={product.image} alt={product.name} decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement?.classList.add('image-load-failed'); }} />
+      </div>
       <div className="catalogue-product-body"><strong>{product.name}</strong>
         <select value={selected[product.name] || ''} onChange={(e) => setSelected((prev) => ({ ...prev, [product.name]: e.target.value }))} aria-label={`Select ${product.name} type`}>
           {product.options.map((option) => <option key={option.name} value={option.name}>{option.name}</option>)}
