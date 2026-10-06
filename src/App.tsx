@@ -570,8 +570,8 @@ const engineOilGrades: EngineOilGradeData[] = [
 ];
 
 const lubricantGroups = {
-  atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF'],
-  other: ['HOLTS', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
+  atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'HOLTS ATF'],
+  other: ['OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
 };
 
 const coolantOptions = [
@@ -579,13 +579,13 @@ const coolantOptions = [
   { size: '1 Litre', price: 2500 },
 ];
 
-function ATFProduct({ name, image }: { name: string; image: string }) {
+function ATFProduct({ name, image, price }: { name: string; image: string; price?: number }) {
   return <article className="catalogue-product">
     <img src={image} alt={name} loading="lazy" />
     <div className="catalogue-product-body">
       <strong>{name}</strong>
-      <ContactPriceButton productName={name} />
-      <AddToCartButton item={{ id: `atf-${name.toLowerCase().replace(/\\s+/g, '-')}`, name, image }} />
+      {typeof price === 'number' ? <div className="product-price">₦{price.toLocaleString()}</div> : <ContactPriceButton productName={name} />}
+      <AddToCartButton item={{ id: `atf-${name.toLowerCase().replace(/\\s+/g, '-')}`, name, image, price }} />
     </div>
   </article>;
 }
@@ -660,7 +660,7 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{[{ name: 'TOYOTA ATF', image: '/TOYOTA ATF.jpg' }, { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' }, { name: 'ABRO MASTERS', image: '/ATF.jpg' }, { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' }].map((item) => <ATFProduct key={item.name} {...item} />)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{[{ name: 'TOYOTA ATF', image: '/TOYOTA ATF.jpg' }, { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' }, { name: 'ABRO MASTERS', image: '/ATF.jpg' }, { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' }, { name: 'HOLTS ATF', image: '/ATF.jpg', price: 5000 }].map((item) => <ATFProduct key={item.name} {...item} />)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
