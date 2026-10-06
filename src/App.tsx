@@ -115,6 +115,22 @@ function getSeoProducts(): SeoProduct[] {
     details: `${rim.size} · ${option.name}`,
   })));
 
+  brakeFluidProducts.forEach((p) => p.brands.forEach((brand) => products.push({
+    slug: `brake-fluid-${slugify(brand.name)}`,
+    name: `Brake Fluid — ${brand.name}`,
+    category: 'Automotive Tools & Essentials',
+    description: `${brand.name} brake fluid available from Genesis Autos in Iyana Ipaja, Lagos. Contact us for current price.`,
+    image: brand.image,
+    brand: brand.name,
+  })));
+
+  matProducts.forEach((p) => p.options.forEach((option) => products.push({
+    slug: `mat-${slugify(p.name)}-${slugify(option.name)}`,
+    name: `${p.name} — ${option.name}`,
+    category: 'Car Accessories',
+    description: `${p.name} for ${option.name} available from Genesis Autos in Iyana Ipaja, Lagos.`,
+    image: p.image, price: option.price, details: option.name, brand: option.name,
+  })));
   securityProducts.forEach((p) => products.push({
     slug: `security-${slugify(p.name)}`,
     name: p.name,
@@ -552,18 +568,64 @@ const toolsProducts = [
     { name: 'Heavy Duty Battery Charger 1000A', image: '/BATTERY CHARGERS.jpg', price: 32000 },
   { name: 'Jumpstart Cable — Small', image: '/BATTERY CHARGER.jpg', price: 60000 },
   { name: 'Jumpstart Cable — Big + Tire Gauge', image: '/BATTERY CHARGER.jpg', price: 80000 },
-  { name: 'Air Freshener — Strawberry', price: 5000 },
-  { name: 'Air Freshener — Coconut', price: 5000 },
-  { name: 'Air Freshener — Cherry', price: 5000 },
+  { name: 'Air Freshener — Strawberry', image: '/AIR FRESHNERS.jpg', price: 5000 },
+  { name: 'Air Freshener — Coconut', image: '/AIR FRESHNERS.jpg', price: 5000 },
+  { name: 'Air Freshener — Cherry', image: '/AIR FRESHNERS.jpg', price: 5000 },
   { name: 'Single Inner Fender', image: '/ENGINE COVER.jpg', price: 6000 },
   { name: 'Full Engine Cover', image: '/ENGINE COVER.jpg', price: 16000 },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
 ];
 
+const brakeFluidProducts = [
+  { name: 'Brake Fluid', brands: [{ name: 'ALLIED', image: '/ALLIED BRAKE FLUID.jpg' }, { name: 'BLAUE ORIGINAL', image: '/BLAUE ORIGINAL BRAKE FLUID.jpg' }] },
+];
+
+const matProducts = [
+  { name: 'Boot Mat', image: '/BOOTMAT LEXUSRX350 &330 40K, VENZA 40K, HIGHLANDER 40K.jpg', options: [
+    { name: 'Lexus RX350 & RX330', price: 40000 }, { name: 'Venza', price: 40000 }, { name: 'Highlander', price: 40000 },
+  ] },
+  { name: 'Leather & Rug Mixed Footmat', image: '/LEATHERR AND RUG MIXED FOOTMAT, TOYOTA-8K, LEXUS-80K, MERCEDES-80K.jpg', options: [
+    { name: 'Toyota', price: 8000 }, { name: 'Lexus', price: 80000 }, { name: 'Mercedes', price: 80000 },
+  ] },
+  { name: 'Universal Leather Rug Footmat', image: '/UNIVERSAL LEATHER RUG FOTMAT-60K.jpg', options: [{ name: 'Universal', price: 60000 }] },
+  { name: 'VIP Footmats', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', options: [{ name: 'Lexus' }, { name: 'Mercedes' }, { name: 'Toyota' }] },
+];
+
+function BrakeFluidProduct() {
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const selected = brakeFluidProducts[0].brands.find((brand) => brand.name === selectedBrand);
+  return <article className="catalogue-product">
+    {selected?.image ? <img src={selected.image} alt={`Brake Fluid — ${selected.name}`} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}
+    <div className="catalogue-product-body"><strong>Brake Fluid</strong>
+      <select value={selectedBrand} onChange={(e) => setSelectedBrand(e.target.value)} aria-label="Select brake fluid brand">
+        <option value="">Select Brand</option>{brakeFluidProducts[0].brands.map((brand) => <option key={brand.name} value={brand.name}>{brand.name}</option>)}
+      </select>
+      <ContactPriceButton productName={selected ? `Brake Fluid — ${selected.name}` : 'Brake Fluid'} />
+      <AddToCartButton item={{ id: `brake-fluid-${selectedBrand || 'select'}`, name: selected ? `Brake Fluid — ${selected.name}` : 'Brake Fluid', image: selected?.image }} />
+    </div>
+  </article>;
+}
+
+function MatProducts() {
+  const [selected, setSelected] = useState<Record<string, string>>({});
+  return <>{matProducts.map((product) => {
+    const selectedOption = product.options.find((option) => option.name === selected[product.name]);
+    return <article className="catalogue-product" key={product.name}>
+      <img src={product.image} alt={product.name} decoding="async" />
+      <div className="catalogue-product-body"><strong>{product.name}</strong>
+        <select value={selected[product.name] || ''} onChange={(e) => setSelected((prev) => ({ ...prev, [product.name]: e.target.value }))} aria-label={`Select ${product.name} type`}>
+          <option value="">Select Brand / Type</option>{product.options.map((option) => <option key={option.name} value={option.name}>{option.name}</option>)}
+        </select>
+        {selectedOption?.price ? <div className="product-price">₦{selectedOption.price.toLocaleString()}</div> : <ContactPriceButton productName={selectedOption ? `${product.name} — ${selectedOption.name}` : product.name} />}
+        <AddToCartButton item={{ id: `mat-${product.name}-${selectedOption?.name || 'select'}`, name: selectedOption ? `${product.name} — ${selectedOption.name}` : product.name, price: selectedOption?.price, image: product.image }} />
+      </div>
+    </article>;
+  })}</>;
+}
 const securityProducts = [
   { name: 'Trackers', image: '/GPS TRACKER.jpg', price: 50000 },
-  { name: 'Steering and Car Lock', price: 20000 },
+  { name: 'Steering and Car Lock', image: '/STERRING and car lock.jpg', price: 20000 },
 ];
 
 function SteeringCoverProduct() {
@@ -624,6 +686,8 @@ function AccessoriesPage() {
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
     <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : item.name === 'Steering Cover' ? <SteeringCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+    <h2 className="section-title">Foot Mats & Boot Mats</h2>
+    <div className="accessory-list"><MatProducts /></div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -669,6 +733,8 @@ function ToolsPage() {
     <div className="accessory-list">
       {alloyRimProducts.map((rim) => <RimProduct key={rim.size} rim={rim} />)}
       {toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}
+      <h2 className="section-title">Brake Fluids</h2>
+      <div className="accessory-list"><BrakeFluidProduct /></div>
     </div>
   </div></section>
 </main>
