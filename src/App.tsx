@@ -731,7 +731,7 @@ const engineOilGrades: EngineOilGradeData[] = [
 
 const lubricantGroups = {
   atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'HOLTS ATF'],
-  other: ['OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
+  other: ['OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT'],
 };
 
 const coolantOptions = [
