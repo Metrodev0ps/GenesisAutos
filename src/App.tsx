@@ -354,7 +354,11 @@ const services = [
 const accessoryProducts = [
   { name: 'Dashboard Polish', price: 5000 },
   { name: 'Steering Cover', image: '/STEERING COVERS.jpg' },
-  { name: 'Seat Covers' },
+  { name: 'Seat Cover — Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
+  { name: 'Seat Cover — Design 2', image: '/DESIGN 2 SEAT COVER.jpg' },
+  { name: 'Seat Cover — Design 3', image: '/DESIGN 3 SEAT COVER.jpg' },
+  { name: 'Seat Cover — Design 4', image: '/DESIGN 4SEAT COVER.jpeg' },
+  { name: 'Seat Cover — Design 5', image: '/DESGIN 5 SEAT COVER.jpeg' },
   { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg', price: 10000 },
   { name: 'Dashboard Mat' },
   { name: 'Floor Mat' },
@@ -502,7 +506,7 @@ const engineOilGrades: EngineOilGradeData[] = [
 ];
 
 const lubricantGroups = {
-  atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'and so much more'],
+  atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF'],
   other: ['HOLTS', 'OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT', 'BRAKE FLUIDS'],
 };
 
@@ -582,7 +586,7 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <span className="catalogue-chip" key={item}><span>{item}</span><ContactPriceButton productName={item} /><AddToCartButton item={{ id: `atf-${item}`, name: item }} /></span>)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <article className="catalogue-product" key={item}><img src="/ATF.jpg" alt={item} loading="lazy" /><div className="catalogue-product-body"><strong>{item}</strong><ContactPriceButton productName={item} /><AddToCartButton item={{ id: `atf-${item}`, name: item, image: '/ATF.jpg' }} /></div></article>)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
