@@ -382,6 +382,7 @@ const toolsProducts = [
   { name: 'Hydraulic Jack 5T', image: '/JACK 5T &10T.jpg', price: 13000 },
   { name: 'Hydraulic Jack 10T', image: '/JACK 5T &10T.jpg', price: 16000 },
   { name: 'Fuel Injector Cleaner', image: '/FUEL INJECTOR CLEANER.jpg', price: 3000 },
+  { name: 'ABRO Fuel Injector Cleaner', image: '/IJNCETOR CLEANER 2.jpg', price: 4000 },
   { name: 'Car Horn', image: '/CAR HORNS.jpg', price: 10000 },
   { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
