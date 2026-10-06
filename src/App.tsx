@@ -86,8 +86,8 @@ function getSeoProducts(): SeoProduct[] {
   }));
 
   [
-    ['Steering Cover — Design 1', '/DESIGN 1 STEERING.jpg'],
-    ['Steering Cover — Design 2', '/DESIGN 2 STEERING.jpg'],
+    ['Normal Steering Cover', '/DESIGN 1 STEERING.jpg'],
+    ['Condom Steering Cover', '/DESIGN 2 STEERING.jpg'],
     ['Seat Covers — OC CLASSIC', '/DESIGN 1 SEATCOVER.jpg'],
     ['Seat Covers — R-POWER', '/DESIGN 2 SEAT COVER.jpg'],
     ['Seat Covers — CROWN', '/DESIGN 3 SEAT COVER.jpg'],
@@ -542,8 +542,8 @@ const toolsProducts = [
 
 function SteeringCoverProduct() {
   const designs = [
-    { name: 'Design 1', image: '/DESIGN 1 STEERING.jpg' },
-    { name: 'Design 2', image: '/DESIGN 2 STEERING.jpg' },
+    { name: 'Normal Steering Cover', image: '/DESIGN 1 STEERING.jpg', price: 8000 },
+    { name: 'Condom Steering Cover', image: '/DESIGN 2 STEERING.jpg', price: 7000 },
   ];
   const [selectedDesign, setSelectedDesign] = useState('');
   const selected = designs.find((design) => design.name === selectedDesign);
