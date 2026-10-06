@@ -390,6 +390,29 @@ const toolsProducts = [
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
 ];
 
+function SteeringCoverProduct() {
+  const designs = [
+    { name: 'Standard Design', image: '/STEERING COVERS.jpg' },
+  ];
+  const [selectedDesign, setSelectedDesign] = useState('');
+  const selected = designs.find((design) => design.name === selectedDesign);
+
+  return <article className="catalogue-product">
+    {selected ? <img src={selected.image} alt={`Steering Cover ${selected.name}`} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
+    <div className="catalogue-product-body">
+      <strong>Steering Cover</strong>
+      <label className="oil-select-label">Choose Design
+        <select value={selectedDesign} onChange={(event) => setSelectedDesign(event.target.value)}>
+          <option value="">Pick a Design</option>
+          {designs.map((design) => <option value={design.name} key={design.name}>{design.name}</option>)}
+        </select>
+      </label>
+      <ContactPriceButton productName={selected ? `Steering Cover — ${selected.name}` : 'Steering Cover'} />
+      <AddToCartButton item={{ id: `accessory-steering-cover-${selectedDesign || 'unselected'}`, name: selected ? `Steering Cover — ${selected.name}` : 'Steering Cover', image: selected?.image }} />
+    </div>
+  </article>;
+}
+
 function SeatCoverProduct() {
   const designs = [
     { name: 'Design 1', image: '/DESIGN 1 SEATCOVER.jpg' },
@@ -423,7 +446,7 @@ function AccessoriesPage() {
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="battery-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : item.name === 'Steering Cover' ? <SteeringCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="battery-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
   </div></section>
 </main>
   <button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button></div>;
@@ -538,6 +561,25 @@ const coolantOptions = [
   { size: '1 Litre', price: 2500 },
 ];
 
+function ATFProduct() {
+  const [selectedATF, setSelectedATF] = useState('');
+  const selected = selectedATF ? selectedATF : '';
+  return <article className="catalogue-product">
+    {selected ? <img src="/ATF.jpg" alt={selected} loading="lazy" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Settings size={28} /></div>}
+    <div className="catalogue-product-body">
+      <strong>ATF</strong>
+      <label className="oil-select-label">Choose ATF
+        <select value={selectedATF} onChange={(event) => setSelectedATF(event.target.value)}>
+          <option value="">Pick an ATF</option>
+          {lubricantGroups.atf.map((item) => <option value={item} key={item}>{item}</option>)}
+        </select>
+      </label>
+      <ContactPriceButton productName={selected || 'ATF'} />
+      <AddToCartButton item={{ id: `atf-${selectedATF || 'unselected'}`, name: selected || 'ATF', image: selected ? '/ATF.jpg' : undefined }} />
+    </div>
+  </article>;
+}
+
 function CoolantProduct() {
   const [selectedSize, setSelectedSize] = useState(coolantOptions[0].size);
   const selected = coolantOptions.find((item) => item.size === selectedSize) || coolantOptions[0];
@@ -609,7 +651,7 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{lubricantGroups.atf.map((item) => <article className="catalogue-product" key={item}><img src="/ATF.jpg" alt={item} loading="lazy" /><div className="catalogue-product-body"><strong>{item}</strong><ContactPriceButton productName={item} /><AddToCartButton item={{ id: `atf-${item}`, name: item, image: '/ATF.jpg' }} /></div></article>)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list"><ATFProduct /></div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
