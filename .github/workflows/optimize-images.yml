@@ -1,0 +1,68 @@
+name: Optimize product images
+
+on:
+  push:
+    paths-ignore:
+      - "public/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Sharp
+        run: npm install --no-save sharp@0.33.5
+      - name: Compress JPG images
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const sharp = require('sharp');
+          const dir = 'public';
+          const files = fs.readdirSync(dir).filter(f => /\.jpe?g$/i.test(f));
+          (async () => {
+            let changed = 0;
+            for (const file of files) {
+              const input = path.join(dir, file);
+              const tmp = path.join(dir, `.optimized-${file}`);
+              const before = fs.statSync(input).size;
+              await sharp(input)
+                .rotate()
+                .resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true })
+                .jpeg({ quality: 80, progressive: true, mozjpeg: true })
+                .toFile(tmp);
+              const after = fs.statSync(tmp).size;
+              if (after < before * 0.92) {
+                fs.renameSync(tmp, input);
+                changed++;
+                console.log(`${file}: ${(before / 1024 / 1024).toFixed(2)} MB -> ${(after / 1024).toFixed(0)} KB`);
+              } else {
+                fs.unlinkSync(tmp);
+                console.log(`${file}: kept original`);
+              }
+            }
+            console.log(`Optimized ${changed} of ${files.length} JPG files.`);
+          })().catch(err => { console.error(err); process.exit(1); });
+          NODE
+      - name: Commit optimized images
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/*.jpg public/*.JPG public/*.jpeg public/*.JPEG 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No image changes to commit."
+          else
+            git commit -m "Optimize public images for faster loading"
+            git push origin HEAD:main
+          fi
