@@ -361,7 +361,7 @@ const accessoryProducts = [
   { name: 'New Wiper', price: 3000 },
   { name: 'Tokunbo Wiper', price: 5000 },
   { name: 'LED Lights', image: '/LED LIGHTS.jpg' },
-  { name: 'Sand Protectors', image: '/SAND PROTECTORS.jpg' },
+  { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
 ];
 
 const toolsProducts = [
