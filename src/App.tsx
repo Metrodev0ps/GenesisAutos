@@ -609,16 +609,20 @@ function BrakeFluidProduct() {
 }
 
 function MatProducts() {
-  const [selected, setSelected] = useState<Record<string, string>>({});
+  const [selected, setSelected] = useState<Record<string, string>>(() =>
+    Object.fromEntries(matProducts.map((product) => [product.name, product.options[0]?.name || '']))
+  );
   return <>{matProducts.map((product) => {
     const selectedOption = product.options.find((option) => option.name === selected[product.name]);
     return <article className="catalogue-product" key={product.name}>
       <img src={product.image} alt={product.name} decoding="async" />
       <div className="catalogue-product-body"><strong>{product.name}</strong>
         <select value={selected[product.name] || ''} onChange={(e) => setSelected((prev) => ({ ...prev, [product.name]: e.target.value }))} aria-label={`Select ${product.name} type`}>
-          <option value="">Select Brand / Type</option>{product.options.map((option) => <option key={option.name} value={option.name}>{option.name}</option>)}
+          {product.options.map((option) => <option key={option.name} value={option.name}>{option.name}</option>)}
         </select>
-        {selectedOption?.price ? <div className="product-price">₦{selectedOption.price.toLocaleString()}</div> : <ContactPriceButton productName={selectedOption ? `${product.name} — ${selectedOption.name}` : product.name} />}
+        {typeof selectedOption?.price === 'number'
+          ? <div className="product-price">₦{selectedOption.price.toLocaleString()}</div>
+          : <ContactPriceButton productName={selectedOption ? `${product.name} — ${selectedOption.name}` : product.name} />}
         <AddToCartButton item={{ id: `mat-${product.name}-${selectedOption?.name || 'select'}`, name: selectedOption ? `${product.name} — ${selectedOption.name}` : product.name, price: selectedOption?.price, image: product.image }} />
       </div>
     </article>;
