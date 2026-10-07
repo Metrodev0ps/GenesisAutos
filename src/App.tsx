@@ -543,7 +543,6 @@ const accessoryProducts = [
   { name: 'New Wiper', price: 3000 },
   { name: 'Tokunbo Wiper', price: 5000 },
   { name: 'LED Lights', image: '/LED LIGHTS.jpg', price: 40000 },
-  { name: 'Engine Cover', image: '/ENGINE COVER.jpg' },
 ];
 
 const alloyRimProducts = [
@@ -571,6 +570,8 @@ const toolsProducts = [
   { name: 'Air Freshener — Cherry', image: '/AIR FRESHNERS.jpg', price: 5000 },
   { name: 'C-Caution', image: '/C-Caution.jpg', price: 5000 },
   { name: 'Fire Extinguishers', image: '/FIRE EXTINGUISHERS.jpg', price: 8000 },
+  { name: 'Single Inner Fender', image: '/ENGINE COVER.jpg', price: 6000 },
+  { name: 'Full Engine Cover', image: '/ENGINE COVER.jpg', price: 16000 },
 ];
 
 const brakeFluidProducts = [
