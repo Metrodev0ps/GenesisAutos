@@ -665,8 +665,8 @@ function SeatCoverProduct() {
     { name: 'SMILEY', image: '/DESIGN SEAT COVER 4.jpg', price: 100000 },
     { name: 'Design 5', image: '/DESIGN 5SEAT CIVER.jpg' },
   ];
-  const [selectedDesign, setSelectedDesign] = useState('');
-  const selected = designs.find((design) => design.name === selectedDesign);
+  const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
+  const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
 
   return <article className="catalogue-product">
     {selected ? <img src={selected.image} alt={`Seat Cover ${selected.name}`} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
