@@ -638,8 +638,8 @@ function SteeringCoverProduct() {
     { name: 'Normal Steering Cover', image: '/DESIGN 1 STEERING.jpg', price: 8000 },
     { name: 'Condom Steering Cover', image: '/DESIGN 2 STEERING.jpg', price: 7000 },
   ];
-  const [selectedDesign, setSelectedDesign] = useState('');
-  const selected = designs.find((design) => design.name === selectedDesign);
+  const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
+  const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
 
   return <article className="catalogue-product">
     {selected ? <img src={selected.image} alt={`Steering Cover ${selected.name}`} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
