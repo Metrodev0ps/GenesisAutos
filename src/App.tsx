@@ -188,7 +188,6 @@ function getSeoProducts(): SeoProduct[] {
   }));
 
   const otherImages: Record<string, string> = {
-    'OIL FILTER': '/OIL FILTER.jpg',
     'INJECTOR CLEANER': '/FUEL INJECTOR CLEANER.jpg',
     'OIL TREATMENT': '/OIL TREATMENT.jpg',
   };
@@ -714,7 +713,7 @@ function RimProduct({ rim }: { rim: { size: string; options: { name: string; pri
         </select>
       </label>
       {selected ? <div className="product-price">₦{selected.price.toLocaleString()}</div> : <span className="price-prompt">Select an option to see price</span>}
-      <ContactPriceButton productName={selected ? `Alloy Rim ${rim.size} — ${selected.name}` : `Alloy Rim ${rim.size}`} />
+      {!selected && <span className="price-prompt">Select an option to see price</span>}
       <AddToCartButton item={{ id: `rim-${rim.size}-${selectedOption || 'unselected'}`, name: selected ? `Alloy Rim ${rim.size} — ${selected.name}` : `Alloy Rim ${rim.size}`, price: selected?.price, image: '/RIMS.jpg' }} />
     </div>
   </article>;
@@ -840,7 +839,7 @@ const engineOilGrades: EngineOilGradeData[] = [
 
 const lubricantGroups = {
   atf: ['TOYOTA ATF', 'SEAMAX', 'ABRO MASTERS', 'HARDEX ATF', 'HOLTS ATF'],
-  other: ['OIL FILTER', 'INJECTOR CLEANER', 'OIL TREATMENT'],
+  other: ['INJECTOR CLEANER', 'OIL TREATMENT'],
 };
 
 const coolantOptions = [
