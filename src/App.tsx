@@ -590,7 +590,7 @@ const matProducts = [
     { name: 'Toyota', price: 8000 }, { name: 'Lexus', price: 80000 }, { name: 'Mercedes', price: 80000 },
   ] },
   { name: 'Universal Leather Rug Footmat', image: '/UNIVERSAL LEATHER RUG FOTMAT-60K.jpg', options: [{ name: 'Universal', price: 60000 }] },
-  { name: 'VIP Footmats', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', options: [{ name: 'Lexus' }, { name: 'Mercedes' }, { name: 'Toyota' }] },
+  { name: 'VIP Footmats', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', options: [{ name: 'Lexus', price: 30000 }, { name: 'Mercedes', price: 30000 }, { name: 'Toyota', price: 30000 }] },
 ];
 
 function BrakeFluidProduct() {
