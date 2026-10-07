@@ -741,7 +741,15 @@ function ToolsPage() {
       {alloyRimProducts.map((rim) => <RimProduct key={rim.size} rim={rim} />)}
       {toolsProducts.map((item) => <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Wrench size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `tool-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}
       <h2 className="section-title">Brake Fluids</h2>
-      <div className="accessory-list"><BrakeFluidProduct /></div>
+      <div className="accessory-list">
+        {brakeFluidProducts[0].brands.map((brand) => <article className="catalogue-product" key={brand.name}>
+          <img src={brand.image} alt={`Brake Fluid — ${brand.name}`} decoding="async" />
+          <div className="catalogue-product-body"><strong>Brake Fluid — {brand.name}</strong>
+            <div className="product-price">₦{brand.price.toLocaleString()}</div>
+            <AddToCartButton item={{ id: `brake-fluid-${brand.name}`, name: `Brake Fluid — ${brand.name}`, image: brand.image, price: brand.price }} />
+          </div>
+        </article>)}
+      </div>
     </div>
   </div></section>
 </main>
@@ -921,7 +929,16 @@ function LubricantsPage() {
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
     <div className="lubricant-groups">
       <div className="lubricant-group"><h2>Engine Oil Grades</h2><div className="accessory-list">{engineOilGrades.map((group) => <EngineOilGrade key={group.grade} {...group} />)}</div></div>
-      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{[{ name: 'TOYOTA ATF 1L', image: '/TOYOTA ATF.jpg', price: 7000 }, { name: 'SEAMAX', image: '/SEAMAX ATF.jpg' }, { name: 'ABRO MASTERS', image: '/ATF.jpg' }, { name: 'HARDEX ATF', image: '/HARDEX ATF.jpg' }, { name: 'HOLTS ATF', image: '/ATF.jpg', price: 5000 }].map((item) => <ATFProduct key={item.name} {...item} />)}</div></div>
+      <div className="lubricant-group"><h2>ATF</h2><div className="accessory-list">{[
+        { name: 'TOYOTA ATF 1L', image: '/TOYOTA ATF.jpg', price: 7000 },
+        { name: 'TOYOTA ATF 4L', image: '/TOYOTA ATF.jpg', price: 25000 },
+        { name: 'SEAMAX ATF 1L', image: '/SEAMAX ATF.jpg', price: 4500 },
+        { name: 'SEAMAX ATF 4L', image: '/SEAMAX ATF.jpg', price: 17000 },
+        { name: 'HARDEX T4 1L', image: '/HARDEX ATF.jpg', price: 10000 },
+        { name: 'HARDEX T4 4L', image: '/HARDEX ATF.jpg', price: 42000 },
+        { name: 'ABRO MASTERS 1L', image: '/ATF.jpg', price: 4500 },
+        { name: 'HOLTS ATF', image: '/ATF.jpg', price: 5000 },
+      ].map((item) => <ATFProduct key={item.name} {...item} />)}</div></div>
       <div className="lubricant-group"><h2>Other Lubricants & Fluids</h2><div className="accessory-list">
         <CoolantProduct />
         {lubricantGroups.other.map((item) => {
