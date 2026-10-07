@@ -619,9 +619,11 @@ function MatProducts() {
         <img src={product.image} alt={product.name} decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement?.classList.add('image-load-failed'); }} />
       </div>
       <div className="catalogue-product-body"><strong>{product.name}</strong>
-        <select value={selected[product.name] || ''} onChange={(e) => setSelected((prev) => ({ ...prev, [product.name]: e.target.value }))} aria-label={`Select ${product.name} type`}>
-          {product.options.map((option) => <option key={option.name} value={option.name}>{option.name}</option>)}
-        </select>
+        <label className="oil-select-label">Choose Vehicle
+          <select value={selected[product.name] || ''} onChange={(e) => setSelected((prev) => ({ ...prev, [product.name]: e.target.value }))} aria-label={`Select ${product.name} type`}>
+            {product.options.map((option) => <option key={option.name} value={option.name}>{option.name}</option>)}
+          </select>
+        </label>
         {typeof selectedOption?.price === 'number'
           ? <div className="product-price">₦{selectedOption.price.toLocaleString()}</div>
           : <ContactPriceButton productName={selectedOption ? `${product.name} — ${selectedOption.name}` : product.name} />}
