@@ -541,8 +541,6 @@ const accessoryProducts = [
   { name: 'Steering Cover' },
   { name: 'Seat Covers' },
   { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg', price: 10000 },
-  { name: 'Dashboard Mat', image: '/DASHBOARD MAT.jpg' },
-  { name: 'Floor Mat' },
   { name: 'New Wiper', price: 3000 },
   { name: 'Tokunbo Wiper', price: 5000 },
   { name: 'LED Lights', image: '/LED LIGHTS.jpg', price: 40000 },
