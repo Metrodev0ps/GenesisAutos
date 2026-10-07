@@ -655,8 +655,8 @@ function SteeringCoverProduct() {
           {designs.map((design) => <option value={design.name} key={design.name}>{design.name}</option>)}
         </select>
       </label>
-      <ContactPriceButton productName={selected ? `Steering Cover — ${selected.name}` : 'Steering Cover'} />
-      <AddToCartButton item={{ id: `accessory-steering-cover-${selectedDesign || 'unselected'}`, name: selected ? `Steering Cover — ${selected.name}` : 'Steering Cover', image: selected?.image }} />
+      {typeof selected?.price === 'number' ? <div className="product-price">₦{selected.price.toLocaleString()}</div> : <ContactPriceButton productName={selected ? `Steering Cover — ${selected.name}` : 'Steering Cover'} />}
+      <AddToCartButton item={{ id: `accessory-steering-cover-${selectedDesign || 'unselected'}`, name: selected ? `Steering Cover — ${selected.name}` : 'Steering Cover', price: selected?.price, image: selected?.image }} />
     </div>
   </article>;
 }
@@ -682,8 +682,8 @@ function SeatCoverProduct() {
           {designs.map((design) => <option value={design.name} key={design.name}>{design.name}</option>)}
         </select>
       </label>
-      <ContactPriceButton productName={selected ? `Seat Covers — ${selected.name}` : 'Seat Covers'} />
-      <AddToCartButton item={{ id: `accessory-seat-cover-${selectedDesign || 'unselected'}`, name: selected ? `Seat Covers — ${selected.name}` : 'Seat Covers', image: selected?.image }} />
+      {typeof selected?.price === 'number' ? <div className="product-price">₦{selected.price.toLocaleString()}</div> : <ContactPriceButton productName={selected ? `Seat Covers — ${selected.name}` : 'Seat Covers'} />}
+      <AddToCartButton item={{ id: `accessory-seat-cover-${selectedDesign || 'unselected'}`, name: selected ? `Seat Covers — ${selected.name}` : 'Seat Covers', price: selected?.price, image: selected?.image }} />
     </div>
   </article>;
 }
