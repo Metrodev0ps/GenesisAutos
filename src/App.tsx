@@ -587,6 +587,15 @@ const matProducts = [
   ] },
   { name: 'Universal Leather Rug Footmat', image: '/UNIVERSAL LEATHER RUG FOTMAT-60K.jpg', options: [{ name: 'Universal', price: 60000 }] },
   { name: 'VIP Footmats', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', options: [{ name: 'Lexus', price: 30000 }, { name: 'Mercedes', price: 30000 }, { name: 'Toyota', price: 30000 }] },
+  { name: '2D Footmats', image: '/2D LUXURY QUALITY FOOTMATS.jpg', options: [
+    { name: '2D Luxury Quality Footmats', image: '/2D LUXURY QUALITY FOOTMATS.jpg', price: 25000 },
+    { name: '2D Luxury Quality Footmats — 25K Design', image: '/2D LUXURY QUALITY FOOTMATS 25K.jpg', price: 25000 },
+  ] },
+  { name: '3D Footmats', image: '/3d VIP LUXURY QUALITY FOOTMAT.jpg', options: [
+    { name: '3D VIP Luxury Quality Footmat', image: '/3d VIP LUXURY QUALITY FOOTMAT.jpg', price: 35000 },
+    { name: '3D VIP Quality Footmats', image: '/3D VIP QUALITY FOOTMATS 35K.jpg', price: 35000 },
+    { name: 'Toyota 3D Quality Footmats', image: '/TOYOTA 3D QUALITY FOOTMATS, 35K.jpg', price: 35000 },
+  ] },
 ];
 
 function BrakeFluidProduct() {
@@ -612,7 +621,7 @@ function MatProducts() {
     const selectedOption = product.options.find((option) => option.name === selected[product.name]);
     return <article className="catalogue-product" key={product.name}>
       <div className="catalogue-product-image">
-        <img src={product.image} alt={product.name} decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement?.classList.add('image-load-failed'); }} />
+        <img src={selectedOption?.image || product.image} alt={selectedOption?.name || product.name} decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement?.classList.add('image-load-failed'); }} />
       </div>
       <div className="catalogue-product-body"><strong>{product.name}</strong>
         <label className="oil-select-label">Choose Vehicle
