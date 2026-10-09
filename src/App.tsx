@@ -97,18 +97,19 @@ function getSeoProducts(): SeoProduct[] {
     ['Seat Covers — CROWN', '/DESIGN 3 SEAT COVER.jpg'],
     ['Seat Covers — SMILEY', '/DESIGN SEAT COVER 4.jpg'],
     ['Seat Covers — Design 5', '/DESIGN 5SEAT CIVER.jpg'],
-    ['Seat Covers — VIP Luxury 1', '/VIP LUXURY SEAT COVERS.jpg'],
-    ['Seat Covers — VIP Luxury 2', '/VIP LUXURY SEAT COVERS2.jpg'],
-    ['Seat Covers — VIP Luxury 3', '/VIP LUXURY SEAT COVERS3.jpg'],
-    ['Seat Covers — VIP Luxury 4', '/VIP LUXURY SEAT COVERS4.jpg'],
-    ['Seat Covers — VIP Luxury 5', '/VIP LUXURY SEAT COVERS5.jpg'],
+    ['Seat Covers — VIP Luxury 1', '/VIP LUXURY SEAT COVERS.jpg', 150000],
+    ['Seat Covers — VIP Luxury 2', '/VIP LUXURY SEAT COVERS2.jpg', 150000],
+    ['Seat Covers — VIP Luxury 3', '/VIP LUXURY SEAT COVERS3.jpg', 150000],
+    ['Seat Covers — VIP Luxury 4', '/VIP LUXURY SEAT COVERS4.jpg', 150000],
+    ['Seat Covers — VIP Luxury 5', '/VIP LUXURY SEAT COVERS5.jpg', 150000],
     ['Steering Cover Collection', '/STEERING COVERS.jpg'],
-  ].forEach(([name, image]) => products.push({
+  ].forEach(([name, image, price]) => products.push({
     slug: `accessory-${slugify(String(name))}`,
     name: String(name),
     category: 'Car Accessories',
     description: `${name} available from Genesis Autos in Iyana Ipaja, Lagos. Ask about current availability and price.`,
     image: String(image),
+    price: typeof price === 'number' ? price : undefined,
   }));
 
   alloyRimProducts.forEach((rim) => rim.options.forEach((option) => products.push({
@@ -682,11 +683,11 @@ function SeatCoverProduct() {
     { name: 'CROWN', image: '/DESIGN 3 SEAT COVER.jpg', price: 60000 },
     { name: 'SMILEY', image: '/DESIGN SEAT COVER 4.jpg', price: 100000 },
     { name: 'Design 5', image: '/DESIGN 5SEAT CIVER.jpg' },
-    { name: 'VIP Luxury 1', image: '/VIP LUXURY SEAT COVERS.jpg' },
-    { name: 'VIP Luxury 2', image: '/VIP LUXURY SEAT COVERS2.jpg' },
-    { name: 'VIP Luxury 3', image: '/VIP LUXURY SEAT COVERS3.jpg' },
-    { name: 'VIP Luxury 4', image: '/VIP LUXURY SEAT COVERS4.jpg' },
-    { name: 'VIP Luxury 5', image: '/VIP LUXURY SEAT COVERS5.jpg' },
+    { name: 'VIP Luxury 1', image: '/VIP LUXURY SEAT COVERS.jpg', price: 150000 },
+    { name: 'VIP Luxury 2', image: '/VIP LUXURY SEAT COVERS2.jpg', price: 150000 },
+    { name: 'VIP Luxury 3', image: '/VIP LUXURY SEAT COVERS3.jpg', price: 150000 },
+    { name: 'VIP Luxury 4', image: '/VIP LUXURY SEAT COVERS4.jpg', price: 150000 },
+    { name: 'VIP Luxury 5', image: '/VIP LUXURY SEAT COVERS5.jpg', price: 150000 },
   ];
   const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
   const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
