@@ -661,8 +661,9 @@ function SteeringCoverProduct() {
     { name: 'Condom Steering Cover', image: '/DESIGN 2 STEERING.jpg', price: 7000 },
     { name: 'Steering Cover Collection', image: '/STEERING COVERS.jpg' },
   ];
-  const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
-  const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
+  // Show the newly requested VIP luxury seat covers first when Accessories opens.
+  const [selectedDesign, setSelectedDesign] = useState('VIP Luxury 1');
+  const selected = designs.find((design) => design.name === selectedDesign) || designs.find((design) => design.name === 'VIP Luxury 1') || designs[0];
 
   return <article className="catalogue-product">
     {selected ? <img src={selected.image} alt={`Steering Cover ${selected.name}`} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
