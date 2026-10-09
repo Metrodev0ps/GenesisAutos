@@ -97,6 +97,12 @@ function getSeoProducts(): SeoProduct[] {
     ['Seat Covers — CROWN', '/DESIGN 3 SEAT COVER.jpg'],
     ['Seat Covers — SMILEY', '/DESIGN SEAT COVER 4.jpg'],
     ['Seat Covers — Design 5', '/DESIGN 5SEAT CIVER.jpg'],
+    ['Seat Covers — VIP Luxury 1', '/VIP LUXURY SEAT COVERS.jpg'],
+    ['Seat Covers — VIP Luxury 2', '/VIP LUXURY SEAT COVERS2.jpg'],
+    ['Seat Covers — VIP Luxury 3', '/VIP LUXURY SEAT COVERS3.jpg'],
+    ['Seat Covers — VIP Luxury 4', '/VIP LUXURY SEAT COVERS4.jpg'],
+    ['Seat Covers — VIP Luxury 5', '/VIP LUXURY SEAT COVERS5.jpg'],
+    ['Steering Cover Collection', '/STEERING COVERS.jpg'],
   ].forEach(([name, image]) => products.push({
     slug: `accessory-${slugify(String(name))}`,
     name: String(name),
@@ -540,6 +546,8 @@ const accessoryProducts = [
   { name: 'Steering Cover' },
   { name: 'Seat Covers' },
   { name: 'Dashboard Rug', image: '/DASHBOARD RUG.jpg', price: 10000 },
+  { name: 'Dashboard Mat', image: '/DASHBOARD MAT.jpg' },
+  { name: 'Sand Protectors', image: '/SAND PROTECTORS.jpg' },
   { name: 'New Wiper', price: 3000 },
   { name: 'Tokunbo Wiper', price: 5000 },
   { name: 'LED Lights', image: '/LED LIGHTS.jpg', price: 40000 },
@@ -646,6 +654,7 @@ function SteeringCoverProduct() {
   const designs = [
     { name: 'Normal Steering Cover', image: '/DESIGN 1 STEERING.jpg', price: 8000 },
     { name: 'Condom Steering Cover', image: '/DESIGN 2 STEERING.jpg', price: 7000 },
+    { name: 'Steering Cover Collection', image: '/STEERING COVERS.jpg' },
   ];
   const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
   const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
@@ -673,6 +682,11 @@ function SeatCoverProduct() {
     { name: 'CROWN', image: '/DESIGN 3 SEAT COVER.jpg', price: 60000 },
     { name: 'SMILEY', image: '/DESIGN SEAT COVER 4.jpg', price: 100000 },
     { name: 'Design 5', image: '/DESIGN 5SEAT CIVER.jpg' },
+    { name: 'VIP Luxury 1', image: '/VIP LUXURY SEAT COVERS.jpg' },
+    { name: 'VIP Luxury 2', image: '/VIP LUXURY SEAT COVERS2.jpg' },
+    { name: 'VIP Luxury 3', image: '/VIP LUXURY SEAT COVERS3.jpg' },
+    { name: 'VIP Luxury 4', image: '/VIP LUXURY SEAT COVERS4.jpg' },
+    { name: 'VIP Luxury 5', image: '/VIP LUXURY SEAT COVERS5.jpg' },
   ];
   const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
   const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
