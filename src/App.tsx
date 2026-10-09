@@ -12,7 +12,11 @@ const directionsUrl = 'https://www.google.com/maps/search/?api=1&query=Genesis+A
 const instagramUrl = 'https://www.instagram.com/genesisautosalimosho/';
 
 const openWhatsApp = (message: string) => {
-  window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  // Open directly from the click, with a same-tab fallback if the browser blocks pop-ups.
+  const popup = window.open(url, '_blank');
+  if (popup) popup.opener = null;
+  else window.location.assign(url);
 };
 
 const SITE_URL = 'https://genesisautos.org';
