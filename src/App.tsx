@@ -713,13 +713,38 @@ function SeatCoverProduct() {
   </article>;
 }
 
+function VipLuxurySeatCovers() {
+  const designs = [
+    { name: 'VIP Luxury 1', image: '/VIP LUXURY SEAT COVERS.jpg' },
+    { name: 'VIP Luxury 2', image: '/VIP LUXURY SEAT COVERS2.jpg' },
+    { name: 'VIP Luxury 3', image: '/VIP LUXURY SEAT COVERS3.jpg' },
+    { name: 'VIP Luxury 4', image: '/VIP LUXURY SEAT COVERS4.jpg' },
+    { name: 'VIP Luxury 5', image: '/VIP LUXURY SEAT COVERS5.jpg' },
+  ];
+  const [selectedDesign, setSelectedDesign] = useState(designs[0].name);
+  const selected = designs.find((design) => design.name === selectedDesign) || designs[0];
+  return <article className="catalogue-product">
+    <img src={selected.image} alt={selected.name + ' seat covers'} decoding="async" />
+    <div className="catalogue-product-body">
+      <strong>VIP Luxury Seat Covers</strong>
+      <label className="oil-select-label">Choose Design
+        <select value={selectedDesign} onChange={(event) => setSelectedDesign(event.target.value)}>
+          {designs.map((design) => <option key={design.name} value={design.name}>{design.name}</option>)}
+        </select>
+      </label>
+      <div className="product-price">₦150,000</div>
+      <AddToCartButton item={{ id: 'accessory-vip-luxury-' + selectedDesign, name: 'VIP Luxury Seat Covers — ' + selectedDesign, price: 150000, image: selected.image }} />
+    </div>
+  </article>;
+}
+
 function AccessoriesPage() {
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
-    <div className="accessory-list">{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : item.name === 'Steering Cover' ? <SteeringCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
+    <div className="accessory-list"><VipLuxurySeatCovers />{accessoryProducts.map((item) => item.name === 'Seat Covers' ? <SeatCoverProduct key={item.name} /> : item.name === 'Steering Cover' ? <SteeringCoverProduct key={item.name} /> : <article className="catalogue-product" key={item.name}>{item.image ? <img src={item.image} alt={item.name} decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}<div className="catalogue-product-body"><strong>{item.name}</strong>{typeof item.price === 'number' ? <div className="product-price">₦{item.price.toLocaleString()}</div> : <ContactPriceButton productName={item.name} />}<AddToCartButton item={{ id: `accessory-${item.name}`, name: item.name, price: item.price, image: item.image }} /></div></article>)}</div>
     <h2 className="section-title">Foot Mats & Boot Mats</h2>
     <div className="accessory-list"><MatProducts /></div>
   </div></section>
