@@ -1,19 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    'Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment.',
-  );
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 export const WEBSITE_SLUG = 'genesis-autos-1218d5';
 
+function getSupabaseClient() {
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error(
+      'Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment.',
+    );
+  }
+
+  return createClient(supabaseUrl, supabaseAnonKey);
+}
+
 export async function loadWebsiteContent() {
+  const supabase = getSupabaseClient();
+
   const { data: website, error: websiteError } = await supabase
     .from('websites')
     .select('id, name, slug, status')
