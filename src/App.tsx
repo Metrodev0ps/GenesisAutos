@@ -418,6 +418,7 @@ function useSeo(currentPath: string, managedProducts: ManagedProduct[] = []) {
       schema.remove();
     };
   }, [currentPath, managedProducts]);
+}
 
 function ImagePlaceholder({ src = '/IMG_4929.jpg', label = 'Image', className = '' }: { src?: string; label?: string; className?: string }) {
   return (
