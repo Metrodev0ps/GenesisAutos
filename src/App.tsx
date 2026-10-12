@@ -12,7 +12,7 @@ const whatsappNumber = '2347065379450';
 const directionsUrl = 'https://www.google.com/maps/search/?api=1&query=Genesis+Autos%2C+62+Alimosho+Rd.%2C+Opp+Multigrace+Sch.%2C+Alagutan+B%2FStop%2C+Iyana+Ipaja%2C+Lagos';
 const instagramUrl = 'https://www.instagram.com/genesisautosalimosho/';
 const DEFAULT_BUSINESS_ADDRESS = '62 Alimosho Rd., Opp. Multigrace Sch. Alagutan B/Stop, Iyana Ipaja, Lagos, Nigeria';
-const DEFAULT_BUSINESS_DESCRIPTION = 'Your trusted destination for automobile spare parts and automotive support in Iyana Ipaja, Lagos.';
+const DEFAULT_BUSINESS_DESCRIPTION = '{activeBusinessDescription}';
 const DEFAULT_TIKTOK_URL = 'https://www.tiktok.com/@genesisautosalimosho';
 const DEFAULT_TELEGRAM_URL = 'https://t.me/genesisautosalimosho';
 
@@ -163,7 +163,7 @@ function ManagedCategoryPage({
   const items = (managed?.products ?? []).filter((product) => categories.includes(product.category));
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
-      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+      <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/batteries">Batteries</a><a href="/accessories">Accessories</a><a href="/tools">Tools</a><button className="button button-small button-orange" onClick={() => openWhatsApp(`Hello Genesis Autos, ${enquiry}`)}><MessageCircle size={15}/> WhatsApp Us</button></nav>
     </div></header>
     <main><section className="battery-hero"><div className="container">
@@ -348,7 +348,7 @@ function useSeo(currentPath: string, managedProducts: ManagedProduct[] = []) {
     const route = product ? {
       title: `${product.name} | Genesis Autos Iyana Ipaja Lagos`,
       description: product.description,
-    } : seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
+    } : rawPath === '/' ? { title: activeBusinessName + ' | Auto Spare Parts & Automotive Products in Iyana Ipaja, Lagos', description: activeBusinessDescription } : seoRoutes[rawPath] || (rawPath.startsWith('/batteries/') ? {
       title: `${rawPath.split('/').pop()?.replace(/-/g, ' ')} Batteries | Genesis Autos Lagos`,
       description: 'Browse battery options from Genesis Autos in Iyana Ipaja, Lagos. Explore battery specifications, capacities and terminal options and contact Genesis Autos for current availability.',
     } : seoRoutes['/']);
@@ -386,27 +386,27 @@ function useSeo(currentPath: string, managedProducts: ManagedProduct[] = []) {
         {
           '@type': 'LocalBusiness',
           '@id': `${SITE_URL}/#business`,
-          name: 'Genesis Autos',
-          description: 'Automobile spare parts and automotive products business in Iyana Ipaja, Lagos.',
+          name: activeBusinessName,
+          description: activeBusinessDescription,
           url: SITE_URL,
-          telephone: '+2347065379450',
+          telephone: activeBusinessPhone,
           address: {
             '@type': 'PostalAddress',
-            streetAddress: '62 Alimosho Rd., Opp. Multigrace Sch. Alagutan B/Stop',
+            streetAddress: activeBusinessAddress,
             addressLocality: 'Iyana Ipaja',
             addressRegion: 'Lagos',
             addressCountry: 'NG',
           },
           areaServed: ['Iyana Ipaja', 'Alimosho', 'Lagos'],
           sameAs: [
-            'https://www.instagram.com/genesisautosalimosho/',
-            'https://www.tiktok.com/@genesisautosalimosho',
+            activeInstagramUrl,
+            activeTiktokUrl,
           ],
         },
         {
           '@type': 'WebSite',
           '@id': `${SITE_URL}/#website`,
-          name: 'Genesis Autos',
+          name: activeBusinessName,
           url: SITE_URL,
           publisher: { '@id': `${SITE_URL}/#business` },
           inLanguage: 'en-NG',
@@ -610,7 +610,7 @@ function CartPage() {
 
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
-      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" decoding="async" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+      <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} decoding="async" /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
     </div></header>
     <main>
@@ -861,7 +861,7 @@ function AccessoriesPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Car Accessories & Footmats" subtitle="Published accessory products managed from the website dashboard." categories={['Car Accessories']} icon={Car} enquiry="I would like to enquire about car accessories and footmats." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
-    <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+    <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Car size={14}/> Accessories</div><h1>Car <span>Accessories</span></h1><p>Available automotive accessories from Genesis Autos. Contact us to confirm availability and current price.</p>
@@ -897,7 +897,7 @@ function SecurityPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Vehicle Security" subtitle="Published vehicle security products managed from the website dashboard." categories={['Vehicle Security']} icon={ShieldCheck} enquiry="I would like to enquire about vehicle security products." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
-    <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+    <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/security">Security</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about vehicle security products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><ShieldCheck size={14}/> Security</div><h1>Vehicle <span>Security</span></h1><p>Vehicle security products from Genesis Autos. Contact us to confirm availability and current price.</p>
@@ -910,7 +910,7 @@ function ToolsPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Tools, Rims & Essentials" subtitle="Published tools, alloy rims and automotive essentials managed from the website dashboard." categories={['Alloy Rims', 'Automotive Tools & Essentials']} icon={Wrench} enquiry="I would like to enquire about tools, rims and essentials." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
-    <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+    <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Wrench size={14}/> Tools & Essentials</div><h1>Tools <span>& Essentials</span></h1><p>Essential automotive tools, safety items and vehicle essentials available from Genesis Autos. Contact us to confirm availability and current price.</p>
@@ -1102,7 +1102,7 @@ function LubricantsPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Oil, Grease & ATF" subtitle="Published engine oils, ATF, coolant and automotive fluids managed from the website dashboard." categories={['Engine Oil', 'ATF', 'Coolant', 'Automotive Fluids']} icon={Settings} enquiry="I would like to enquire about oil, grease, ATF and automotive fluids." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
-    <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+    <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/oil-grease-atf">Oil, Grease & ATF</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
   <main><section className="battery-hero"><div className="container"><div className="eyebrow orange-text"><Settings size={14}/> Oil, Grease & ATF</div><h1>Oil, Grease <span>& ATF</span></h1><p>Engine oils grouped by grade. Select the brand and size you need.</p>
@@ -1194,7 +1194,7 @@ function BatteryPage() {
   return (
     <div className="battery-page">
       <header className="site-header"><div className="container nav-wrap">
-        <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+        <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
         <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/batteries">All Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')}><MessageCircle size={15} /> WhatsApp Us</button></nav>
       </div></header>
       <main>
@@ -1233,7 +1233,7 @@ function ProductDetailPage({ product }: { product: SeoProduct }) {
   const categoryHref = product.category === 'Car Batteries' ? '/batteries' : product.category === 'Car Accessories' ? '/accessories' : product.category === 'Automotive Tools & Essentials' || product.category === 'Alloy Rims' ? '/tools' : product.category === 'Vehicle Security' ? '/security' : '/oil-grease-atf';
   return <div className="battery-page">
     <header className="site-header"><div className="container nav-wrap">
-      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+      <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href={categoryHref}>{product.category}</a><button className="button button-small button-orange" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in ${product.name}. Please confirm availability and current price.`)}><MessageCircle size={15}/> WhatsApp Us</button></nav>
     </div></header>
     <main>
@@ -1391,7 +1391,7 @@ function App() {
       )}
       <div className="site-shell">
       <header className="site-header"><div className="container nav-wrap">
-        <a className="brand" href="#home" onClick={closeMenu} aria-label="Genesis Autos home"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+        <a className="brand" href="#home" onClick={closeMenu} aria-label="Genesis Autos home"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`}>
           <a href="#home" onClick={closeMenu}>Home</a><a href="#about" onClick={closeMenu}>About</a><a href="#batteries" onClick={closeMenu}>Products</a><a href="#services" onClick={closeMenu}>Services</a><a href="#why-genesis" onClick={closeMenu}>Why Genesis</a><a href="#contact" onClick={closeMenu}>Contact</a>
@@ -1401,7 +1401,7 @@ function App() {
 
       <main>
         <section className="hero" id="home"><div className="hero-accent" /><div className="container hero-grid">
-          <div className="hero-copy"><div className="eyebrow"><MapPin size={13} /> Iyana Ipaja, Lagos</div><h1>Quality Auto Parts.<br /><span>Reliable Automotive</span><br />Support.</h1><p>Your trusted destination for automobile spare parts and automotive support in Iyana Ipaja, Lagos.</p><div className="hero-actions"><button className="button button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp Genesis Autos</button><a className="button button-outline" href="#products">Explore Products <ArrowRight size={16} /></a></div><div className="rating-line"><Star size={16} fill="currentColor" /><strong>4.3</strong> Google Rating <span>·</span> Local Automotive Business</div></div>
+          <div className="hero-copy"><div className="eyebrow"><MapPin size={13} /> Iyana Ipaja, Lagos</div><h1>Quality Auto Parts.<br /><span>Reliable Automotive</span><br />Support.</h1><p>{activeBusinessDescription}</p><div className="hero-actions"><button className="button button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp Genesis Autos</button><a className="button button-outline" href="#products">Explore Products <ArrowRight size={16} /></a></div><div className="rating-line"><Star size={16} fill="currentColor" /><strong>4.3</strong> Google Rating <span>·</span> Local Automotive Business</div></div>
           <img
   className="hero-image real-image"
   src="/IMG_4929.jpg"
@@ -1415,7 +1415,7 @@ function App() {
           { icon: Settings, title: 'Spare Parts', text: 'Quality automotive parts for different vehicle needs.' }, { icon: Wrench, title: 'Auto Support', text: 'Automotive support for vehicle owners and businesses.' }, { icon: MessageCircle, title: 'Easy Enquiries', text: 'Contact Genesis Autos directly through WhatsApp or phone.' },
         ].map(({ icon: Icon, title, text }) => <div className="quick-card" key={title}><Icon size={24} /><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></section>
 
-        <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and automotive products to support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>62 Alimosho Rd.<br />Opp. Multigrace Sch. Alagutan B/Stop<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" decoding="async" /></div></section>
+        <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and automotive products to support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>{activeBusinessAddress}</p></div><a className="button button-orange button-small" href={activeDirectionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" decoding="async" /></div></section>
 
         <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#products">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{homeCatalogueCards.map(({ title, description, icon: Icon, label, image, battery, accessories, tools, security, lubricants }) => {
   const href = battery ? '/batteries' : accessories ? '/accessories' : tools ? '/tools' : security ? '/security' : lubricants ? '/oil-grease-atf' : '#contact';
@@ -1433,16 +1433,16 @@ function App() {
 
         <section className="section why-section" id="why-genesis"><div className="container"><div className="eyebrow orange-text">Why Genesis Autos</div><h2>Why Customers Choose <span>Genesis Autos</span></h2><div className="why-grid">{[{ title: 'Local & Accessible', text: 'Conveniently located on Alimosho Road in Iyana Ipaja.', icon: MapPin }, { title: 'Automotive Focused', text: 'Focused specifically on vehicle parts and automotive support.', icon: ShieldCheck }, { title: 'Direct Communication', text: 'Customers can contact the business directly through WhatsApp or phone.', icon: MessageCircle }, { title: 'Built for Real Vehicle Needs', text: 'Designed around helping customers find the right automotive products and support.', icon: CheckCircle2 }].map(({ title, text, icon: Icon }) => <article className="why-card" key={title}><div className="why-icon"><Icon size={19} /></div><div><h3>{title}</h3><p>{text}</p></div></article>)}</div></div></section>
 
-        <section className="social-section"><div className="container social-grid"><div className="review-panel"><div className="eyebrow orange-text">Google Reviews</div><h2>What Customers<br /><span>Are Saying</span></h2><div className="review-score">4.3 <small>/ 5</small></div><div className="stars"><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /></div><p>6 Google Reviews</p><a className="button button-outline" href={directionsUrl} target="_blank" rel="noreferrer">View Google Reviews <ArrowRight size={15} /></a></div><div className="instagram-panel"><div><div className="eyebrow orange-text">Social</div><h2>Follow <span>Genesis Autos</span></h2><p>See our latest vehicles, products and automotive updates on Instagram.</p><a className="instagram-handle" href={instagramUrl} target="_blank" rel="noreferrer"><Instagram size={17} /> @genesisautosalimosho</a><br /><a className="instagram-handle" href="https://www.tiktok.com/@genesisautosalimosho" target="_blank" rel="noreferrer">TikTok · @genesisautosalimosho</a><br /><a className="button button-orange button-small" href={instagramUrl} target="_blank" rel="noreferrer">Follow on Instagram <ArrowRight size={14} /></a></div><div className="instagram-placeholders"><ImagePlaceholder src="/IMG_4929.jpg" label="Genesis Autos social photo" /><ImagePlaceholder src="/IMG_4924.jpg" label="Genesis Autos social photo" /><ImagePlaceholder src="/COOLTIGER.jpg" label="Genesis Autos social photo" /></div></div></div></section>
+        <section className="social-section"><div className="container social-grid"><div className="review-panel"><div className="eyebrow orange-text">Google Reviews</div><h2>What Customers<br /><span>Are Saying</span></h2><div className="review-score">4.3 <small>/ 5</small></div><div className="stars"><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /><Star size={15} fill="currentColor" /></div><p>6 Google Reviews</p><a className="button button-outline" href={activeDirectionsUrl} target="_blank" rel="noreferrer">View Google Reviews <ArrowRight size={15} /></a></div><div className="instagram-panel"><div><div className="eyebrow orange-text">Social</div><h2>Follow <span>Genesis Autos</span></h2><p>See our latest vehicles, products and automotive updates on Instagram.</p><a className="instagram-handle" href={activeInstagramUrl} target="_blank" rel="noreferrer"><Instagram size={17} /> @genesisautosalimosho</a><br /><a className="instagram-handle" href={activeTiktokUrl} target="_blank" rel="noreferrer">TikTok · @genesisautosalimosho</a><br /><a className="button button-orange button-small" href={activeInstagramUrl} target="_blank" rel="noreferrer">Follow on Instagram <ArrowRight size={14} /></a></div><div className="instagram-placeholders"><ImagePlaceholder src="/IMG_4929.jpg" label="Genesis Autos social photo" /><ImagePlaceholder src="/IMG_4924.jpg" label="Genesis Autos social photo" /><ImagePlaceholder src="/COOLTIGER.jpg" label="Genesis Autos social photo" /></div></div></div></section>
 
-        <section className="section contact-section" id="contact"><div className="container contact-grid"><div className="contact-copy"><div className="eyebrow orange-text">Contact Genesis Autos</div><h2>Looking for a<br /><span>Part or Spare?</span></h2><p>Tell us what you need and contact Genesis Autos directly.</p><div className="contact-actions"><button className="contact-action whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry about your automotive products.')}><MessageCircle size={19} /><span><strong>Chat on WhatsApp</strong><small>Quickest way to reach us</small></span></button><a className="contact-action" href="tel:+2347065379450"><Phone size={19} /><span><strong>Call Genesis Autos</strong><small>+234 706 537 9450 · +234 908 356 1212</small></span></a></div></div><form className="enquiry-form" onSubmit={handleSubmit}><div className="form-row"><label>Name<input required name="name" placeholder="Your full name" /></label><label>Phone Number<input required name="phone" type="tel" placeholder="Your phone number" /></label></div><div className="form-row"><label>What do you need?<input required name="need" placeholder="e.g. battery or spare part" /></label><label>Vehicle Make / Model<input name="vehicle" placeholder="e.g. Toyota Camry" /></label></div><label>Message<textarea required name="message" rows={3} placeholder="Tell us what you need..."></textarea></label><button className="button button-orange form-button" type="submit">{formSent ? 'Enquiry Ready — Open WhatsApp' : 'Send Enquiry'} <ArrowRight size={16} /></button></form></div></section>
+        <section className="section contact-section" id="contact"><div className="container contact-grid"><div className="contact-copy"><div className="eyebrow orange-text">Contact Genesis Autos</div><h2>Looking for a<br /><span>Part or Spare?</span></h2><p>Tell us what you need and contact Genesis Autos directly.</p><div className="contact-actions"><button className="contact-action whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry about your automotive products.')}><MessageCircle size={19} /><span><strong>Chat on WhatsApp</strong><small>Quickest way to reach us</small></span></button><a className="contact-action" href={'tel:' + activeBusinessPhone.replace(/\\s+/g, '')}><Phone size={19} /><span><strong>Call Genesis Autos</strong><small>{activeBusinessPhone} · {activeSecondaryPhone}</small></span></a></div></div><form className="enquiry-form" onSubmit={handleSubmit}><div className="form-row"><label>Name<input required name="name" placeholder="Your full name" /></label><label>Phone Number<input required name="phone" type="tel" placeholder="Your phone number" /></label></div><div className="form-row"><label>What do you need?<input required name="need" placeholder="e.g. battery or spare part" /></label><label>Vehicle Make / Model<input name="vehicle" placeholder="e.g. Toyota Camry" /></label></div><label>Message<textarea required name="message" rows={3} placeholder="Tell us what you need..."></textarea></label><button className="button button-orange form-button" type="submit">{formSent ? 'Enquiry Ready — Open WhatsApp' : 'Send Enquiry'} <ArrowRight size={16} /></button></form></div></section>
 
-        <section className="location-section"><div className="container location-grid"><div><div className="eyebrow orange-text">Our Location</div><h2>Genesis <span>Autos</span></h2><p>62 Alimosho Rd.<br />Opp. Multigrace Sch. Alagutan B/Stop<br />Iyana Ipaja, Lagos, Nigeria</p><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer"><Navigation size={15} /> Get Directions</a></div><div className="map-embed"><iframe title="Genesis Autos location map" src="https://www.google.com/maps?q=62+Alimosho+Rd.%2C+Opp.+Multigrace+Sch.+Alagutan+B%2FStop%2C+Iyana+Ipaja%2C+Lagos%2C+Nigeria&output=embed" referrerPolicy="no-referrer-when-downgrade" /><a className="map-overlay" href={directionsUrl} target="_blank" rel="noreferrer"><MapPin size={18} /> Open in Google Maps</a></div></div></section>
+        <section className="location-section"><div className="container location-grid"><div><div className="eyebrow orange-text">Our Location</div><h2>Genesis <span>Autos</span></h2><p>{activeBusinessAddress}</p><a className="button button-orange button-small" href={activeDirectionsUrl} target="_blank" rel="noreferrer"><Navigation size={15} /> Get Directions</a></div><div className="map-embed"><iframe title="Genesis Autos location map" src={activeMapEmbedUrl} referrerPolicy="no-referrer-when-downgrade" /><a className="map-overlay" href={activeDirectionsUrl} target="_blank" rel="noreferrer"><MapPin size={18} /> Open in Google Maps</a></div></div></section>
       </main>
 
-      <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a className="brand" href="#home"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a><p>Automobile Spare Parts & Automotive Services</p><small>© 2026 Genesis Autos. All rights reserved.</small></div><div><h4>Explore</h4><a href="#home">Home</a><a href="#about">About</a><a href="#products">Products</a><a href="#services">Services</a><a href="#contact">Contact</a></div><div><h4>Contact</h4><a href="tel:+2347065379450">+234 706 537 9450</a><a href="tel:+2349083561212">+234 908 356 1212</a><span>Iyana Ipaja, Lagos</span></div><div><h4>Social</h4><a href={instagramUrl} target="_blank" rel="noreferrer"><Instagram size={15} /> @genesisautosalimosho</a><a href="https://www.tiktok.com/@genesisautosalimosho" target="_blank" rel="noreferrer">TikTok · @genesisautosalimosho</a><a href="https://t.me/genesisautosalimosho" target="_blank" rel="noreferrer"><Send size={15} /> Telegram Group</a></div></div></footer>
-      <div className="floating-actions"><button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button><a className="floating-telegram" href="https://t.me/genesisautosalimosho" target="_blank" rel="noreferrer" aria-label="Join Genesis Autos Telegram group"><Send size={24} /></a></div>
-      <div className="mobile-bar"><button onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp</button><a href="tel:+2347065379450"><Phone size={17} /> Call</a><a href={directionsUrl} target="_blank" rel="noreferrer"><Navigation size={17} /> Directions</a><a href="https://t.me/genesisautosalimosho" target="_blank" rel="noreferrer"><Send size={17} /> Telegram</a></div>
+      <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a className="brand" href="#home"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a><p>Automobile Spare Parts & Automotive Services</p><small>© 2026 Genesis Autos. All rights reserved.</small></div><div><h4>Explore</h4><a href="#home">Home</a><a href="#about">About</a><a href="#products">Products</a><a href="#services">Services</a><a href="#contact">Contact</a></div><div><h4>Contact</h4><a href={'tel:' + activeBusinessPhone.replace(/\\s+/g, '')}>{activeBusinessPhone}</a><a href={'tel:' + activeSecondaryPhone.replace(/\\s+/g, '')}>{activeSecondaryPhone}</a><span>Iyana Ipaja, Lagos</span></div><div><h4>Social</h4><a href={activeInstagramUrl} target="_blank" rel="noreferrer"><Instagram size={15} /> @genesisautosalimosho</a><a href={activeTiktokUrl} target="_blank" rel="noreferrer">TikTok · @genesisautosalimosho</a><a href={activeTelegramUrl} target="_blank" rel="noreferrer"><Send size={15} /> Telegram Group</a></div></div></footer>
+      <div className="floating-actions"><button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button><a className="floating-telegram" href={activeTelegramUrl} target="_blank" rel="noreferrer" aria-label="Join Genesis Autos Telegram group"><Send size={24} /></a></div>
+      <div className="mobile-bar"><button onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp</button><a href={'tel:' + activeBusinessPhone.replace(/\\s+/g, '')}><Phone size={17} /> Call</a><a href={activeDirectionsUrl} target="_blank" rel="noreferrer"><Navigation size={17} /> Directions</a><a href={activeTelegramUrl} target="_blank" rel="noreferrer"><Send size={17} /> Telegram</a></div>
       </div>
     </>
     </ManagedWebsiteContext.Provider>
