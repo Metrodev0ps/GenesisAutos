@@ -11,9 +11,44 @@ import {
 const whatsappNumber = '2347065379450';
 const directionsUrl = 'https://www.google.com/maps/search/?api=1&query=Genesis+Autos%2C+62+Alimosho+Rd.%2C+Opp+Multigrace+Sch.%2C+Alagutan+B%2FStop%2C+Iyana+Ipaja%2C+Lagos';
 const instagramUrl = 'https://www.instagram.com/genesisautosalimosho/';
+const DEFAULT_BUSINESS_ADDRESS = '62 Alimosho Rd., Opp. Multigrace Sch. Alagutan B/Stop, Iyana Ipaja, Lagos, Nigeria';
+const DEFAULT_BUSINESS_DESCRIPTION = 'Your trusted destination for automobile spare parts and automotive support in Iyana Ipaja, Lagos.';
+const DEFAULT_TIKTOK_URL = 'https://www.tiktok.com/@genesisautosalimosho';
+const DEFAULT_TELEGRAM_URL = 'https://t.me/genesisautosalimosho';
+
+let activeWhatsAppNumber = whatsappNumber;
+let activeBusinessName = 'Genesis Autos';
+let activeBusinessDescription = DEFAULT_BUSINESS_DESCRIPTION;
+let activeBusinessPhone = '+234 706 537 9450';
+let activeSecondaryPhone = '+234 908 356 1212';
+let activeBusinessAddress = DEFAULT_BUSINESS_ADDRESS;
+let activeBusinessLogoUrl = '/Logo and icon.jpg';
+let activeInstagramUrl = instagramUrl;
+let activeTiktokUrl = DEFAULT_TIKTOK_URL;
+let activeTelegramUrl = DEFAULT_TELEGRAM_URL;
+let activeDirectionsUrl = directionsUrl;
+let activeMapEmbedUrl = 'https://www.google.com/maps?q=62+Alimosho+Rd.%2C+Opp.+Multigrace+Sch.+Alagutan+B%2FStop%2C+Iyana+Ipaja%2C+Lagos%2C+Nigeria&output=embed';
+
+function applyManagedBusinessDetails(result: ManagedContent) {
+  const record = result.content;
+  const details = record?.business_details ?? {};
+  activeBusinessName = record?.title?.trim() || result.website.name || 'Genesis Autos';
+  activeBusinessDescription = record?.description?.trim() || DEFAULT_BUSINESS_DESCRIPTION;
+  activeBusinessPhone = details.telephone?.trim() || '+234 706 537 9450';
+  activeSecondaryPhone = details.secondary_telephone?.trim() || '+234 908 356 1212';
+  activeBusinessAddress = details.address?.trim() || DEFAULT_BUSINESS_ADDRESS;
+  activeBusinessLogoUrl = record?.logo_url?.trim() || '/Logo and icon.jpg';
+  activeInstagramUrl = details.instagram?.trim() || instagramUrl;
+  activeTiktokUrl = details.tiktok?.trim() || DEFAULT_TIKTOK_URL;
+  activeTelegramUrl = details.telegram?.trim() || DEFAULT_TELEGRAM_URL;
+  const phoneDigits = String(details.whatsapp || details.telephone || whatsappNumber).replace(/\\D/g, '');
+  activeWhatsAppNumber = phoneDigits.startsWith('0') && phoneDigits.length === 11 ? '234' + phoneDigits.slice(1) : (phoneDigits || whatsappNumber);
+  activeDirectionsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(activeBusinessName + ', ' + activeBusinessAddress);
+  activeMapEmbedUrl = 'https://www.google.com/maps?q=' + encodeURIComponent(activeBusinessAddress) + '&output=embed';
+}
 
 const openWhatsApp = (message: string) => {
-  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const url = 'https://wa.me/' + activeWhatsAppNumber + '?text=' + encodeURIComponent(message);
   // Open directly from the click, with a same-tab fallback if the browser blocks pop-ups.
   const popup = window.open(url, '_blank');
   if (popup) popup.opener = null;
@@ -1236,14 +1271,24 @@ function App() {
   // Keep the existing catalogue available if the Hub database/config is not ready yet.
   useEffect(() => {
     let cancelled = false;
-    loadWebsiteContent()
-      .then((result) => {
-        if (!cancelled) setManagedWebsiteContent(result);
-      })
-      .catch((error) => {
-        console.warn('Genesis Autos management content is not available; using the built-in catalogue.', error);
-      });
-    return () => { cancelled = true; };
+    const refreshManagedContent = async () => {
+      try {
+        const result = await loadWebsiteContent();
+        if (cancelled) return;
+        applyManagedBusinessDetails(result);
+        setManagedWebsiteContent(result);
+      } catch (error) {
+        if (!cancelled) {
+          console.warn('Genesis Autos management content is not available; using the built-in catalogue.', error);
+        }
+      }
+    };
+    void refreshManagedContent();
+    window.addEventListener('focus', refreshManagedContent);
+    return () => {
+      cancelled = true;
+      window.removeEventListener('focus', refreshManagedContent);
+    };
   }, []);
 
 
