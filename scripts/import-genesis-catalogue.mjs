@@ -14,10 +14,10 @@ const WEBSITE_SLUG = 'genesis-autos-1218d5';
 const raw = JSON.parse(fs.readFileSync(SOURCE_FILE, 'utf8'));
 function parseLiteralArray(text) {
   // Source arrays were copied verbatim from our code; parse their restricted JS object-literal subset.
-  const normalized = text.replace(/([{,]\\s*)([A-Za-z_$][\\w$]*)(\\s*:)/g, '$1"$2"$3').replace(/'/g, '"').replace(/,\\s*([}\\]])/g, '$1');
+  const normalized = text.replace(/([{,]\s*)([A-Za-z_$][\w$]*)(\s*:)/g, '$1"$2"$3').replace(/'/g, '"').replace(/,\s*([}\]])/g, '$1');
   return JSON.parse(normalized);
 }
-function slugify(value) { return String(value ?? '').toLowerCase().trim().replace(/['"\\[\\]]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item'; }
+function slugify(value) { return String(value ?? '').toLowerCase().trim().replace(/['"\[\]]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item'; }
 const source = Object.fromEntries(Object.entries(raw).map(([key, value]) => [key, parseLiteralArray(value)]));
 const rows = [];
 const slugCounts = new Map();
