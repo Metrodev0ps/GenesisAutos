@@ -27,9 +27,27 @@ export type ManagedService = {
   is_published: boolean;
 };
 
+export type ManagedBusinessDetails = {
+  telephone?: string | null;
+  secondary_telephone?: string | null;
+  whatsapp?: string | null;
+  address?: string | null;
+  instagram?: string | null;
+  tiktok?: string | null;
+  telegram?: string | null;
+};
+
+export type ManagedWebsiteContentRecord = {
+  title?: string | null;
+  description?: string | null;
+  logo_url?: string | null;
+  business_details?: ManagedBusinessDetails | null;
+  content?: Record<string, unknown> | null;
+};
+
 export type ManagedWebsiteContent = {
   website: { id: string; name: string; slug: string; status: string };
-  content: Record<string, unknown> | null;
+  content: ManagedWebsiteContentRecord | null;
   products: ManagedProduct[];
   services: ManagedService[];
 };
@@ -89,7 +107,7 @@ export async function loadWebsiteContent(): Promise<ManagedWebsiteContent> {
 
   return {
     website,
-    content: contentResult.data,
+    content: (contentResult.data as ManagedWebsiteContentRecord | null) ?? null,
     products: (productsResult.data ?? []) as ManagedProduct[],
     services: (servicesResult.data ?? []) as ManagedService[],
   };
