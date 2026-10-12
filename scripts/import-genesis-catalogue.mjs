@@ -6,7 +6,8 @@ import { createClient } from '@supabase/supabase-js';
 const SOURCE_FILE = path.resolve('scripts/genesis-catalogue-source.json');
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
+const DRY_RUN = process.argv.includes('--dry-run');
+if (!DRY_RUN && (!SUPABASE_URL || !SERVICE_ROLE_KEY)) {
   console.error('Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in your local shell. Do not add the service-role key to Vite/client variables, .env.example, or Git.');
   process.exit(1);
 }
@@ -82,6 +83,13 @@ for (const group of source.engineOilGrades) for (const [brand,sizes] of Object.e
 for (const name of ['TOYOTA ATF 1L','TOYOTA ATF 4L','SEAMAX ATF 1L','SEAMAX ATF 4L','ABRO MASTERS 1L','HARDEX T4 1L','HARDEX T4 4L','HOLTS ATF']) { const image=name.includes('TOYOTA')?'/TOYOTA ATF.jpg':name.includes('SEAMAX')?'/SEAMAX ATF.jpg':name.includes('HARDEX')?'/HARDEX ATF.jpg':'/ATF.jpg'; const prices={'TOYOTA ATF 1L':6500,'TOYOTA ATF 4L':25000,'SEAMAX ATF 1L':4500,'SEAMAX ATF 4L':17000,'ABRO MASTERS 1L':4500,'HARDEX T4 1L':10000,'HARDEX T4 4L':42000,'HOLTS ATF':5000}; add({key:`atf:${name}`,name,category:'ATF',price:prices[name],image}); }
 for (const item of source.coolantOptions) add({key:`coolant:${item.size}`,name:`Coolant — ${item.size}`,category:'Coolant',price:item.price,details:item.size});
 for (const name of source.lubricantGroups.other) add({key:`fluid:${name}`,name,category:'Automotive Fluids',price:3500,image:name==='INJECTOR CLEANER'?'/FUEL INJECTOR CLEANER.jpg':'/OIL TREATMENT.jpg'});
+const externalKeys = new Set(rows.map((row) => row.external_key));
+if (externalKeys.size !== rows.length) throw new Error('Duplicate external keys found in the source catalogue.');
+if (DRY_RUN) {
+  const byCategory = Object.fromEntries([...new Set(rows.map((row) => row.category))].map((category) => [category, rows.filter((row) => row.category === category).length]));
+  console.log(JSON.stringify({ dryRun: true, website: WEBSITE_SLUG, sourceRecords: rows.length, pricedRecords: rows.filter((row) => typeof row.price === 'number').length, recordsWithImages: rows.filter((row) => row.image_path).length, uniqueExternalKeys: externalKeys.size, categories: byCategory, publishedByDefault: 0 }, null, 2));
+  process.exit(0);
+}
 const client = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {auth:{persistSession:false}});
 const {data:website,error:websiteError} = await client.from('websites').select('id,slug,status').eq('slug',WEBSITE_SLUG).single();
 if (websiteError || !website) throw websiteError || new Error('Genesis website record not found.');
