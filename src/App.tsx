@@ -751,9 +751,10 @@ function MatProducts() {
   );
   return <>{matProducts.map((product) => {
     const selectedOption = product.options.find((option) => option.name === selected[product.name]);
+    const selectedOptionImage = selectedOption && 'image' in selectedOption ? selectedOption.image : undefined;
     return <article className="catalogue-product" key={product.name}>
       <div className="catalogue-product-image">
-        <img src={selectedOption?.image || product.image} alt={selectedOption?.name || product.name} decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement?.classList.add('image-load-failed'); }} />
+        <img src={selectedOptionImage || product.image} alt={selectedOption?.name || product.name} decoding="async" onError={(event) => { event.currentTarget.style.display = 'none'; event.currentTarget.parentElement?.classList.add('image-load-failed'); }} />
       </div>
       <div className="catalogue-product-body"><strong>{product.name}</strong>
         <label className="oil-select-label">Choose Vehicle
