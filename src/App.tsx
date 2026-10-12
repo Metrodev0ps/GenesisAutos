@@ -1,5 +1,5 @@
 import { createElement, createContext, useContext, useEffect, useState, type FormEvent } from 'react';
-import { loadWebsiteContent, type ManagedProduct } from './lib/websiteContent';
+import { loadWebsiteContent, type ManagedBusinessDetails, type ManagedProduct } from './lib/websiteContent';
 // Vercel deployment trigger: homepage product catalogue
 // Deployment refresh: serve latest public product photos
 import {
@@ -31,7 +31,7 @@ let activeMapEmbedUrl = 'https://www.google.com/maps?q=62+Alimosho+Rd.%2C+Opp.+M
 
 function applyManagedBusinessDetails(result: ManagedContent) {
   const record = result.content;
-  const details = record?.business_details ?? {};
+  const details: ManagedBusinessDetails = record?.business_details ?? {};
   activeBusinessName = record?.title?.trim() || result.website.name || 'Genesis Autos';
   activeBusinessDescription = record?.description?.trim() || DEFAULT_BUSINESS_DESCRIPTION;
   activeBusinessPhone = details.telephone?.trim() || '+234 706 537 9450';
