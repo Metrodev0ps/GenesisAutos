@@ -70,6 +70,7 @@ type SeoProduct = {
 
 type ManagedContent = Awaited<ReturnType<typeof loadWebsiteContent>>;
 const ManagedWebsiteContext = createContext<ManagedContent | null>(null);
+const EMPTY_MANAGED_PRODUCTS: ManagedProduct[] = [];
 
 function useManagedWebsiteContent() {
   return useContext(ManagedWebsiteContext);
@@ -1227,7 +1228,7 @@ function ProductDetailPage({ product }: { product: SeoProduct }) {
 function App() {
   const [managedWebsiteContent, setManagedWebsiteContent] = useState<ManagedContent | null>(null);
   const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
-  useSeo(currentPath, managedWebsiteContent?.products);
+  useSeo(currentPath, managedWebsiteContent?.products ?? EMPTY_MANAGED_PRODUCTS);
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Connect Genesis Autos to the Hub-managed Supabase content source.
@@ -1309,7 +1310,7 @@ function App() {
   if (currentPath.startsWith('/products/')) {
     const slug = currentPath.replace('/products/', '');
     const managedProduct = managedWebsiteContent?.products.find((item) => item.slug === slug);
-    const product = managedProduct ? toSeoProduct(managedProduct) : getSeoProductBySlug(slug);
+    const product = managedWebsiteContent ? (managedProduct ? toSeoProduct(managedProduct) : undefined) : getSeoProductBySlug(slug);
     if (product) return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><ProductDetailPage product={product} /></ManagedWebsiteContext.Provider>;
   }
   if (currentPath === '/batteries' || currentPath.startsWith('/batteries/')) return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><BatteryPage /></ManagedWebsiteContext.Provider>;
@@ -1382,7 +1383,7 @@ function App() {
   </a>;
 })}</div></div></section>
 
-        <section className="section dark-section services-section" id="services"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Services</div><h2>Automotive Support <span>When You Need It</span></h2></div></div><div className="services-grid">{(managedWebsiteContent ? managedWebsiteContent.services.map((service) => ({ ...service, icon: /source/i.test(service.name) ? Search : /support/i.test(service.name) ? Wrench : MessageCircle })) : services).map(({ title, description, icon: Icon }) => <article className="service-card" key={title}><Icon size={25} /><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
+        <section className="section dark-section services-section" id="services"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Services</div><h2>Automotive Support <span>When You Need It</span></h2></div></div><div className="services-grid">{(managedWebsiteContent ? managedWebsiteContent.services.map((service) => ({ title: service.name, description: service.description, icon: /source/i.test(service.name) ? Search : /support/i.test(service.name) ? Wrench : MessageCircle })) : services).map(({ title, description, icon: Icon }) => <article className="service-card" key={title}><Icon size={25} /><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
 
         <section className="section why-section" id="why-genesis"><div className="container"><div className="eyebrow orange-text">Why Genesis Autos</div><h2>Why Customers Choose <span>Genesis Autos</span></h2><div className="why-grid">{[{ title: 'Local & Accessible', text: 'Conveniently located on Alimosho Road in Iyana Ipaja.', icon: MapPin }, { title: 'Automotive Focused', text: 'Focused specifically on vehicle parts and automotive support.', icon: ShieldCheck }, { title: 'Direct Communication', text: 'Customers can contact the business directly through WhatsApp or phone.', icon: MessageCircle }, { title: 'Built for Real Vehicle Needs', text: 'Designed around helping customers find the right automotive products and support.', icon: CheckCircle2 }].map(({ title, text, icon: Icon }) => <article className="why-card" key={title}><div className="why-icon"><Icon size={19} /></div><div><h3>{title}</h3><p>{text}</p></div></article>)}</div></div></section>
 
