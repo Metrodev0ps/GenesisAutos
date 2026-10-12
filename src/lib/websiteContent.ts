@@ -2,6 +2,38 @@ import { createClient } from '@supabase/supabase-js';
 
 export const WEBSITE_SLUG = 'genesis-autos-1218d5';
 
+export type ManagedProduct = {
+  id: string;
+  external_key: string;
+  name: string;
+  slug: string;
+  category: string;
+  description: string;
+  price: number | string | null;
+  currency: string;
+  image_path: string | null;
+  image_url: string | null;
+  brand: string | null;
+  details: string | null;
+  display_order: number;
+  is_published: boolean;
+};
+
+export type ManagedService = {
+  id: string;
+  name: string;
+  description: string;
+  display_order: number;
+  is_published: boolean;
+};
+
+export type ManagedWebsiteContent = {
+  website: { id: string; name: string; slug: string; status: string };
+  content: Record<string, unknown> | null;
+  products: ManagedProduct[];
+  services: ManagedService[];
+};
+
 function getSupabaseClient() {
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -15,7 +47,11 @@ function getSupabaseClient() {
   return createClient(supabaseUrl, supabaseAnonKey);
 }
 
-export async function loadWebsiteContent() {
+/**
+ * Public storefront loader. It deliberately sees only the live website and
+ * published products/services; draft content remains private to the manager.
+ */
+export async function loadWebsiteContent(): Promise<ManagedWebsiteContent> {
   const supabase = getSupabaseClient();
 
   const { data: website, error: websiteError } = await supabase
@@ -30,18 +66,18 @@ export async function loadWebsiteContent() {
   const [contentResult, productsResult, servicesResult] = await Promise.all([
     supabase
       .from('website_content')
-      .select('*')
+      .select('title, description, logo_url, business_details, content')
       .eq('website_id', website.id)
-      .single(),
+      .maybeSingle(),
     supabase
       .from('products')
-      .select('*')
+      .select('id, external_key, name, slug, category, description, price, currency, image_path, image_url, brand, details, display_order, is_published')
       .eq('website_id', website.id)
       .eq('is_published', true)
       .order('display_order'),
     supabase
       .from('services')
-      .select('*')
+      .select('id, name, description, display_order, is_published')
       .eq('website_id', website.id)
       .eq('is_published', true)
       .order('display_order'),
@@ -54,7 +90,7 @@ export async function loadWebsiteContent() {
   return {
     website,
     content: contentResult.data,
-    products: productsResult.data ?? [],
-    services: servicesResult.data ?? [],
+    products: (productsResult.data ?? []) as ManagedProduct[],
+    services: (servicesResult.data ?? []) as ManagedService[],
   };
 }
