@@ -12,7 +12,7 @@ const whatsappNumber = '2347065379450';
 const directionsUrl = 'https://www.google.com/maps/search/?api=1&query=Genesis+Autos%2C+62+Alimosho+Rd.%2C+Opp+Multigrace+Sch.%2C+Alagutan+B%2FStop%2C+Iyana+Ipaja%2C+Lagos';
 const instagramUrl = 'https://www.instagram.com/genesisautosalimosho/';
 const DEFAULT_BUSINESS_ADDRESS = '62 Alimosho Rd., Opp. Multigrace Sch. Alagutan B/Stop, Iyana Ipaja, Lagos, Nigeria';
-const DEFAULT_BUSINESS_DESCRIPTION = '{activeBusinessDescription}';
+const DEFAULT_BUSINESS_DESCRIPTION = 'Your trusted destination for automobile spare parts and automotive support in Iyana Ipaja, Lagos.';
 const DEFAULT_TIKTOK_URL = 'https://www.tiktok.com/@genesisautosalimosho';
 const DEFAULT_TELEGRAM_URL = 'https://t.me/genesisautosalimosho';
 
