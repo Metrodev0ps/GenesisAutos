@@ -712,13 +712,13 @@ const brakeFluidProducts = [
 
 const matProducts = [
   { name: 'Boot Mat', image: '/BOOTMAT LEXUSRX350 &330 40K, VENZA 40K, HIGHLANDER 40K.jpg', options: [
-    { name: 'Lexus RX350 & RX330', price: 40000 }, { name: 'Venza', price: 40000 }, { name: 'Highlander', price: 40000 },
+    { name: 'Lexus RX350 & RX330', image: '/BOOTMAT LEXUSRX350 &330 40K, VENZA 40K, HIGHLANDER 40K.jpg', price: 40000 }, { name: 'Venza', image: '/BOOTMAT LEXUSRX350 &330 40K, VENZA 40K, HIGHLANDER 40K.jpg', price: 40000 }, { name: 'Highlander', image: '/BOOTMAT LEXUSRX350 &330 40K, VENZA 40K, HIGHLANDER 40K.jpg', price: 40000 },
   ] },
   { name: 'Leather & Rug Mixed Footmat', image: '/LEATHERR AND RUG MIXED FOOTMAT, TOYOTA-8K, LEXUS-80K, MERCEDES-80K.jpg', options: [
-    { name: 'Toyota', price: 8000 }, { name: 'Lexus', price: 80000 }, { name: 'Mercedes', price: 80000 },
+    { name: 'Toyota', image: '/LEATHERR AND RUG MIXED FOOTMAT, TOYOTA-8K, LEXUS-80K, MERCEDES-80K.jpg', price: 8000 }, { name: 'Lexus', image: '/LEATHERR AND RUG MIXED FOOTMAT, TOYOTA-8K, LEXUS-80K, MERCEDES-80K.jpg', price: 80000 }, { name: 'Mercedes', image: '/LEATHERR AND RUG MIXED FOOTMAT, TOYOTA-8K, LEXUS-80K, MERCEDES-80K.jpg', price: 80000 },
   ] },
-  { name: 'Universal Leather Rug Footmat', image: '/UNIVERSAL LEATHER RUG FOTMAT-60K.jpg', options: [{ name: 'Universal', price: 60000 }] },
-  { name: 'VIP Footmats', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', options: [{ name: 'Lexus', price: 30000 }, { name: 'Mercedes', price: 30000 }, { name: 'Toyota', price: 30000 }] },
+  { name: 'Universal Leather Rug Footmat', image: '/UNIVERSAL LEATHER RUG FOTMAT-60K.jpg', options: [{ name: 'Universal', image: '/UNIVERSAL LEATHER RUG FOTMAT-60K.jpg', price: 60000 }] },
+  { name: 'VIP Footmats', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', options: [{ name: 'Lexus', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', price: 30000 }, { name: 'Mercedes', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', price: 30000 }, { name: 'Toyota', image: '/VIP FOOTMATS, LEXUS ,MERCEDES ,TOYOTA.jpg', price: 30000 }] },
   { name: '2D Footmats', image: '/2D LUXURY QUALITY FOOTMATS.jpg', options: [
     { name: '2D Luxury Quality Footmats', image: '/2D LUXURY QUALITY FOOTMATS.jpg', price: 25000 },
     { name: '2D Luxury Quality Footmats — 25K Design', image: '/2D LUXURY QUALITY FOOTMATS 25K.jpg', price: 25000 },
