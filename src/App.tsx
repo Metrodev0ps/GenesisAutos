@@ -1,5 +1,5 @@
-import { createElement, useEffect, useState, type FormEvent } from 'react';
-import { loadWebsiteContent } from './lib/websiteContent';
+import { createElement, createContext, useContext, useEffect, useState, type FormEvent } from 'react';
+import { loadWebsiteContent, type ManagedProduct } from './lib/websiteContent';
 // Vercel deployment trigger: homepage product catalogue
 // Deployment refresh: serve latest public product photos
 import {
@@ -67,6 +67,80 @@ type SeoProduct = {
   details?: string;
   brand?: string;
 };
+
+type ManagedContent = Awaited<ReturnType<typeof loadWebsiteContent>>;
+const ManagedWebsiteContext = createContext<ManagedContent | null>(null);
+
+function useManagedWebsiteContent() {
+  return useContext(ManagedWebsiteContext);
+}
+
+function toSeoProduct(product: ManagedProduct): SeoProduct {
+  const parsedPrice = product.price === null || product.price === '' ? undefined : Number(product.price);
+  return {
+    slug: product.slug,
+    name: product.name,
+    category: product.category,
+    description: product.description || `${product.name} available from Genesis Autos in Iyana Ipaja, Lagos.`,
+    image: product.image_url || product.image_path || undefined,
+    price: typeof parsedPrice === 'number' && Number.isFinite(parsedPrice) ? parsedPrice : undefined,
+    details: product.details || undefined,
+    brand: product.brand || undefined,
+  };
+}
+
+function managedImage(product: ManagedProduct) {
+  return product.image_url || product.image_path || undefined;
+}
+
+function ManagedProductCard({ product }: { product: ManagedProduct }) {
+  const price = product.price === null || product.price === '' ? undefined : Number(product.price);
+  const image = managedImage(product);
+  return <article className="catalogue-product" key={product.id}>
+    {image ? <img src={image} alt={product.name} loading="lazy" decoding="async" /> : <div className="catalogue-product-placeholder" aria-hidden="true"><Car size={28} /></div>}
+    <div className="catalogue-product-body">
+      <strong>{product.name}</strong>
+      {product.details && <small>{product.details}</small>}
+      {typeof price === 'number' && Number.isFinite(price)
+        ? <div className="product-price">₦{price.toLocaleString()}</div>
+        : <ContactPriceButton productName={product.name} />}
+      <AddToCartButton item={{ id: product.slug, name: product.name, price: typeof price === 'number' && Number.isFinite(price) ? price : undefined, image, details: product.details || undefined }} />
+      <button className="button button-outline battery-enquire" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in ${product.name}. Please confirm availability and current price.`)}><MessageCircle size={15} /> Enquire on WhatsApp</button>
+    </div>
+  </article>;
+}
+
+function ManagedCategoryPage({
+  title,
+  subtitle,
+  categories,
+  icon: Icon,
+  enquiry,
+}: {
+  title: string;
+  subtitle: string;
+  categories: string[];
+  icon: typeof Car;
+  enquiry: string;
+}) {
+  const managed = useManagedWebsiteContent();
+  const items = (managed?.products ?? []).filter((product) => categories.includes(product.category));
+  return <div className="battery-page">
+    <header className="site-header"><div className="container nav-wrap">
+      <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
+      <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/batteries">Batteries</a><a href="/accessories">Accessories</a><a href="/tools">Tools</a><button className="button button-small button-orange" onClick={() => openWhatsApp(`Hello Genesis Autos, ${enquiry}`)}><MessageCircle size={15}/> WhatsApp Us</button></nav>
+    </div></header>
+    <main><section className="battery-hero"><div className="container">
+      <div className="eyebrow orange-text"><Icon size={14}/> Managed Catalogue</div>
+      <h1>{title}</h1><p>{subtitle}</p>
+      <div className="battery-catalogue"><div className="battery-heading"><div><div className="eyebrow orange-text">{title}</div><h2>Available <span>Products</span></h2></div><span>{items.length} product{items.length === 1 ? '' : 's'}</span></div>
+        {items.length ? <div className="accessory-list">{items.map((product) => <ManagedProductCard product={product} key={product.id} />)}</div>
+          : <p className="search-empty">No products have been published in this section yet.</p>}
+      </div>
+    </div></section></main>
+    <button className="floating-whatsapp" onClick={() => openWhatsApp(`Hello Genesis Autos, ${enquiry}`)} aria-label="Chat on WhatsApp"><MessageCircle size={24}/></button>
+  </div>;
+}
 
 function getSeoProducts(): SeoProduct[] {
   const products: SeoProduct[] = [];
@@ -229,11 +303,12 @@ function setMeta(name: string, content: string, attribute = 'name') {
   element.setAttribute('content', content);
 }
 
-function useSeo(currentPath: string) {
+function useSeo(currentPath: string, managedProducts: ManagedProduct[] = []) {
   useEffect(() => {
     const rawPath = currentPath.replace(/\/+$/, '') || '/';
     const productSlug = rawPath.startsWith('/products/') ? rawPath.replace('/products/', '') : '';
-    const product = productSlug ? getSeoProductBySlug(productSlug) : undefined;
+    const managedProduct = productSlug ? managedProducts.find((item) => item.slug === productSlug) : undefined;
+    const product = managedProduct ? toSeoProduct(managedProduct) : productSlug ? getSeoProductBySlug(productSlug) : undefined;
     const route = product ? {
       title: `${product.name} | Genesis Autos Iyana Ipaja Lagos`,
       description: product.description,
@@ -341,8 +416,7 @@ function useSeo(currentPath: string) {
     return () => {
       schema.remove();
     };
-  }, [currentPath]);
-}
+  }, [currentPath, managedProducts]);
 
 function ImagePlaceholder({ src = '/IMG_4929.jpg', label = 'Image', className = '' }: { src?: string; label?: string; className?: string }) {
   return (
@@ -401,13 +475,20 @@ function CartButton() {
 }
 
 function ProductSearch() {
+  const managed = useManagedWebsiteContent();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const searchItems = getSeoProducts().map((product) => ({
-    name: product.name,
-    detail: product.category + (product.details ? ` · ${product.details}` : ''),
-    href: `/products/${product.slug}`,
-  }));
+  const searchItems = managed
+    ? managed.products.map((product) => ({
+        name: product.name,
+        detail: product.category + (product.details ? ` · ${product.details}` : ''),
+        href: `/products/${product.slug}`,
+      }))
+    : getSeoProducts().map((product) => ({
+        name: product.name,
+        detail: product.category + (product.details ? ` · ${product.details}` : ''),
+        href: `/products/${product.slug}`,
+      }));
   const normalized = query.trim().toLowerCase();
   const results = normalized ? searchItems.filter((item, index, list) => item.name.toLowerCase().includes(normalized) && list.findIndex((candidate) => candidate.name.toLowerCase() === item.name.toLowerCase()) === index).slice(0, 8) : [];
   const askOnWhatsApp = () => openWhatsApp('Hello Genesis Autos, I am looking for ' + query.trim() + '. Please let me know if you have it available and the current price.');
@@ -740,6 +821,8 @@ function VipLuxurySeatCovers() {
 }
 
 function AccessoriesPage() {
+  const managed = useManagedWebsiteContent();
+  if (managed) return <ManagedCategoryPage title="Car Accessories & Footmats" subtitle="Published accessory products managed from the website dashboard." categories={['Car Accessories']} icon={Car} enquiry="I would like to enquire about car accessories and footmats." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
@@ -774,6 +857,8 @@ function RimProduct({ rim }: { rim: { size: string; options: { name: string; pri
 }
 
 function SecurityPage() {
+  const managed = useManagedWebsiteContent();
+  if (managed) return <ManagedCategoryPage title="Vehicle Security" subtitle="Published vehicle security products managed from the website dashboard." categories={['Vehicle Security']} icon={ShieldCheck} enquiry="I would like to enquire about vehicle security products." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/security">Security</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about vehicle security products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
@@ -785,6 +870,8 @@ function SecurityPage() {
 }
 
 function ToolsPage() {
+  const managed = useManagedWebsiteContent();
+  if (managed) return <ManagedCategoryPage title="Tools, Rims & Essentials" subtitle="Published tools, alloy rims and automotive essentials managed from the website dashboard." categories={['Alloy Rims', 'Automotive Tools & Essentials']} icon={Wrench} enquiry="I would like to enquire about tools, rims and essentials." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
@@ -975,6 +1062,8 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
 }
 
 function LubricantsPage() {
+  const managed = useManagedWebsiteContent();
+  if (managed) return <ManagedCategoryPage title="Oil, Grease & ATF" subtitle="Published engine oils, ATF, coolant and automotive fluids managed from the website dashboard." categories={['Engine Oil', 'ATF', 'Coolant', 'Automotive Fluids']} icon={Settings} enquiry="I would like to enquire about oil, grease, ATF and automotive fluids." />;
   return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src="/Logo and icon.jpg" alt="Genesis Autos" /><span className="brand-text"><strong>GENESIS <em>AUTOS</em></strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/oil-grease-atf">Oil, Grease & ATF</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
@@ -1040,6 +1129,8 @@ const batteryProducts: BatteryProduct[] = [
 ];
 
 function BatteryPage() {
+  const managed = useManagedWebsiteContent();
+  if (managed) return <ManagedCategoryPage title="Automotive Batteries" subtitle="Published batteries managed from the website dashboard." categories={['Car Batteries']} icon={Battery} enquiry="I would like to enquire about automotive batteries." />;
   const path = window.location.pathname.replace(/\/+$/, '');
   const slug = path.split('/').pop() || '';
   const brandMap: Record<string, string> = {
@@ -1134,9 +1225,9 @@ function ProductDetailPage({ product }: { product: SeoProduct }) {
 }
 
 function App() {
-  const [managedWebsiteContent, setManagedWebsiteContent] = useState<Awaited<ReturnType<typeof loadWebsiteContent>> | null>(null);
+  const [managedWebsiteContent, setManagedWebsiteContent] = useState<ManagedContent | null>(null);
   const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
-  useSeo(currentPath);
+  useSeo(currentPath, managedWebsiteContent?.products);
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Connect Genesis Autos to the Hub-managed Supabase content source.
@@ -1153,8 +1244,6 @@ function App() {
     return () => { cancelled = true; };
   }, []);
 
-  // Keep this state available for the storefront's content fields as the Hub schema is finalized.
-  void managedWebsiteContent;
 
   useEffect(() => {
     const handlePopState = () => setCurrentPath(window.location.pathname);
@@ -1199,6 +1288,15 @@ function App() {
     document.body.classList.remove('intro-active');
   };
   const [formSent, setFormSent] = useState(false);
+  const homeCatalogueCards = managedWebsiteContent ? [
+    { title: 'Batteries', description: 'Automotive batteries managed from the website dashboard.', icon: Battery, label: 'Batteries', image: '/ZENGLOBAL.jpg', battery: true, categories: ['Car Batteries'] },
+    { title: 'Accessories & Footmats', description: 'Published accessories and footmats.', icon: Car, label: 'Accessories', image: '/ACCESORIES.jpg', accessories: true, categories: ['Car Accessories'] },
+    { title: 'Tools & Alloy Rims', description: 'Published automotive tools, rims and essentials.', icon: Wrench, label: 'Tools & Essentials', image: '/RIMS.jpg', tools: true, categories: ['Alloy Rims', 'Automotive Tools & Essentials'] },
+    { title: 'Security', description: 'Published vehicle security products.', icon: ShieldCheck, label: 'Security', image: '/GPS TRACKER.jpg', security: true, categories: ['Vehicle Security'] },
+    { title: 'Oil, Grease & ATF', description: 'Published engine oils and automotive fluids.', icon: Settings, label: 'Oil, Grease & ATF', image: '/ATF.jpg', lubricants: true, categories: ['Engine Oil', 'ATF', 'Coolant', 'Automotive Fluids'] },
+  ].filter((group) => managedWebsiteContent.products.some((product) => group.categories.includes(product.category)))
+    .map(({categories, ...card}) => card)
+    : products;
   const closeMenu = () => setMenuOpen(false);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1207,18 +1305,21 @@ function App() {
     setFormSent(true); openWhatsApp(message);
   };
 
-  if (currentPath === '/cart') return <CartPage />;
+  if (currentPath === '/cart') return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><CartPage /></ManagedWebsiteContext.Provider>;
   if (currentPath.startsWith('/products/')) {
-    const product = getSeoProductBySlug(currentPath.replace('/products/', ''));
-    if (product) return <ProductDetailPage product={product} />;
+    const slug = currentPath.replace('/products/', '');
+    const managedProduct = managedWebsiteContent?.products.find((item) => item.slug === slug);
+    const product = managedProduct ? toSeoProduct(managedProduct) : getSeoProductBySlug(slug);
+    if (product) return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><ProductDetailPage product={product} /></ManagedWebsiteContext.Provider>;
   }
-  if (currentPath === '/batteries' || currentPath.startsWith('/batteries/')) return <BatteryPage />;
-  if (currentPath === '/accessories') return <AccessoriesPage />;
-  if (currentPath === '/tools') return <ToolsPage />;
-  if (currentPath === '/security') return <SecurityPage />;
-  if (currentPath === '/oil-grease-atf') return <LubricantsPage />;
+  if (currentPath === '/batteries' || currentPath.startsWith('/batteries/')) return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><BatteryPage /></ManagedWebsiteContext.Provider>;
+  if (currentPath === '/accessories') return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><AccessoriesPage /></ManagedWebsiteContext.Provider>;
+  if (currentPath === '/tools') return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><ToolsPage /></ManagedWebsiteContext.Provider>;
+  if (currentPath === '/security') return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><SecurityPage /></ManagedWebsiteContext.Provider>;
+  if (currentPath === '/oil-grease-atf') return <ManagedWebsiteContext.Provider value={managedWebsiteContent}><LubricantsPage /></ManagedWebsiteContext.Provider>;
 
   return (
+    <ManagedWebsiteContext.Provider value={managedWebsiteContent}>
     <>
       {showIntro && (
         <div className="site-intro" role="dialog" aria-label="Genesis Autos introduction">
@@ -1269,7 +1370,7 @@ function App() {
 
         <section className="section about-section" id="about"><div className="container about-grid"><div className="about-copy"><div className="eyebrow orange-text">About Genesis Autos</div><h2>Built Around Your<br /><span>Vehicle Needs</span></h2><p>Genesis Autos provides automotive products and support for vehicle owners, drivers, workshops and businesses in Lagos.</p><p>From spare parts and automotive products to support, our goal is to make it easier for customers to find the products and assistance they need for their vehicles.</p><div className="location-card"><div className="location-icon"><MapPin size={19} /></div><div><strong>Visit Genesis Autos</strong><p>62 Alimosho Rd.<br />Opp. Multigrace Sch. Alagutan B/Stop<br />Iyana Ipaja, Lagos</p></div><a className="button button-orange button-small" href={directionsUrl} target="_blank" rel="noreferrer">Get Directions</a></div></div><img className="about-image real-image" src="/IMG_4926.jpg" alt="Genesis Autos automotive parts and services" decoding="async" /></div></section>
 
-        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#products">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{products.map(({ title, description, icon: Icon, label, image, battery, accessories, tools, security, lubricants }) => {
+        <section className="section dark-section products-section" id="products"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Our Products</div><h2>Automotive <span>Products</span></h2></div><a href="#products">View All Products <ArrowRight size={15} /></a></div><div className="products-grid">{homeCatalogueCards.map(({ title, description, icon: Icon, label, image, battery, accessories, tools, security, lubricants }) => {
   const href = battery ? '/batteries' : accessories ? '/accessories' : tools ? '/tools' : security ? '/security' : lubricants ? '/oil-grease-atf' : '#contact';
   return <a className="product-card product-card-link" key={title} href={href} aria-label={`View ${title}`}>
     <ImagePlaceholder src={image} label={label} />
@@ -1281,7 +1382,7 @@ function App() {
   </a>;
 })}</div></div></section>
 
-        <section className="section dark-section services-section" id="services"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Services</div><h2>Automotive Support <span>When You Need It</span></h2></div></div><div className="services-grid">{services.map(({ title, description, icon: Icon }) => <article className="service-card" key={title}><Icon size={25} /><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
+        <section className="section dark-section services-section" id="services"><div className="container"><div className="section-heading light-heading"><div><div className="eyebrow orange-text">Services</div><h2>Automotive Support <span>When You Need It</span></h2></div></div><div className="services-grid">{(managedWebsiteContent ? managedWebsiteContent.services.map((service) => ({ ...service, icon: /source/i.test(service.name) ? Search : /support/i.test(service.name) ? Wrench : MessageCircle })) : services).map(({ title, description, icon: Icon }) => <article className="service-card" key={title}><Icon size={25} /><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
 
         <section className="section why-section" id="why-genesis"><div className="container"><div className="eyebrow orange-text">Why Genesis Autos</div><h2>Why Customers Choose <span>Genesis Autos</span></h2><div className="why-grid">{[{ title: 'Local & Accessible', text: 'Conveniently located on Alimosho Road in Iyana Ipaja.', icon: MapPin }, { title: 'Automotive Focused', text: 'Focused specifically on vehicle parts and automotive support.', icon: ShieldCheck }, { title: 'Direct Communication', text: 'Customers can contact the business directly through WhatsApp or phone.', icon: MessageCircle }, { title: 'Built for Real Vehicle Needs', text: 'Designed around helping customers find the right automotive products and support.', icon: CheckCircle2 }].map(({ title, text, icon: Icon }) => <article className="why-card" key={title}><div className="why-icon"><Icon size={19} /></div><div><h3>{title}</h3><p>{text}</p></div></article>)}</div></div></section>
 
@@ -1297,6 +1398,7 @@ function App() {
       <div className="mobile-bar"><button onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp</button><a href="tel:+2347065379450"><Phone size={17} /> Call</a><a href={directionsUrl} target="_blank" rel="noreferrer"><Navigation size={17} /> Directions</a><a href="https://t.me/genesisautosalimosho" target="_blank" rel="noreferrer"><Send size={17} /> Telegram</a></div>
       </div>
     </>
+    </ManagedWebsiteContext.Provider>
   );
 }
 
