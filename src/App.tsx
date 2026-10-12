@@ -1,4 +1,5 @@
 import { createElement, useEffect, useState, type FormEvent } from 'react';
+import { loadWebsiteContent } from './lib/websiteContent';
 // Vercel deployment trigger: homepage product catalogue
 // Deployment refresh: serve latest public product photos
 import {
@@ -1133,9 +1134,27 @@ function ProductDetailPage({ product }: { product: SeoProduct }) {
 }
 
 function App() {
+  const [managedWebsiteContent, setManagedWebsiteContent] = useState<Awaited<ReturnType<typeof loadWebsiteContent>> | null>(null);
   const [currentPath, setCurrentPath] = useState(() => window.location.pathname);
   useSeo(currentPath);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Connect Genesis Autos to the Hub-managed Supabase content source.
+  // Keep the existing catalogue available if the Hub database/config is not ready yet.
+  useEffect(() => {
+    let cancelled = false;
+    loadWebsiteContent()
+      .then((result) => {
+        if (!cancelled) setManagedWebsiteContent(result);
+      })
+      .catch((error) => {
+        console.warn('Genesis Autos management content is not available; using the built-in catalogue.', error);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Keep this state available for the storefront's content fields as the Hub schema is finalized.
+  void managedWebsiteContent;
 
   useEffect(() => {
     const handlePopState = () => setCurrentPath(window.location.pathname);
