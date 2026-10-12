@@ -14,7 +14,52 @@ const WEBSITE_SLUG = 'genesis-autos-1218d5';
 const raw = JSON.parse(fs.readFileSync(SOURCE_FILE, 'utf8'));
 function parseLiteralArray(text) {
   // Source arrays were copied verbatim from our code; parse their restricted JS object-literal subset.
-  const normalized = text.replace(/([{,]\s*)([A-Za-z_$][\w$]*)(\s*:)/g, '$1"$2"$3').replace(/'/g, '"').replace(/,\s*([}\]])/g, '$1');
+    let out = '';
+  let i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (c === "'") {
+      let value = ''; i++;
+      while (i < text.length) {
+        const next = text[i++];
+        if (next === "'") break;
+        if (next === '\\\\') {
+          const escaped = text[i++];
+          if (escaped === "'" || escaped === '"' || escaped === '\\\\') value += escaped;
+          else if (escaped === 'n') value += '\\n';
+          else if (escaped === 'r') value += '\\r';
+          else if (escaped === 't') value += '\\t';
+          else value += '\\\\' + escaped;
+        } else value += next;
+      }
+      out += JSON.stringify(value);
+      continue;
+    }
+    if (c === '"') {
+      const start = i++;
+      while (i < text.length) {
+        if (text[i] === '\\\\') { i += 2; continue; }
+        if (text[i++] === '"') break;
+      }
+      out += text.slice(start, i);
+      continue;
+    }
+    if (/[A-Za-z_$]/.test(c)) {
+      const start = i++;
+      while (i < text.length && /[\\w$]/.test(text[i])) i++;
+      const word = text.slice(start, i);
+      let lookahead = i;
+      while (/\\s/.test(text[lookahead] || '')) lookahead++;
+      if (lookahead < text.length && text[lookahead] === ':') out += JSON.stringify(word);
+      else if (word === 'undefined') out += 'null';
+      else if (word === 'true' || word === 'false' || word === 'null') out += word;
+      else out += JSON.stringify(word);
+      continue;
+    }
+    out += c;
+    i++;
+  }
+  const normalized = out.replace(/,\\s*([}\\]])/g, '$1');
   return JSON.parse(normalized);
 }
 function slugify(value) { return String(value ?? '').toLowerCase().trim().replace(/['"\[\]]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item'; }
