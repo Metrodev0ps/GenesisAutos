@@ -23,13 +23,13 @@ function parseLiteralArray(text) {
       while (i < text.length) {
         const next = text[i++];
         if (next === "'") break;
-        if (next === '\\\\') {
+        if (next === '\\') {
           const escaped = text[i++];
-          if (escaped === "'" || escaped === '"' || escaped === '\\\\') value += escaped;
-          else if (escaped === 'n') value += '\\n';
-          else if (escaped === 'r') value += '\\r';
-          else if (escaped === 't') value += '\\t';
-          else value += '\\\\' + escaped;
+          if (escaped === "'" || escaped === '"' || escaped === '\\') value += escaped;
+          else if (escaped === 'n') value += '\n';
+          else if (escaped === 'r') value += '\r';
+          else if (escaped === 't') value += '\t';
+          else value += '\\' + escaped;
         } else value += next;
       }
       out += JSON.stringify(value);
@@ -38,7 +38,7 @@ function parseLiteralArray(text) {
     if (c === '"') {
       const start = i++;
       while (i < text.length) {
-        if (text[i] === '\\\\') { i += 2; continue; }
+        if (text[i] === '\\') { i += 2; continue; }
         if (text[i++] === '"') break;
       }
       out += text.slice(start, i);
@@ -46,10 +46,10 @@ function parseLiteralArray(text) {
     }
     if (/[A-Za-z_$]/.test(c)) {
       const start = i++;
-      while (i < text.length && /[\\w$]/.test(text[i])) i++;
+      while (i < text.length && /[\w$]/.test(text[i])) i++;
       const word = text.slice(start, i);
       let lookahead = i;
-      while (/\\s/.test(text[lookahead] || '')) lookahead++;
+      while (/\s/.test(text[lookahead] || '')) lookahead++;
       if (lookahead < text.length && text[lookahead] === ':') out += JSON.stringify(word);
       else if (word === 'undefined') out += 'null';
       else if (word === 'true' || word === 'false' || word === 'null') out += word;
@@ -59,7 +59,7 @@ function parseLiteralArray(text) {
     out += c;
     i++;
   }
-  const normalized = out.replace(/,\\s*([}\\]])/g, '$1');
+  const normalized = out.replace(/,\s*([}\]])/g, '$1');
   return JSON.parse(normalized);
 }
 function slugify(value) { return String(value ?? '').toLowerCase().trim().replace(/['"\[\]]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item'; }
