@@ -1,4 +1,5 @@
 import { createElement, useEffect, useState, type FormEvent } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { loadWebsiteContent } from './lib/websiteContent';
 // Vercel deployment trigger: homepage product catalogue
 // Deployment refresh: serve latest public product photos
@@ -1296,6 +1297,7 @@ function App() {
       <div className="floating-actions"><button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button><a className="floating-telegram" href="https://t.me/genesisautosalimosho" target="_blank" rel="noreferrer" aria-label="Join Genesis Autos Telegram group"><Send size={24} /></a></div>
       <div className="mobile-bar"><button onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp</button><a href="tel:+2347065379450"><Phone size={17} /> Call</a><a href={directionsUrl} target="_blank" rel="noreferrer"><Navigation size={17} /> Directions</a><a href="https://t.me/genesisautosalimosho" target="_blank" rel="noreferrer"><Send size={17} /> Telegram</a></div>
       </div>
+      <Analytics />
     </>
   );
 }
