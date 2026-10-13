@@ -447,83 +447,86 @@ body.intro-active { overflow:hidden; }
 .product-price { display:inline-flex; align-items:center; width:max-content; margin:1px 0 3px; padding:7px 10px; background:var(--ink); color:#fff; font-size:14px; font-weight:900; line-height:1; letter-spacing:.01em; border-radius:5px; }
 
 
-/* Genesis Autos premium delivery promotion banner */
+/* Genesis Autos high-visibility delivery promotion banner */
 .promo-banner {
   position:relative;
   z-index:21;
   overflow:hidden;
-  color:#fff;
-  background:linear-gradient(105deg,#171a1d 0%,#24282c 68%,#303438 100%);
-  border-bottom:3px solid var(--orange);
-  box-shadow:0 3px 12px rgba(15,18,20,.12);
+  color:#24282c;
+  background:linear-gradient(100deg,#fff3e8 0%,#fffaf3 52%,#fff0df 100%);
+  border-top:1px solid #ffd2b3;
+  border-bottom:4px solid var(--orange);
+  box-shadow:0 4px 14px rgba(92,48,20,.13);
 }
 .promo-banner::before {
   content:"";
   position:absolute;
   inset:0 auto 0 0;
-  width:5px;
-  background:var(--orange);
+  width:7px;
+  background:linear-gradient(180deg,#ffb347 0%,var(--orange) 100%);
 }
 .promo-banner-inner {
-  min-height:66px;
+  min-height:72px;
   display:flex;
   align-items:center;
   justify-content:center;
   gap:16px;
   text-align:left;
-  padding-top:10px;
-  padding-bottom:10px;
+  padding-top:11px;
+  padding-bottom:11px;
   flex-wrap:wrap;
 }
 .promo-badge {
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:7px 10px;
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:3px;
-  background:rgba(255,255,255,.07);
-  color:#ffb17e;
+  padding:8px 11px;
+  border:1px solid var(--orange);
+  border-radius:4px;
+  background:var(--orange);
+  color:#fff;
   font-size:9px;
   font-weight:900;
   letter-spacing:.12em;
   white-space:nowrap;
+  box-shadow:0 2px 5px rgba(194,76,23,.18);
 }
 .promo-banner p {
   margin:0;
-  color:#f8f9fa;
-  font-size:13px;
-  font-weight:600;
+  color:#25292d;
+  font-size:14px;
+  font-weight:700;
   line-height:1.5;
 }
 .promo-banner p strong {
-  color:#ff9a5b;
-  font-size:15px;
-  font-weight:900;
+  display:inline-block;
+  color:#c84c12;
+  font-size:18px;
+  font-weight:950;
   letter-spacing:.01em;
 }
 .promo-separator {
   padding:0 9px;
-  color:#737b82;
+  color:#d18a60;
 }
 .promo-banner small {
   max-width:230px;
-  color:#c4c9cd;
-  font-size:10px;
-  font-weight:500;
+  color:#67564b;
+  font-size:11px;
+  font-weight:600;
   line-height:1.5;
 }
 .promo-saving { color:#16803c !important; }
 @media (max-width: 640px) {
   .promo-banner-inner {
     min-height:unset;
-    gap:7px 10px;
-    padding:12px 12px 13px 17px;
+    gap:8px 10px;
+    padding:13px 12px 14px 17px;
     text-align:center;
   }
-  .promo-badge { font-size:8px; padding:6px 8px; }
+  .promo-badge { font-size:8px; padding:7px 9px; }
   .promo-banner p { width:100%; font-size:12px; }
-  .promo-banner p strong { font-size:14px; }
+  .promo-banner p strong { font-size:16px; }
   .promo-separator { padding:0 5px; }
   .promo-banner small { max-width:100%; width:100%; font-size:10px; }
 }
