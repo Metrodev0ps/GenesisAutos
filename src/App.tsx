@@ -583,7 +583,12 @@ function CartPage() {
     setSending(true);
     setError('');
     const data = new FormData(event.currentTarget);
-    const orderLines = items.map((item) => `${item.name} — Qty: ${item.quantity}${item.details ? ` — ${item.details}` : ''}${typeof item.price === 'number' ? ` — ₦${(item.price * item.quantity).toLocaleString()}` : ' — Price to be confirmed'}`).join('\n');
+    const orderLines = items.map((item) => {
+      const lineSubtotal = typeof item.price === 'number' ? item.price * item.quantity : undefined;
+      const lineDiscount = typeof lineSubtotal === 'number' ? Math.round(lineSubtotal * discountRate) : 0;
+      const lineTotal = typeof lineSubtotal === 'number' ? lineSubtotal - lineDiscount : undefined;
+      return `${item.name} — Qty: ${item.quantity}${item.details ? ` — ${item.details}` : ''}${typeof lineSubtotal === 'number' ? ` — Original: ₦${lineSubtotal.toLocaleString()} — Promo saving: ₦${lineDiscount.toLocaleString()} — After discount: ₦${lineTotal!.toLocaleString()}` : ' — Price to be confirmed; discount will be applied once price is confirmed'}`;
+    }).join('\n');
     const total = hasPrices ? `₦${grandTotal.toLocaleString()} (after ${Math.round(discountRate * 100)}% delivery-area promo discount of ₦${discountAmount.toLocaleString()})` : `₦${discountedProductTotal.toLocaleString()} confirmed product value after ${Math.round(discountRate * 100)}% promo discount (saving ₦${discountAmount.toLocaleString()}) + additional product prices to be confirmed + ₦${deliveryFee.toLocaleString()} delivery`;
     try {
       const response = await fetch('https://formsubmit.co/ajax/genesisautos2020@gmail.com', {
@@ -642,7 +647,7 @@ function CartPage() {
           {submitted && <div className="empty-cart"><CheckCircle2 size={42}/><h3>Order Received!</h3><p>Your order has been sent to Genesis Autos. Our team will contact you to confirm your order and delivery.</p><a className="button button-orange" href="/">Back to Genesis Autos</a></div>}
           {items.map((item) => <article className="cart-item" key={item.id}>
             {item.image ? <img src={item.image} alt={item.name} decoding="async" /> : <div className="cart-item-image-placeholder" aria-hidden="true"><ShoppingCart size={24} /></div>}
-            <div className="cart-item-info"><strong>{item.name}</strong>{item.details && <small>{item.details}</small>}<span>{typeof item.price === 'number' ? `₦${item.price.toLocaleString()}` : 'Price to be confirmed'}</span></div>
+            <div className="cart-item-info"><strong>{item.name}</strong>{item.details && <small>{item.details}</small>}<span>{typeof item.price === 'number' ? (deliveryArea ? <><del className="promo-original-price">₦{item.price.toLocaleString()}</del> <strong className="promo-item-price">₦{Math.round(item.price * (1 - discountRate)).toLocaleString()}</strong><small className="promo-item-note">{Math.round(discountRate * 100)}% delivery promo applied</small></> : <>₦{item.price.toLocaleString()}<small className="promo-item-note">Select delivery area to apply promo</small></>) : 'Price to be confirmed'}</span></div>
             <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
             <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
           </article>)}
@@ -650,7 +655,7 @@ function CartPage() {
         </div>
         {items.length > 0 && <form className="checkout-form" onSubmit={handleCheckout}>
           <div className="eyebrow orange-text">Checkout</div><h2>Delivery <span>Details</span></h2>
-          <p className="checkout-intro">Payment method: <strong>Payment on Delivery</strong></p>
+          <p className="checkout-intro">Payment method: <strong>Payment on Delivery</strong><br /><span className="promo-checkout-note">Choose your delivery area to apply your 10% Lagos or 15% outside-Lagos product discount.</span></p>
           <div className="form-row"><label>Full Name<input required name="name" placeholder="Your full name" /></label><label>Phone Number<input required name="phone" type="tel" placeholder="+234..." /></label></div>
           <label>Email Address<input required name="email" type="email" placeholder="you@example.com" /></label>
           <label>Delivery Address<textarea required name="address" rows={3} placeholder="House number, street, landmark..."></textarea></label>
