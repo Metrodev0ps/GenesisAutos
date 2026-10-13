@@ -462,3 +462,10 @@ body.intro-active { overflow:hidden; }
   .promo-banner small { width:100%; font-size:9px; }
   .promo-badge { font-size:8px; }
 }
+
+
+/* Cart and checkout promotion clarity */
+.promo-original-price { color:#7d858a; font-size:12px; margin-right:5px; }
+.promo-item-price { color:#16803c; font-size:15px; }
+.promo-item-note { display:block; margin-top:4px; color:#16803c; font-size:10px; font-weight:700; }
+.promo-checkout-note { display:inline-block; margin-top:5px; color:#16803c; font-size:11px; line-height:1.5; }
