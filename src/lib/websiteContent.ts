@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-export const WEBSITE_SLUG = 'genesis-autos-1218d5';
+export const WEBSITE_SLUG = import.meta.env.VITE_WEBSITE_SLUG || 'genesis-autos-1218d5';
+const EXPECTED_HUB_SUPABASE_REF = import.meta.env.VITE_HUB_SUPABASE_REF || 'xfguwqqhfktnbfsipyor';
 
 export type ManagedProduct = {
   id: string;
@@ -59,6 +60,13 @@ function getSupabaseClient() {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
       'Missing Supabase configuration. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your environment.',
+    );
+  }
+
+  const configuredRef = new URL(supabaseUrl).hostname.split('.')[0];
+  if (configuredRef !== EXPECTED_HUB_SUPABASE_REF) {
+    throw new Error(
+      `Supabase project mismatch: configured ref "${configuredRef}", expected MetroDEVOPS Hub ref "${EXPECTED_HUB_SUPABASE_REF}". Update the storefront environment before enabling managed content.`,
     );
   }
 
