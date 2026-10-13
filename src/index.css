@@ -469,3 +469,30 @@ body.intro-active { overflow:hidden; }
 .promo-item-price { color:#16803c; font-size:15px; }
 .promo-item-note { display:block; margin-top:4px; color:#16803c; font-size:10px; font-weight:700; }
 .promo-checkout-note { display:inline-block; margin-top:5px; color:#16803c; font-size:11px; line-height:1.5; }
+
+
+/* Checkout step order: delivery area first, customer form second */
+.delivery-area-first {
+  padding: 16px;
+  margin: 18px 0;
+  border: 1px solid #f0b18c;
+  border-radius: 8px;
+  background: #fff8f3;
+}
+.delivery-area-first label { display:flex; flex-direction:column; gap:8px; color:var(--ink); font-size:12px; font-weight:800; }
+.delivery-area-first select { width:100%; min-height:46px; padding:11px 12px; border:1px solid #d9dddf; border-radius:5px; background:#fff; color:var(--ink); font:inherit; cursor:pointer; }
+.delivery-area-first select:focus { outline:2px solid rgba(238,112,45,.25); border-color:var(--orange); }
+.delivery-area-first > small { display:block; margin-top:9px; color:#16803c; font-size:11px; line-height:1.5; }
+.delivery-area-prompt { display:flex; flex-direction:column; align-items:center; gap:9px; margin-top:16px; padding:22px 16px; text-align:center; border:1px dashed #d9dddf; border-radius:8px; color:var(--muted); }
+.delivery-area-prompt svg { color:var(--orange); }
+.delivery-area-prompt strong { color:var(--ink); font-size:13px; }
+.delivery-area-prompt span { max-width:340px; font-size:11px; line-height:1.55; }
+.checkout-selected-area { display:flex; flex-direction:column; gap:7px; margin:16px 0 22px; padding:15px; border:1px solid #b8dec4; border-radius:8px; background:#f2fbf5; color:#235a35; font-size:12px; line-height:1.5; }
+.checkout-selected-area strong { color:#176b35; }
+.checkout-form-details { padding-top:4px; border-top:1px solid var(--line); }
+.checkout-form-details > .eyebrow { margin-top:18px; }
+.checkout-form-details h2 { margin-top:5px; }
+@media (max-width:700px) {
+  .delivery-area-first { padding:13px; }
+  .checkout-selected-area { padding:12px; }
+}
