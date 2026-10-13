@@ -125,7 +125,8 @@ const imageExists = (image) => {
   return fs.existsSync(path.resolve('public', image.replace(/^\/+/, '')));
 };
 const byCategory = Object.fromEntries([...new Set(rows.map((row) => row.category))].map((category) => [category, rows.filter((row) => row.category === category).length]));
-const missingImages = rows.filter((row) => !imageExists(row.image_path)).map((row) => ({ name: row.name, image_path: row.image_path }));
+const missingImageReferences = rows.filter((row) => !row.image_path).map((row) => ({ name: row.name }));
+const missingImageFiles = rows.filter((row) => row.image_path && !imageExists(row.image_path)).map((row) => ({ name: row.name, image_path: row.image_path }));
 const report = {
   dryRun: DRY_RUN,
   website: WEBSITE_SLUG,
@@ -136,8 +137,9 @@ const report = {
   recordsMissingPrice: rows.filter((row) => row.price === null).length,
   recordsWithImageReference: rows.filter((row) => Boolean(row.image_path)).length,
   recordsMissingImageReference: rows.filter((row) => !row.image_path).length,
-  imageFilesMissingFromPublic: missingImages.length,
-  missingImageExamples: missingImages.slice(0, 20),
+  imageFilesMissingFromPublic: missingImageFiles.length,
+  missingImageFileExamples: missingImageFiles.slice(0, 20),
+  missingImageReferenceExamples: missingImageReferences.slice(0, 20),
   recordsMissingDescription: rows.filter((row) => !row.description).length,
   uniqueExternalKeys: externalKeys.size,
   categories: byCategory,
