@@ -18,7 +18,7 @@ const EXPECTED_WEBSITE_ID = process.env.EXPECTED_WEBSITE_ID || '9c8efcb7-a75b-4d
 const businessContent = {
   title: 'Genesis Autos',
   description: 'Automobile spare parts and automotive products business in Iyana Ipaja, Lagos.',
-  logo_url: '/Logo and icon.jpg',
+  logo_url: 'https://genesisautos.org/Logo%20and%20icon.jpg',
   business_details: {
     telephone: '+2347065379450',
     secondary_telephone: '+2349083561212',
