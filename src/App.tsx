@@ -146,6 +146,16 @@ function ManagedProductCard({ product }: { product: ManagedProduct }) {
   </article>;
 }
 
+function PromoBanner() {
+  return <aside className="promo-banner" aria-label="Genesis Autos delivery promotion">
+    <div className="container promo-banner-inner">
+      <span className="promo-badge">LIMITED-TIME OFFER</span>
+      <p><strong>10% OFF</strong> deliveries within Lagos <span className="promo-separator">•</span> <strong>15% OFF</strong> deliveries outside Lagos</p>
+      <small>Discount applies to product prices; delivery fees are separate.</small>
+    </div>
+  </aside>;
+}
+
 function ManagedCategoryPage({
   title,
   subtitle,
@@ -162,7 +172,7 @@ function ManagedCategoryPage({
   const managed = useManagedWebsiteContent();
   const items = (managed?.products ?? []).filter((product) => categories.includes(product.category));
   return <div className="battery-page">
-    <header className="site-header"><div className="container nav-wrap">
+    <PromoBanner /><header className="site-header"><div className="container nav-wrap">
       <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/batteries">Batteries</a><a href="/accessories">Accessories</a><a href="/tools">Tools</a><button className="button button-small button-orange" onClick={() => openWhatsApp(`Hello Genesis Autos, ${enquiry}`)}><MessageCircle size={15}/> WhatsApp Us</button></nav>
     </div></header>
@@ -562,7 +572,10 @@ function CartPage() {
   const hasUnpricedItems = items.some((item) => typeof item.price !== 'number');
   const [deliveryArea, setDeliveryArea] = useState('');
   const deliveryFee = deliveryArea === 'mainland' ? 5000 : deliveryArea === 'island' ? 10000 : deliveryArea === 'outside-lagos' ? 15000 : 0;
-  const grandTotal = pricedTotal + deliveryFee;
+  const discountRate = deliveryArea === 'outside-lagos' ? 0.15 : (deliveryArea === 'mainland' || deliveryArea === 'island') ? 0.10 : 0;
+  const discountAmount = Math.round(pricedTotal * discountRate);
+  const discountedProductTotal = pricedTotal - discountAmount;
+  const grandTotal = discountedProductTotal + deliveryFee;
 
   const handleCheckout = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -571,7 +584,7 @@ function CartPage() {
     setError('');
     const data = new FormData(event.currentTarget);
     const orderLines = items.map((item) => `${item.name} — Qty: ${item.quantity}${item.details ? ` — ${item.details}` : ''}${typeof item.price === 'number' ? ` — ₦${(item.price * item.quantity).toLocaleString()}` : ' — Price to be confirmed'}`).join('\n');
-    const total = hasPrices ? `₦${grandTotal.toLocaleString()}` : `₦${pricedTotal.toLocaleString()} confirmed product value + additional product prices to be confirmed + ₦${deliveryFee.toLocaleString()} delivery`;
+    const total = hasPrices ? `₦${grandTotal.toLocaleString()} (after ${Math.round(discountRate * 100)}% delivery-area promo discount of ₦${discountAmount.toLocaleString()})` : `₦${discountedProductTotal.toLocaleString()} confirmed product value after ${Math.round(discountRate * 100)}% promo discount (saving ₦${discountAmount.toLocaleString()}) + additional product prices to be confirmed + ₦${deliveryFee.toLocaleString()} delivery`;
     try {
       const response = await fetch('https://formsubmit.co/ajax/genesisautos2020@gmail.com', {
         method: 'POST',
@@ -589,6 +602,8 @@ function CartPage() {
           state: data.get('state'),
           delivery_area: deliveryArea === 'mainland' ? 'Lagos Mainland — ₦5,000' : deliveryArea === 'island' ? 'Lagos Island — ₦10,000' : 'Outside Lagos — ₦15,000',
           delivery_fee: `₦${deliveryFee.toLocaleString()}`,
+          promotion: `${Math.round(discountRate * 100)}% delivery-area discount`,
+          discount_savings: `₦${discountAmount.toLocaleString()}`,
           payment: 'Payment on Delivery',
           items: orderLines,
           total,
@@ -609,7 +624,7 @@ function CartPage() {
   };
 
   return <div className="battery-page">
-    <header className="site-header"><div className="container nav-wrap">
+    <PromoBanner /><header className="site-header"><div className="container nav-wrap">
       <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} decoding="async" /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a className="button button-small button-orange" href="/batteries">Continue Shopping</a></nav>
     </div></header>
@@ -618,7 +633,7 @@ function CartPage() {
         <div className="eyebrow orange-text"><ShoppingCart size={14} /> Shopping Cart</div>
         <h1>Your <span>Cart</span></h1>
         <p>Review your items, enter your delivery details and place your order. Payment is made on delivery.</p>
-        <div className="delivery-notice"><strong>Delivery fees:</strong> Lagos Mainland — ₦5,000 · Lagos Island — ₦10,000 · Outside Lagos — ₦15,000.</div>
+        <div className="delivery-notice"><strong>Delivery promo:</strong> Save 10% on product prices within Lagos or 15% outside Lagos. Delivery fees are separate. <br /><strong>Delivery fees:</strong> Lagos Mainland — ₦5,000 · Lagos Island — ₦10,000 · Outside Lagos — ₦15,000.</div>
       </div></section>
       <section className="cart-section"><div className="container cart-layout">
         <div className="cart-items">
@@ -631,7 +646,7 @@ function CartPage() {
             <div className="cart-quantity"><button onClick={() => updateCartQuantity(item.id, -1)} aria-label="Decrease quantity"><Minus size={14}/></button><strong>{item.quantity}</strong><button onClick={() => updateCartQuantity(item.id, 1)} aria-label="Increase quantity"><Plus size={14}/></button></div>
             <button className="cart-remove" onClick={() => removeFromCart(item.id)} aria-label={`Remove ${item.name}`}><Trash2 size={16}/></button>
           </article>)}
-          {items.length > 0 && <div className="cart-totals"><div><span>Products</span><strong>{hasUnpricedItems ? `₦${pricedTotal.toLocaleString()} + price to be confirmed` : `₦${pricedTotal.toLocaleString()}`}</strong></div><div><span>Delivery</span><strong>{deliveryFee ? `₦${deliveryFee.toLocaleString()}` : 'Select delivery area'}</strong></div><div className="cart-total"><span>Total</span><strong>{hasPrices && deliveryFee ? `₦${grandTotal.toLocaleString()}` : hasUnpricedItems ? (deliveryFee ? `₦${(pricedTotal + deliveryFee).toLocaleString()} + price to be confirmed` : 'Price to be confirmed') : 'Select delivery area'}</strong></div></div>}
+          {items.length > 0 && <div className="cart-totals"><div><span>Products</span><strong>{hasUnpricedItems ? `₦${pricedTotal.toLocaleString()} + price to be confirmed` : `₦${pricedTotal.toLocaleString()}`}</strong></div><div><span>Promo discount {deliveryArea ? `(${Math.round(discountRate * 100)}%)` : ''}</span><strong className="promo-saving">{deliveryArea ? `−₦${discountAmount.toLocaleString()}` : 'Select delivery area'}</strong></div><div><span>Delivery</span><strong>{deliveryFee ? `₦${deliveryFee.toLocaleString()}` : 'Select delivery area'}</strong></div><div className="cart-total"><span>Total</span><strong>{deliveryArea ? (hasUnpricedItems ? `₦${grandTotal.toLocaleString()} + price to be confirmed` : `₦${grandTotal.toLocaleString()}`) : 'Select delivery area'}</strong></div></div>}
         </div>
         {items.length > 0 && <form className="checkout-form" onSubmit={handleCheckout}>
           <div className="eyebrow orange-text">Checkout</div><h2>Delivery <span>Details</span></h2>
@@ -861,7 +876,7 @@ function VipLuxurySeatCovers() {
 function AccessoriesPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Car Accessories & Footmats" subtitle="Published accessory products managed from the website dashboard." categories={['Car Accessories']} icon={Car} enquiry="I would like to enquire about car accessories and footmats." />;
-  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+  return <div className="battery-page"><PromoBanner /><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/accessories">Accessories</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your car accessories.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
@@ -897,7 +912,7 @@ function RimProduct({ rim }: { rim: { size: string; options: { name: string; pri
 function SecurityPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Vehicle Security" subtitle="Published vehicle security products managed from the website dashboard." categories={['Vehicle Security']} icon={ShieldCheck} enquiry="I would like to enquire about vehicle security products." />;
-  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+  return <div className="battery-page"><PromoBanner /><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/security">Security</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about vehicle security products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
@@ -910,7 +925,7 @@ function SecurityPage() {
 function ToolsPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Tools, Rims & Essentials" subtitle="Published tools, alloy rims and automotive essentials managed from the website dashboard." categories={['Alloy Rims', 'Automotive Tools & Essentials']} icon={Wrench} enquiry="I would like to enquire about tools, rims and essentials." />;
-  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+  return <div className="battery-page"><PromoBanner /><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/tools">Tools & Essentials</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about tools and essentials.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
@@ -1102,7 +1117,7 @@ function EngineOilGrade({ grade, brands }: { grade: string; brands: Record<strin
 function LubricantsPage() {
   const managed = useManagedWebsiteContent();
   if (managed) return <ManagedCategoryPage title="Oil, Grease & ATF" subtitle="Published engine oils, ATF, coolant and automotive fluids managed from the website dashboard." categories={['Engine Oil', 'ATF', 'Coolant', 'Automotive Fluids']} icon={Settings} enquiry="I would like to enquire about oil, grease, ATF and automotive fluids." />;
-  return <div className="battery-page"><header className="site-header"><div className="container nav-wrap">
+  return <div className="battery-page"><PromoBanner /><header className="site-header"><div className="container nav-wrap">
     <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
     <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/oil-grease-atf">Oil, Grease & ATF</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about oil, grease and ATF products.')}><MessageCircle size={15}/> WhatsApp Us</button></nav>
   </div></header>
@@ -1194,7 +1209,7 @@ function BatteryPage() {
 
   return (
     <div className="battery-page">
-      <header className="site-header"><div className="container nav-wrap">
+      <PromoBanner /><header className="site-header"><div className="container nav-wrap">
         <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
         <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href="/batteries">All Batteries</a><button className="button button-small button-orange" onClick={() => openWhatsApp('Hello Genesis Autos, I would like to enquire about your batteries.')}><MessageCircle size={15} /> WhatsApp Us</button></nav>
       </div></header>
@@ -1233,7 +1248,7 @@ function BatteryPage() {
 function ProductDetailPage({ product }: { product: SeoProduct }) {
   const categoryHref = product.category === 'Car Batteries' ? '/batteries' : product.category === 'Car Accessories' ? '/accessories' : product.category === 'Automotive Tools & Essentials' || product.category === 'Alloy Rims' ? '/tools' : product.category === 'Vehicle Security' ? '/security' : '/oil-grease-atf';
   return <div className="battery-page">
-    <header className="site-header"><div className="container nav-wrap">
+    <PromoBanner /><header className="site-header"><div className="container nav-wrap">
       <a className="brand" href="/"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
       <nav className="battery-nav"><a href="/">Home</a><ProductSearch /><CartButton /><a href={categoryHref}>{product.category}</a><button className="button button-small button-orange" onClick={() => openWhatsApp(`Hello Genesis Autos, I am interested in ${product.name}. Please confirm availability and current price.`)}><MessageCircle size={15}/> WhatsApp Us</button></nav>
     </div></header>
@@ -1391,7 +1406,7 @@ function App() {
         </div>
       )}
       <div className="site-shell">
-      <header className="site-header"><div className="container nav-wrap">
+      <PromoBanner /><header className="site-header"><div className="container nav-wrap">
         <a className="brand" href="#home" onClick={closeMenu} aria-label="Genesis Autos home"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
         <nav className={`main-nav ${menuOpen ? 'is-open' : ''}`}>
