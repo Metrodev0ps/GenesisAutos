@@ -654,17 +654,33 @@ function CartPage() {
           {items.length > 0 && <div className="cart-totals"><div><span>Products</span><strong>{hasUnpricedItems ? `₦${pricedTotal.toLocaleString()} + price to be confirmed` : `₦${pricedTotal.toLocaleString()}`}</strong></div><div><span>Promo discount {deliveryArea ? `(${Math.round(discountRate * 100)}%)` : ''}</span><strong className="promo-saving">{deliveryArea ? `−₦${discountAmount.toLocaleString()}` : 'Select delivery area'}</strong></div><div><span>Delivery</span><strong>{deliveryFee ? `₦${deliveryFee.toLocaleString()}` : 'Select delivery area'}</strong></div><div className="cart-total"><span>Total</span><strong>{deliveryArea ? (hasUnpricedItems ? `₦${grandTotal.toLocaleString()} + price to be confirmed` : `₦${grandTotal.toLocaleString()}`) : 'Select delivery area'}</strong></div></div>}
         </div>
         {items.length > 0 && <form className="checkout-form" onSubmit={handleCheckout}>
-          <div className="eyebrow orange-text">Checkout</div><h2>Delivery <span>Details</span></h2>
-          <p className="checkout-intro">Payment method: <strong>Payment on Delivery</strong><br /><span className="promo-checkout-note">Choose your delivery area to apply your 10% Lagos or 15% outside-Lagos product discount.</span></p>
-          <div className="form-row"><label>Full Name<input required name="name" placeholder="Your full name" /></label><label>Phone Number<input required name="phone" type="tel" placeholder="+234..." /></label></div>
-          <label>Email Address<input required name="email" type="email" placeholder="you@example.com" /></label>
-          <label>Delivery Address<textarea required name="address" rows={3} placeholder="House number, street, landmark..."></textarea></label>
-          <div className="form-row"><label>City<input required name="city" placeholder="e.g. Lagos" /></label><label>State<input required name="state" placeholder="e.g. Lagos State" /></label></div>
-          <label>Delivery Area<select required name="deliveryArea" value={deliveryArea} onChange={(event) => setDeliveryArea(event.target.value)}><option value="">Select delivery area</option><option value="mainland">Lagos Mainland — ₦5,000</option><option value="island">Lagos Island — ₦10,000</option><option value="outside-lagos">Outside Lagos — ₦15,000</option></select></label>
-          <label>Order Notes<textarea name="notes" rows={2} placeholder="Optional delivery instructions"></textarea></label>
-          <button className="button button-orange form-button" type="submit" disabled={sending}>{sending ? 'Sending Order...' : 'Place Order — Payment on Delivery'} <ArrowRight size={16}/></button>
-          {error && <p className="checkout-error">{error}</p>}
-          <small className="checkout-footnote">Delivery fee is calculated from the selected delivery area: Lagos Mainland ₦5,000, Lagos Island ₦10,000, Outside Lagos ₦15,000. Our team will confirm the order and delivery details before dispatch.</small>
+          <div className="eyebrow orange-text">Checkout</div><h2>First, choose <span>Delivery Area</span></h2>
+          <p className="checkout-intro">Before entering your details, choose where the order will be delivered. Your cart on the left shows the products you are buying, and the totals update here automatically.</p>
+          <div className="delivery-area-first">
+            <label>Step 1 — Where should we deliver?<select required name="deliveryArea" value={deliveryArea} onChange={(event) => setDeliveryArea(event.target.value)}><option value="">Choose your delivery area first</option><option value="mainland">Lagos Mainland — ₦5,000 delivery</option><option value="island">Lagos Island — ₦10,000 delivery</option><option value="outside-lagos">Outside Lagos — ₦15,000 delivery</option></select></label>
+            <small>Promo: 10% off product prices within Lagos or 15% off outside Lagos. Delivery fees are separate.</small>
+          </div>
+          {deliveryArea ? <>
+            <div className="checkout-selected-area" aria-live="polite">
+              <strong>Delivery area selected</strong>
+              <span>{deliveryArea === 'mainland' ? 'Lagos Mainland · ₦5,000 delivery · 10% product discount' : deliveryArea === 'island' ? 'Lagos Island · ₦10,000 delivery · 10% product discount' : 'Outside Lagos · ₦15,000 delivery · 15% product discount'}</span>
+              <span>Products after promo: {hasUnpricedItems ? `₦${discountedProductTotal.toLocaleString()} + price to be confirmed` : `₦${discountedProductTotal.toLocaleString()}`}</span>
+              <span>Delivery: ₦{deliveryFee.toLocaleString()}</span>
+              <strong>Estimated total: {hasUnpricedItems ? `₦${grandTotal.toLocaleString()} + price to be confirmed` : `₦${grandTotal.toLocaleString()}`}</strong>
+            </div>
+            <div className="checkout-form-details">
+              <div className="eyebrow orange-text">Step 2</div><h2>Your <span>Delivery Details</span></h2>
+              <p className="checkout-intro">Payment method: <strong>Payment on Delivery</strong></p>
+              <div className="form-row"><label>Full Name<input required name="name" placeholder="Your full name" /></label><label>Phone Number<input required name="phone" type="tel" placeholder="+234..." /></label></div>
+              <label>Email Address<input required name="email" type="email" placeholder="you@example.com" /></label>
+              <label>Delivery Address<textarea required name="address" rows={3} placeholder="House number, street, landmark..."></textarea></label>
+              <div className="form-row"><label>City<input required name="city" placeholder="e.g. Lagos" /></label><label>State<input required name="state" placeholder="e.g. Lagos State" /></label></div>
+              <label>Order Notes<textarea name="notes" rows={2} placeholder="Optional delivery instructions"></textarea></label>
+              <button className="button button-orange form-button" type="submit" disabled={sending}>{sending ? 'Sending Order...' : 'Place Order — Payment on Delivery'} <ArrowRight size={16}/></button>
+              {error && <p className="checkout-error">{error}</p>}
+              <small className="checkout-footnote">Our team will confirm the order and delivery details before dispatch.</small>
+            </div>
+          </> : <div className="delivery-area-prompt" role="status"><MapPin size={22}/><strong>Choose your delivery area to continue</strong><span>Your promo savings, delivery fee and estimated total will appear here before you fill in the form.</span></div>}
         </form>}
       </div></section>
     </main>
