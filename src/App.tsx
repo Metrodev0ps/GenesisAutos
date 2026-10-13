@@ -1,5 +1,6 @@
 import { createElement, createContext, useContext, useEffect, useState, type FormEvent } from 'react';
 import { loadWebsiteContent, type ManagedBusinessDetails, type ManagedProduct } from './lib/websiteContent';
+import { Analytics } from '@vercel/analytics/react';
 // Vercel deployment trigger: homepage product catalogue
 // Deployment refresh: serve latest public product photos
 import {
@@ -1444,6 +1445,7 @@ function App() {
       <footer className="site-footer"><div className="container footer-grid"><div className="footer-brand"><a className="brand" href="#home"><img className="brand-logo" src={activeBusinessLogoUrl} alt={activeBusinessName} /><span className="brand-text"><strong>{activeBusinessName === 'Genesis Autos' ? <>GENESIS <em>AUTOS</em></> : activeBusinessName}</strong><small>AUTOMOBILE PARTS & SERVICES</small></span></a><p>Automobile Spare Parts & Automotive Services</p><small>© 2026 Genesis Autos. All rights reserved.</small></div><div><h4>Explore</h4><a href="#home">Home</a><a href="#about">About</a><a href="#products">Products</a><a href="#services">Services</a><a href="#contact">Contact</a></div><div><h4>Contact</h4><a href={'tel:' + activeBusinessPhone.replace(/\s+/g, '')}>{activeBusinessPhone}</a><a href={'tel:' + activeSecondaryPhone.replace(/\s+/g, '')}>{activeSecondaryPhone}</a><span>Iyana Ipaja, Lagos</span></div><div><h4>Social</h4><a href={activeInstagramUrl} target="_blank" rel="noreferrer"><Instagram size={15} /> @genesisautosalimosho</a><a href={activeTiktokUrl} target="_blank" rel="noreferrer">TikTok · @genesisautosalimosho</a><a href={activeTelegramUrl} target="_blank" rel="noreferrer"><Send size={15} /> Telegram Group</a></div></div></footer>
       <div className="floating-actions"><button className="floating-whatsapp" onClick={() => openWhatsApp('Hello Genesis Autos, I found your website and I would like to make an enquiry.')} aria-label="Chat on WhatsApp"><MessageCircle size={24} /></button><a className="floating-telegram" href={activeTelegramUrl} target="_blank" rel="noreferrer" aria-label="Join Genesis Autos Telegram group"><Send size={24} /></a></div>
       <div className="mobile-bar"><button onClick={() => openWhatsApp('Hello Genesis Autos, I would like to make an enquiry.')}><MessageCircle size={17} /> WhatsApp</button><a href={'tel:' + activeBusinessPhone.replace(/\s+/g, '')}><Phone size={17} /> Call</a><a href={activeDirectionsUrl} target="_blank" rel="noreferrer"><Navigation size={17} /> Directions</a><a href={activeTelegramUrl} target="_blank" rel="noreferrer"><Send size={17} /> Telegram</a></div>
+      <Analytics />
       </div>
     </>
     </ManagedWebsiteContext.Provider>
