@@ -445,3 +445,20 @@ body.intro-active { overflow:hidden; }
 
 
 .product-price { display:inline-flex; align-items:center; width:max-content; margin:1px 0 3px; padding:7px 10px; background:var(--ink); color:#fff; font-size:14px; font-weight:900; line-height:1; letter-spacing:.01em; border-radius:5px; }
+
+
+/* Genesis Autos delivery promotion banner */
+.promo-banner { position:relative; z-index:21; background:var(--orange); color:#fff; border-bottom:1px solid rgba(0,0,0,.18); }
+.promo-banner-inner { min-height:58px; display:flex; align-items:center; justify-content:center; gap:14px; text-align:center; padding-top:9px; padding-bottom:9px; flex-wrap:wrap; }
+.promo-badge { display:inline-flex; align-items:center; padding:5px 8px; background:var(--ink); color:#fff; font-size:9px; font-weight:900; letter-spacing:.1em; white-space:nowrap; }
+.promo-banner p { margin:0; font-size:13px; font-weight:700; line-height:1.4; }
+.promo-banner p strong { font-weight:900; }
+.promo-separator { padding:0 7px; color:rgba(255,255,255,.75); }
+.promo-banner small { font-size:10px; font-weight:600; color:rgba(255,255,255,.9); }
+.promo-saving { color:#16803c !important; }
+@media (max-width: 640px) {
+  .promo-banner-inner { gap:5px 9px; padding-top:10px; padding-bottom:10px; }
+  .promo-banner p { width:100%; font-size:12px; }
+  .promo-banner small { width:100%; font-size:9px; }
+  .promo-badge { font-size:8px; }
+}
