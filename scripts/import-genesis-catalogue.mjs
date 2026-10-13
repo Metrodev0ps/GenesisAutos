@@ -11,7 +11,30 @@ if (!DRY_RUN && (!SUPABASE_URL || !SERVICE_ROLE_KEY)) {
   console.error('Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in your local shell. Do not add the service-role key to Vite/client variables, .env.example, or Git.');
   process.exit(1);
 }
-const WEBSITE_SLUG = 'genesis-autos-1218d5';
+const WEBSITE_SLUG = process.env.WEBSITE_SLUG || 'genesis-autos-1218d5';
+const EXPECTED_SUPABASE_REF = process.env.EXPECTED_SUPABASE_REF || 'xfguwqqhfktnbfsipyor';
+const EXPECTED_WEBSITE_ID = process.env.EXPECTED_WEBSITE_ID || '9c8efcb7-a75b-4d9c-a6b9-75640bad7549';
+
+const businessContent = {
+  title: 'Genesis Autos',
+  description: 'Automobile spare parts and automotive products business in Iyana Ipaja, Lagos.',
+  logo_url: '/Logo and icon.jpg',
+  business_details: {
+    telephone: '+2347065379450',
+    secondary_telephone: '+2349083561212',
+    address: '62 Alimosho Rd., Opp. Multigrace Sch. Alagutan B/Stop, Iyana Ipaja, Lagos, Nigeria',
+    instagram: 'https://www.instagram.com/genesisautosalimosho/',
+    tiktok: 'https://www.tiktok.com/@genesisautosalimosho',
+    telegram: 'https://t.me/genesisautosalimosho'
+  },
+  content: { currency: 'NGN', catalogue_source: 'GenesisAutos/src/App.tsx' }
+};
+
+const sourceServices = [
+  { external_key: 'spare-parts-sourcing', name: 'Spare Parts Sourcing', description: 'Get assistance finding the automotive parts you need.', display_order: 1 },
+  { external_key: 'vehicle-support', name: 'Vehicle Support', description: 'Automotive support for vehicle owners and businesses.', display_order: 2 },
+  { external_key: 'parts-enquiries', name: 'Parts Enquiries', description: 'Contact Genesis Autos to ask about availability and pricing.', display_order: 3 }
+];
 const raw = JSON.parse(fs.readFileSync(SOURCE_FILE, 'utf8'));
 function parseLiteralArray(text) {
   // JSON5-lite converter for the existing source arrays.
@@ -69,7 +92,18 @@ const rows = [];
 const slugCounts = new Map();
 function add({key,name,category,description,price,image,brand,details}) {
   const base = slugify(key); const count = slugCounts.get(base) || 0; slugCounts.set(base, count+1);
-  rows.push({external_key:String(key),name:String(name),slug:count ? `${base}-${count+1}` : base,category,description:description || `${name} available from Genesis Autos in Iyana Ipaja, Lagos. Contact us to confirm current availability and pricing.`,price:typeof price === 'number' ? price : null,image_path:image || null,brand:brand || null,details:details || null,display_order:rows.length+1});
+  rows.push({
+    external_key: String(key),
+    name: String(name),
+    slug: count ? `${base}-${count+1}` : base,
+    category,
+    description: typeof description === 'string' ? description : '',
+    price: typeof price === 'number' && Number.isFinite(price) ? price : null,
+    image_path: image || null,
+    brand: brand || null,
+    details: details || null,
+    display_order: rows.length + 1
+  });
 }
 for (const p of source.batteryProducts) add({key:`battery:${p.brand}:${p.capacity}:${p.terminal || 'standard'}`,name:`${p.name} ${p.capacity} Battery`,category:'Car Batteries',description:`Shop ${p.brand} ${p.capacity} car batteries from Genesis Autos in Iyana Ipaja, Lagos. ${p.voltage} automotive battery${p.terminal ? ` with ${p.terminal.toLowerCase()}` : ''}.`,price:p.price,image:p.image,brand:p.brand,details:[p.voltage,p.capacity,p.terminal].filter(Boolean).join(' · ')});
 for (const p of source.accessoryProducts) add({key:`accessory:${p.name}`,name:p.name,category:'Car Accessories',price:p.price,image:p.image});
@@ -82,17 +116,74 @@ for (const p of source.securityProducts) add({key:`security:${p.name}`,name:p.na
 for (const group of source.engineOilGrades) for (const [brand,sizes] of Object.entries(group.brands)) for (const item of sizes) add({key:`engine-oil:${brand}:${group.grade}:${item.size}`,name:`${brand} ${group.grade} Engine Oil — ${item.size}`,category:'Engine Oil',price:item.price,brand,details:`${group.grade} · ${item.size}`});
 for (const name of ['TOYOTA ATF 1L','TOYOTA ATF 4L','SEAMAX ATF 1L','SEAMAX ATF 4L','ABRO MASTERS 1L','HARDEX T4 1L','HARDEX T4 4L','HOLTS ATF']) { const image=name.includes('TOYOTA')?'/TOYOTA ATF.jpg':name.includes('SEAMAX')?'/SEAMAX ATF.jpg':name.includes('HARDEX')?'/HARDEX ATF.jpg':'/ATF.jpg'; const prices={'TOYOTA ATF 1L':7000,'TOYOTA ATF 4L':25000,'SEAMAX ATF 1L':4500,'SEAMAX ATF 4L':17000,'ABRO MASTERS 1L':4500,'HARDEX T4 1L':10000,'HARDEX T4 4L':42000,'HOLTS ATF':5000}; add({key:`atf:${name}`,name,category:'ATF',price:prices[name],image}); }
 for (const item of source.coolantOptions) add({key:`coolant:${item.size}`,name:`Coolant — ${item.size}`,category:'Coolant',price:item.price,details:item.size});
-for (const name of source.lubricantGroups.other) add({key:`fluid:${name}`,name,category:'Automotive Fluids',price:3500,image:name==='INJECTOR CLEANER'?'/FUEL INJECTOR CLEANER.jpg':'/OIL TREATMENT.jpg'});
+for (const name of source.lubricantGroups.other) add({key:`fluid:${name}`,name,category:'Automotive Fluids',image:name==='INJECTOR CLEANER'?'/FUEL INJECTOR CLEANER.jpg':'/OIL TREATMENT.jpg'});
 const externalKeys = new Set(rows.map((row) => row.external_key));
 if (externalKeys.size !== rows.length) throw new Error('Duplicate external keys found in the source catalogue.');
+const imageExists = (image) => {
+  if (!image) return false;
+  if (/^https?:\/\//i.test(image)) return true;
+  return fs.existsSync(path.resolve('public', image.replace(/^\/+/, '')));
+};
+const byCategory = Object.fromEntries([...new Set(rows.map((row) => row.category))].map((category) => [category, rows.filter((row) => row.category === category).length]));
+const missingImages = rows.filter((row) => !imageExists(row.image_path)).map((row) => ({ name: row.name, image_path: row.image_path }));
+const report = {
+  dryRun: DRY_RUN,
+  website: WEBSITE_SLUG,
+  expectedSupabaseRef: EXPECTED_SUPABASE_REF,
+  expectedWebsiteId: EXPECTED_WEBSITE_ID,
+  sourceRecords: rows.length,
+  pricedRecords: rows.filter((row) => typeof row.price === 'number').length,
+  recordsMissingPrice: rows.filter((row) => row.price === null).length,
+  recordsWithImageReference: rows.filter((row) => Boolean(row.image_path)).length,
+  recordsMissingImageReference: rows.filter((row) => !row.image_path).length,
+  imageFilesMissingFromPublic: missingImages.length,
+  missingImageExamples: missingImages.slice(0, 20),
+  recordsMissingDescription: rows.filter((row) => !row.description).length,
+  uniqueExternalKeys: externalKeys.size,
+  categories: byCategory,
+  businessContentIncluded: true,
+  servicesIncluded: sourceServices.length,
+  publishedByDefault: 0
+};
 if (DRY_RUN) {
-  const byCategory = Object.fromEntries([...new Set(rows.map((row) => row.category))].map((category) => [category, rows.filter((row) => row.category === category).length]));
-  console.log(JSON.stringify({ dryRun: true, website: WEBSITE_SLUG, sourceRecords: rows.length, pricedRecords: rows.filter((row) => typeof row.price === 'number').length, recordsWithImages: rows.filter((row) => row.image_path).length, uniqueExternalKeys: externalKeys.size, categories: byCategory, publishedByDefault: 0 }, null, 2));
+  console.log(JSON.stringify(report, null, 2));
   process.exit(0);
 }
+if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
+  throw new Error('Missing SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.');
+}
+const actualRef = new URL(SUPABASE_URL).hostname.split('.')[0];
+if (actualRef !== EXPECTED_SUPABASE_REF) {
+  throw new Error(`Refusing import: Supabase ref "${actualRef}" does not match expected "${EXPECTED_SUPABASE_REF}".`);
+}
 const client = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {auth:{persistSession:false}});
-const {data:website,error:websiteError} = await client.from('websites').select('id,slug,status').eq('slug',WEBSITE_SLUG).single();
-if (websiteError || !website) throw websiteError || new Error('Genesis website record not found.');
+const {data:website,error:websiteError} = await client.from('websites').select('id,client_id,slug,status').eq('slug',WEBSITE_SLUG).single();
+if (websiteError || !website) throw websiteError || new Error(`Website "${WEBSITE_SLUG}" not found.`);
+if (website.id !== EXPECTED_WEBSITE_ID) {
+  throw new Error(`Refusing import: website ID "${website.id}" does not match expected ID "${EXPECTED_WEBSITE_ID}".`);
+}
 const products = rows.map((row) => ({...row,website_id:website.id,currency:'NGN',is_published:false,source:'genesis-app-tsx-import-v1'}));
-for (let i=0; i<products.length; i+=100) { const {error} = await client.from('products').upsert(products.slice(i,i+100), {onConflict:'website_id,external_key'}); if (error) throw new Error(`Upsert at row ${i} failed: ${error.message}`); }
-console.log(JSON.stringify({website:WEBSITE_SLUG,status:website.status,input:products.length,upserted:products.length,published:0},null,2));
+for (let i=0; i<products.length; i+=100) {
+  const {error} = await client.from('products').upsert(products.slice(i,i+100), {onConflict:'website_id,external_key',ignoreDuplicates:true});
+  if (error) throw new Error(`Product import failed at batch ${i}: ${error.message}`);
+}
+
+// Insert website content only if it does not exist; preserve any Hub-edited content.
+const {error:contentError} = await client.from('website_content').upsert(
+  {...businessContent,website_id:website.id},
+  {onConflict:'website_id',ignoreDuplicates:true}
+);
+if (contentError) throw new Error(`Business content import failed: ${contentError.message}`);
+
+// These three services are defined in the existing storefront's services array.
+const services = sourceServices.map((service) => ({...service,website_id:website.id,is_published:false}));
+const {error:servicesError} = await client.from('services').upsert(services,{onConflict:'website_id,external_key',ignoreDuplicates:true});
+if (servicesError) throw new Error(`Service import failed: ${servicesError.message}`);
+
+const keys = rows.map((row) => row.external_key);
+const {data:verifiedProducts,error:verifyError} = await client.from('products').select('external_key').eq('website_id',website.id).in('external_key',keys);
+if (verifyError) throw new Error(`Post-import verification failed: ${verifyError.message}`);
+const existingKeys = new Set((verifiedProducts ?? []).map((row) => row.external_key));
+const missingKeys = keys.filter((key) => !existingKeys.has(key));
+if (missingKeys.length) throw new Error(`Import verification missing ${missingKeys.length} products: ${missingKeys.slice(0,20).join(', ')}`);
+console.log(JSON.stringify({...report,dryRun:false,websiteId:website.id,clientId:website.client_id,websiteStatus:website.status,productsVerified:existingKeys.size,manualRecordsOverwritten:false,published:0},null,2));
