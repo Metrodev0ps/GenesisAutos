@@ -1,0 +1,17 @@
+{
+  "name": "Genesis Autos",
+  "short_name": "Genesis Autos",
+  "description": "Genesis Autos — automobile spare parts and automotive products in Lagos, Nigeria.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111315",
+  "icons": [
+    {
+      "src": "/Logo_and_icon-removebg-preview%20(1).png",
+      "sizes": "500x500",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
