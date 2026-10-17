@@ -22,7 +22,7 @@ let activeBusinessDescription = DEFAULT_BUSINESS_DESCRIPTION;
 let activeBusinessPhone = '+234 706 537 9450';
 let activeSecondaryPhone = '+234 908 356 1212';
 let activeBusinessAddress = DEFAULT_BUSINESS_ADDRESS;
-let activeBusinessLogoUrl = '/Logo_and_icon-removebg-preview%20(1).jpg';
+let activeBusinessLogoUrl = '/Logo_and_icon-removebg-preview%20(1).png';
 let activeInstagramUrl = instagramUrl;
 let activeTiktokUrl = DEFAULT_TIKTOK_URL;
 let activeTelegramUrl = DEFAULT_TELEGRAM_URL;
@@ -37,7 +37,7 @@ function applyManagedBusinessDetails(result: ManagedContent) {
   activeBusinessPhone = details.telephone?.trim() || '+234 706 537 9450';
   activeSecondaryPhone = details.secondary_telephone?.trim() || '+234 908 356 1212';
   activeBusinessAddress = details.address?.trim() || DEFAULT_BUSINESS_ADDRESS;
-  activeBusinessLogoUrl = '/Logo_and_icon-removebg-preview%20(1).jpg';
+  activeBusinessLogoUrl = '/Logo_and_icon-removebg-preview%20(1).png';
   activeInstagramUrl = details.instagram?.trim() || instagramUrl;
   activeTiktokUrl = details.tiktok?.trim() || DEFAULT_TIKTOK_URL;
   activeTelegramUrl = details.telegram?.trim() || DEFAULT_TELEGRAM_URL;
